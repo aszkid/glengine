@@ -39,6 +39,11 @@ IF(UNIX)
 	SET(CMAKE_CXX_FLAGS_RELEASE "${GENERAL_CXX_FLAGS} ${RELEASE_CXX_FLAGS}")
 ENDIF()
 
+## non-built-in deps
+FIND_PACKAGE(GLEW REQUIRED)
+INCLUDE_DIRECTORIES(${GLEW_INCLUDE_PATH})
+## --------------------------
+
 ## extlib include directories
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/ext/glfw/include)
 ## --------------------------

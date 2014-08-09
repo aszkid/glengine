@@ -10,4 +10,5 @@ ADD_EXECUTABLE(engine ${SRCS})
 
 ## link extlibs
 TARGET_LINK_LIBRARIES(engine glfw ${GLFW_LIBRARIES})
+TARGET_LINK_LIBRARIES(engine GLEW ${GLEW_LIBRARIES})
 ## --------------------------
