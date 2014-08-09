@@ -49,6 +49,7 @@ INCLUDE_DIRECTORIES(${GLEW_INCLUDE_PATH})
 ## extlib include directories
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/ext/glfw/include)
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/ext/glm)
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/ext/rapidjson/include)
 ## --------------------------
 
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)

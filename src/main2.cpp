@@ -5,7 +5,7 @@
 
 #include <map>
 #include <string>
-#include <iostream>ssss
+#include <iostream>
 
 #define LOG(x) std::cout << "[LOG] " << x << std::endl
 
