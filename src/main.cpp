@@ -1,8 +1,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/constants.hpp>
 
 #include <stdio.h>
+
+#include <string>
 
 #define GL_MAJOR 3
 #define GL_MINOR 2
@@ -10,10 +16,31 @@
 #define WIN_WIDTH  640
 #define WIN_HEIGHT 480
 
+std::string charbuff;
+
+void flush_charbuff()
+{
+	printf("MESSAGE: %s\n", charbuff.c_str());
+	charbuff.clear();
+}
+
 void key_callback(GLFWwindow *win, int key, int scancode, int action, int mods)
 {
-	if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(win, GL_TRUE);
+	if(action == GLFW_PRESS) {
+		switch(key) {
+		case GLFW_KEY_ESCAPE:
+			glfwSetWindowShouldClose(win, GL_TRUE);
+			break;
+		case GLFW_KEY_ENTER:
+			flush_charbuff();
+			break;
+		}
+	}
+}
+
+void char_callback(GLFWwindow *win, unsigned int c)
+{
+	charbuff += c;
 }
 
 glm::vec2 mouse_pos(GLFWwindow *win)
@@ -28,10 +55,9 @@ glm::vec2 mouse_pos(GLFWwindow *win)
 	return ret;
 }
 
-int main(int argc, char **argv)
+int main()
 {
 	GLFWwindow *win;
-	
 	if(!glfwInit())
 		return -1;
 	
@@ -39,7 +65,6 @@ int main(int argc, char **argv)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, GL_MINOR);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	
 	win = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, "Hello Window", NULL, NULL);
@@ -50,7 +75,6 @@ int main(int argc, char **argv)
 	}
 	
 	glfwMakeContextCurrent(win);
-	
 	GLenum err = glewInit();
 	if(GLEW_OK != err) {
 		glfwTerminate();
@@ -62,16 +86,47 @@ int main(int argc, char **argv)
 	printf("GLEW Version:   %s.\n", glewGetString(GLEW_VERSION));
 	
 	glfwSetKeyCallback(win, key_callback);
+	glfwSetCharCallback(win, char_callback);
+	glfwSwapInterval(0);
+	//glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	
-	double time = glfwGetTime(), ntime;
+	double time = glfwGetTime(), ntime, ftime, nftime;
 	glm::vec2 mpos;
+	ftime = nftime = time;
+	
+	// opengl vars and such
+	/*GLfloat verts[] = {
+		+0.0f, +1.0f,
+		-1.0f, -1.0f,
+		+1.0f, -1.0f
+	};*/
+	
+	glm::mat3x2 mat;
+	mat[0] = glm::vec2(+0.0f, +1.0f);
+	mat[1] = glm::vec2(-1.0f, -1.0f);
+	mat[2] = glm::vec2(+1.0f, -1.0f);
+	
+	GLuint buffer;
+	glGenBuffers(1, &buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(mat), glm::value_ptr(mat), GL_STATIC_DRAW);
+	
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	
 	while(!glfwWindowShouldClose(win)) {
+		ftime = nftime;
+		
 		// render stuff
 		// ------
 		// setup3d() render3d()
 		// setup2d() render2d()
 		// ------
+		
+		glClearColor(0.1, 0.1, 0.1, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		
 		// swap buffers
 		glfwSwapBuffers(win);
@@ -79,14 +134,13 @@ int main(int argc, char **argv)
 		
 		// poll events
 		glfwPollEvents();
+		mpos = mouse_pos(win);
+		ntime = nftime = glfwGetTime();
 		
-		ntime = glfwGetTime();
-		if((ntime - time) > 0.5) {
+		if((ntime - time) > 2) {
 			time = ntime;
-			mpos = mouse_pos(win);
-			printf("X: %f | Y: %f\n", mpos.x, mpos.y);
+			printf("FPS: %i.\n", int(1 / (nftime - ftime)));
 		}
-		// ------
 	}
 	
 	glfwTerminate();
