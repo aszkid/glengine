@@ -7,14 +7,16 @@
 #include <glm/gtc/constants.hpp>
 
 #include <stdio.h>
-
 #include <string>
+
+#include "oms/screen.hpp"
 
 #define GL_MAJOR 3
 #define GL_MINOR 2
-
 #define WIN_WIDTH  640
 #define WIN_HEIGHT 480
+
+#define MK_SHADER_SRC(v, src) "#version " #v "\n" #src
 
 std::string charbuff;
 
@@ -36,6 +38,11 @@ void key_callback(GLFWwindow *win, int key, int scancode, int action, int mods)
 			break;
 		}
 	}
+}
+
+void winsize_callback(GLFWwindow *win, int x, int y)
+{
+	glViewport(0, 0, x, y);
 }
 
 void char_callback(GLFWwindow *win, unsigned int c)
@@ -87,6 +94,8 @@ int main()
 	
 	glfwSetKeyCallback(win, key_callback);
 	glfwSetCharCallback(win, char_callback);
+	glfwSetWindowSizeCallback(win, winsize_callback);
+	
 	glfwSwapInterval(0);
 	//glfwSetInputMode(win, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	
@@ -113,6 +122,8 @@ int main()
 	
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	
+	oms::screen s;
 	
 	while(!glfwWindowShouldClose(win)) {
 		ftime = nftime;

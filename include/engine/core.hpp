@@ -1,3 +1,14 @@
 #pragma once
 
-#define LOG(to, str) to << str
+#include <GLFW/glfw3.h>
+
+namespace engine {
+
+class core {
+	
+	GLFWwindow *win;
+	
+
+};
+
+}

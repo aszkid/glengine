@@ -1,0 +1,15 @@
+SET(SRCS
+	core.cpp
+)
+
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+prepend_str(SRCS ${PROJECT_SOURCE_DIR}/engine/)
+
+ADD_LIBRARY(engine ${SRCS})
+
+## link extlibs
+TARGET_LINK_LIBRARIES(engine glfw ${GLFW_LIBRARIES})
+TARGET_LINK_LIBRARIES(engine GLEW ${GLEW_LIBRARIES})
+## --------------------------
