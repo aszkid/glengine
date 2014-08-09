@@ -1,2 +1,2 @@
 ## add extlibs subdirectories
-#ADD_SUBDIRECTORY(bstrlib)
+ADD_SUBDIRECTORY(glfw)

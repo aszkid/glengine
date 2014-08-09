@@ -9,5 +9,5 @@ prepend_str(SRCS ${PROJECT_SOURCE_DIR}/src/)
 ADD_EXECUTABLE(engine ${SRCS})
 
 ## link extlibs
-#TARGET_LINK_LIBRARIES(audio anextlib)
+TARGET_LINK_LIBRARIES(engine glfw ${GLFW_LIBRARIES})
 ## --------------------------
