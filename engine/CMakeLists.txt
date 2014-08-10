@@ -2,8 +2,8 @@ SET(SRCS
 	core.cpp
 	system.cpp
 	
-	sys/cfg.cpp
-	sys/log.cpp
+	sys/input.cpp
+	sys/gui.cpp
 )
 
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

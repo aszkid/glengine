@@ -5,15 +5,9 @@
 
 namespace engine {
 
-	class sys_except : public std::runtime_error {
-	public:
-		sys_except();
-	};
-
 	class system {
 
 	public:
-
 		system();
 		virtual ~system();
 
