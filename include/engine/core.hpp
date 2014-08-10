@@ -11,8 +11,6 @@ namespace engine {
 
 	class core {
 	
-		typedef std::unique_ptr<system> sys_ptr;
-	
 		// This is the map of the universe, my friend.
 		std::map<uint, sys_ptr> mSystems;
 		std::vector<std::string> mArgs;

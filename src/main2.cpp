@@ -16,7 +16,7 @@
 #include <vector>
 #include <memory>
 
-#define SYS_UPTR(s) std::unique_ptr<engine::system>(new s)
+#define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s)
 
 enum glfw_Callbacks {
 	ERROR,
@@ -38,18 +38,18 @@ int main(int argc, char** argv)
 	// -- 2 -> core.get_sys(ID) and inject dependencies
 	// -- 3 -> same for each system
 	try {
-		core.add_sys(engine::SYSid::cfg, SYS_UPTR(engine::sys_cfg()));
+		core.add_sys(engine::SYSid::cfg, SYS_MKPTR(engine::sys_cfg()));
 		// engine::sys_cfg provides an interface to access configuration files
 		// from all core systems.
 		
-		core.add_sys(engine::SYSid::log, SYS_UPTR(engine::sys_log()));
+		core.add_sys(engine::SYSid::log, SYS_MKPTR(engine::sys_log()));
 		// engine::sys_log
 		
-		/*core.add_sys(SYSid::input, SYS_UPTR(engine::sys_input()));
+		/*core.add_sys(SYSid::input, SYS_MKPTR(engine::sys_input()));
 		// engine::sys_input populates function dispatchers that broadcast input
 		// data to all core systems.
 		
-		core.add_sys(SYSid::render, SYS_UPTR(engine::sys_render()));*/
+		core.add_sys(SYSid::render, SYS_MKPTR(engine::sys_render()));*/
 		// engine::sys_render
 	} catch(std::runtime_error& ex) {
 		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");

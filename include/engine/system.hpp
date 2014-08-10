@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdexcept>
+#include <memory>
 
 namespace engine {
 
@@ -21,5 +22,7 @@ namespace engine {
 		virtual void update(float dt);
 
 	};
+	
+	typedef std::shared_ptr<system> sys_ptr;
 
 }
