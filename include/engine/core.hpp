@@ -12,8 +12,8 @@ namespace engine {
 	class core {
 	
 		// This is the map of the universe, my friend.
-		std::map<uint, sys_ptr> mSystems;
-		std::vector<std::string> mArgs;
+		std::map<uint, sys_ptr> m_systems;
+		std::vector<std::string> m_args;
 	
 	public:
 		core(std::vector<std::string> args);
