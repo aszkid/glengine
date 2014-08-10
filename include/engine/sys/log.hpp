@@ -5,12 +5,12 @@
 
 namespace engine {
 	
-	class sys_cfg : public system {
+	class sys_log : public system {
 
 	public:
 	
-		sys_cfg();
-		~sys_cfg();
+		sys_log();
+		~sys_log();
 	
 		void init();
 		void shut_down();

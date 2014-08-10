@@ -1,17 +1,25 @@
 #pragma once
 
+#include <stdexcept>
+
 namespace engine {
 
-class system {
+	class sys_except : public std::runtime_error {
+	public:
+		sys_except();
+	};
 
-public:
+	class system {
 
-	system();
-	virtual ~system();
+	public:
 
-	virtual void init();
-	virtual void update(float dt);
+		system();
+		virtual ~system();
 
-};
+		virtual void init();
+		virtual void shut_down();
+		virtual void update(float dt);
+
+	};
 
 }

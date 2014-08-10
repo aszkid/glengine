@@ -2,8 +2,8 @@
 #include <engine/core.hpp>
 
 #include <engine/sys/cfg.hpp>
-/*#include <engine/sys/log.hpp>
-#include <engine/sys/input.hpp>
+#include <engine/sys/log.hpp>
+/*#include <engine/sys/input.hpp>
 #include <engine/sys/render.hpp>*/
 
 /*#include <GL/glew.h>
@@ -17,7 +17,6 @@
 #include <memory>
 
 #define SYS_UPTR(s) std::unique_ptr<engine::system>(new s)
-#define LOG(t, msg) cout << "[" << t << "] " << msg << endl
 
 enum glfw_Callbacks {
 	ERROR,
@@ -35,21 +34,23 @@ int main(int argc, char** argv)
 	
 	// ---- Create all systems, and add them to the core vector
 	try {
-		core.add_sys(SYSid::cfg, SYS_UPTR(engine::sys_cfg()));
+		core.add_sys(engine::SYSid::cfg, SYS_UPTR(engine::sys_cfg()));
 		// engine::sys_cfg provides an interface to access configuration files
 		// from all core systems.
 		
-		/*core.add_sys(SYSid::log, SYS_UPTR(engine::sys_log()));
+		core.add_sys(engine::SYSid::log, SYS_UPTR(engine::sys_log()));
 		// engine::sys_log
 		
-		core.add_sys(SYSid::input, SYS_UPTR(engine::sys_input()));
+		/*core.add_sys(SYSid::input, SYS_UPTR(engine::sys_input()));
 		// engine::sys_input populates function dispatchers that broadcast input
 		// data to all core systems.
 		
 		core.add_sys(SYSid::render, SYS_UPTR(engine::sys_render()));*/
 		// engine::sys_render
-	catch(const engine::SysExcept& ex) {
-		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.msg << "'." << endl);
+	} catch(std::runtime_error& ex) {
+		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");
+		core.shut_down();
+		return -1;
 	}
 	
 	// ---- Initialize window and GL context
