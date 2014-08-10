@@ -1,24 +1,72 @@
-//#include <engine/core.hpp>
+#include <engine/globals.hpp>
+#include <engine/core.hpp>
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <engine/sys/cfg.hpp>
+/*#include <engine/sys/log.hpp>
+#include <engine/sys/input.hpp>
+#include <engine/sys/render.hpp>*/
+
+/*#include <GL/glew.h>
+#include <GLFW/glfw3.h>*/
 
 #include <map>
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <memory>
 
-#define LOG(x) std::cout << "[LOG] " << x << std::endl
+#define SYS_UPTR(s) std::unique_ptr<engine::system>(new s)
+#define LOG(t, msg) cout << "[" << t << "] " << msg << endl
 
-static void err_callback(int err, const char *msg)
+enum glfw_Callbacks {
+	ERROR,
+	KEY,
+	CHAR,
+	WIN_SIZE
+};
+
+int main(int argc, char** argv)
 {
-	LOG("[" << err << "] " << msg);
-}
+	using std::cout;
+	using std::endl;
 
-int main()
-{
-	//engine::core core;
+	engine::core core(std::vector<std::string>(argv, argv+argc));
+	
+	// ---- Create all systems, and add them to the core vector
+	try {
+		core.add_sys(SYSid::cfg, SYS_UPTR(engine::sys_cfg()));
+		// engine::sys_cfg provides an interface to access configuration files
+		// from all core systems.
+		
+		/*core.add_sys(SYSid::log, SYS_UPTR(engine::sys_log()));
+		// engine::sys_log
+		
+		core.add_sys(SYSid::input, SYS_UPTR(engine::sys_input()));
+		// engine::sys_input populates function dispatchers that broadcast input
+		// data to all core systems.
+		
+		core.add_sys(SYSid::render, SYS_UPTR(engine::sys_render()));*/
+		// engine::sys_render
+	catch(const engine::SysExcept& ex) {
+		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.msg << "'." << endl);
+	}
+	
+	// ---- Initialize window and GL context
+	//GLFWwindow *win;
 
-	GLFWwindow *win;
+
+	// ---- Quaid, start the reactor!
+	core.bootstrap();
+	
+	// ---- We're done.
+	core.shut_down();
+	
+	return 0;
+	
+	// ----------------------------
+
+	/*GLFWwindow *win;
 	if(!glfwInit())
 		return -1;
 		
@@ -48,6 +96,7 @@ int main()
 	}
 	
 	glfwDestroyWindow(win);
-	glfwTerminate();
+	glfwTerminate();*/
+	
 	return 0;
 }
