@@ -33,6 +33,10 @@ int main(int argc, char** argv)
 	engine::core core(std::vector<std::string>(argv, argv+argc));
 	
 	// ---- Create all systems, and add them to the core vector
+	// Process:
+	// -- 1 -> core.add_sys(ID, PTR)
+	// -- 2 -> core.get_sys(ID) and inject dependencies
+	// -- 3 -> same for each system
 	try {
 		core.add_sys(engine::SYSid::cfg, SYS_UPTR(engine::sys_cfg()));
 		// engine::sys_cfg provides an interface to access configuration files

@@ -12,13 +12,26 @@ core::~core()
 
 }
 
-void core::add_sys(SYSid sid, std::unique_ptr<system> sys)
+bool core::sys_exists(SYSid sid)
 {
-	if(mSystems.find(sid) != mSystems.end()) {
+	return mSystems.find(sid) == mSystems.end();
+}
+
+void core::add_sys(SYSid sid, core::sys_ptr sys)
+{
+	if(!sys_exists(sid)) {
 		throw std::runtime_error(MKSTR("System with ID " << sid << " is already in the systems vector!"));
 	}
 	
 	mSystems[sid] = std::move(sys);
+}
+core::sys_ptr get_sys(SYSid sid)
+{
+	if(!sys_exists(sid)) {
+		throw std::runtime_error(MKSTR("System with ID " << sid << " does not exist, cannot retrieve!"));
+	}
+	
+	return mSystems[sid];
 }
 
 
@@ -34,3 +47,4 @@ void core::shut_down()
 		it->second->shut_down();
 	}
 }
+
