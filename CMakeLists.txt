@@ -44,6 +44,14 @@ ENDIF()
 ## non-built-in deps
 FIND_PACKAGE(GLEW REQUIRED)
 INCLUDE_DIRECTORIES(${GLEW_INCLUDE_PATH})
+
+IF(${LUA_VERSION})
+ELSE()
+	SET(LUA_VERSION 5.1)
+ENDIF()
+
+FIND_PACKAGE(Lua ${LUA_VERSION} REQUIRED)
+INCLUDE_DIRECTORIES(${LUA_INCLUDE_DIR})
 ## --------------------------
 
 ## extlib include directories

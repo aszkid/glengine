@@ -16,4 +16,5 @@ ADD_LIBRARY(engine ${SRCS})
 ## link extlibs
 TARGET_LINK_LIBRARIES(engine glfw ${GLFW_LIBRARIES})
 TARGET_LINK_LIBRARIES(engine GLEW ${GLEW_LIBRARIES})
+TARGET_LINK_LIBRARIES(engine lua${LUA_VERSION} ${LUA_LIBRARIES})
 ## --------------------------

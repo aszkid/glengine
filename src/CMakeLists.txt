@@ -13,4 +13,5 @@ TARGET_LINK_LIBRARIES(milsim engine)
 ## link extlibs
 TARGET_LINK_LIBRARIES(milsim glfw ${GLFW_LIBRARIES})
 TARGET_LINK_LIBRARIES(milsim GLEW ${GLEW_LIBRARIES})
+TARGET_LINK_LIBRARIES(milsim lua${LUA_VERSION} ${LUA_LIBRARIES})
 ## --------------------------
