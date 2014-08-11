@@ -21,6 +21,8 @@ void sys_gui::handle_event(event_t event)
 	case INPUT_WIN_SIZE:
 		//glViewport(0, 0, x, y);
 		break;
+	case INPUT_MOUSE_BTN:
+		break;
 	default:
 		break;
 	}

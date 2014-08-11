@@ -16,7 +16,7 @@
 #include <engine/sys/gui.hpp>
 
 #define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s)
-#define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys(s)));
+#define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys_raw(s)));
 
 void glfw_set_win_hints(const std::map<int,int> &hints)
 {

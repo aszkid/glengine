@@ -10,10 +10,10 @@ namespace engine {
 
 	struct subscription {
 		subscription() {}
-		subscription(uint channels, sys_ptr sys) : m_channels(channels), m_sys(sys) {}
+		subscription(uint channels, system* sys) : m_channels(channels), m_sys(sys) {}
 	
 		uint m_channels; // channel mask
-		sys_ptr m_sys;
+		system* m_sys;
 	};
 	
 	class event_manager {
