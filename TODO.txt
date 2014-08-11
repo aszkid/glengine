@@ -1,6 +1,8 @@
 ==================================
 // SHORT TERM OBJECTIVES
 ==================================
+--> URGENT: Change pointer design. Use UNIQUE-PTRs, return RAW or
+    WEAK-PTRs. Ownership is clear, reduce useless usage of quirky stuff.
 --> Implement as quick as possible a 2-state rendering system:
 	- GUI
 	- 3D scene
