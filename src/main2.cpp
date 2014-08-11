@@ -16,6 +16,7 @@
 #include <engine/sys/gui.hpp>
 
 #define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s)
+#define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys(s)));
 
 void glfw_set_win_hints(const std::map<int,int> &hints)
 {
@@ -79,7 +80,8 @@ int main(int argc, char** argv)
 	try {
 		core.add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));
 		
-		//ev_manager.subscribe(engine::subscription(0 | 2 | 4, core.get_sys(engine::SYSid::input)));
+		core.add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui));
+		SYS_SUBSCRIBE(engine::SYSid::gui, engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR);
 		
 		
 	} catch(std::runtime_error& ex) {
@@ -96,6 +98,13 @@ int main(int argc, char** argv)
 	core.bootstrap();
 	
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
+	while(!glfwWindowShouldClose(win)) {
+		// render
+		glfwSwapBuffers(win);
+		// handle events
+		glfwPollEvents();
+		// update
+	}
 	
 	// ---- We're done, thanks for your attention
 terminate:

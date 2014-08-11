@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 
 #include "engine/system.hpp"
+#include "engine/event_manager.hpp"
 
 namespace engine {
 

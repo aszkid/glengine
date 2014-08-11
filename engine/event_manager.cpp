@@ -19,7 +19,7 @@ void event_manager::subscribe(subscription sub)
 void event_manager::broadcast(event_t event)
 {
 	for(auto it = m_subs.begin(); it != m_subs.end(); it++) {
-		if(it->m_channels & event.channel) {
+		if(it->m_channels & event.m_channel) {
 			it->m_sys->handle_event(event);
 		}
 	}

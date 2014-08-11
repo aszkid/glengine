@@ -13,3 +13,7 @@ void sys_gui::shut_down()
 {}
 void sys_gui::update(float dt)
 {}
+
+
+void sys_gui::handle_event(event_t event)
+{}

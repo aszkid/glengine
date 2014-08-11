@@ -13,6 +13,7 @@ namespace engine {
 		void init();
 		void shut_down();
 		void update(float dt);
+		void handle_event(event_t event);
 	};
 
 }

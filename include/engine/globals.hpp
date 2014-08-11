@@ -18,10 +18,8 @@ typedef unsigned int uint;
 namespace engine {
 
 	enum SYSid {
-		cfg,
 		input,
-		render,
-		log
+		gui
 	};
 
 }

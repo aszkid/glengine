@@ -5,12 +5,15 @@ using namespace engine;
 
 void input_callback::key_c(GLFWwindow *win, int key, int scancode, int action, int mods)
 {
+	ev_mngr->broadcast(event_t(ev_channel::INPUT_KEY));
 }
 void input_callback::char_c(GLFWwindow *win, unsigned int key)
 {
+	ev_mngr->broadcast(event_t(ev_channel::INPUT_CHAR));
 }
 void input_callback::mouse_btn_c(GLFWwindow *win, int button, int action, int mods)
 {
+	ev_mngr->broadcast(event_t(ev_channel::INPUT_MOUSE_BTN));
 }
 
 
