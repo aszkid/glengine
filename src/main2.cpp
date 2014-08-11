@@ -36,20 +36,7 @@ int main(int argc, char** argv)
 	GLenum err;
 	
 	engine::event_manager ev_manager;
-
 	engine::core core(std::vector<std::string>(argv, argv+argc));
-	
-	// ---- Create all systems, and add them to the core vector
-	try {
-		core.add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));
-		ev_manager.subscribe(engine::subscription(0 | 2 | 4, core.get_sys(engine::SYSid::input)));
-		
-		
-	} catch(std::runtime_error& ex) {
-		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");
-		ret = -1;
-		goto terminate;
-	}
 	
 	// ---- Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
@@ -83,11 +70,28 @@ int main(int argc, char** argv)
 		ret = -1;
 		goto terminate;
 	}
+	
+	// ---- Create all systems, and add them to the core vector
+	try {
+		core.add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));
+		
+		//ev_manager.subscribe(engine::subscription(0 | 2 | 4, core.get_sys(engine::SYSid::input)));
+		
+		
+	} catch(std::runtime_error& ex) {
+		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");
+		ret = -1;
+		goto terminate;
+	}
+	
+	// Attach input callbacks to input functions that will generate event messages.
+	//glfwSetWindowUserPointer(win, core.get_sys(engine::SYSid::input).get());
+	engine::sys_input_attach(win);
 
 	// ---- Quaid, start the reactor!
 	core.bootstrap();
 	
-	// ---- CONTROL THE MAIN LOOP RIGHT HERE
+	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
 	
 	// ---- We're done, thanks for your attention
 terminate:
