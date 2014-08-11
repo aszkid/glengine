@@ -21,7 +21,10 @@ namespace engine {
 
 		void add_sys(SYSid sid, sys_ptr sys);
 		sys_ptr get_sys(SYSid sid);
+		system* get_sys_raw(SYSid sid);
 		bool sys_exists(SYSid sid);
+		
+		void update_all(float dt);
 		
 		void bootstrap();
 		void shut_down();

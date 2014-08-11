@@ -15,6 +15,10 @@ void input_callback::mouse_btn_c(GLFWwindow *win, int button, int action, int mo
 {
 	ev_mngr->broadcast(event_t(ev_channel::INPUT_MOUSE_BTN));
 }
+void input_callback::win_size_c(GLFWwindow *win, int x, int y)
+{
+	ev_mngr->broadcast(event_t(ev_channel::INPUT_WIN_SIZE));
+}
 
 
 void engine::sys_input_attach(GLFWwindow *win)
@@ -22,6 +26,7 @@ void engine::sys_input_attach(GLFWwindow *win)
 	glfwSetKeyCallback(win, input_callback::key_c);
 	glfwSetCharCallback(win, input_callback::char_c);
 	glfwSetMouseButtonCallback(win, input_callback::mouse_btn_c);
+	glfwSetWindowSizeCallback(win, input_callback::win_size_c);
 }
 
 sys_input::sys_input()

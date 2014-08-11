@@ -38,6 +38,8 @@ int main(int argc, char** argv)
 	GLFWwindow *win;
 	GLenum err;
 	
+	engine::sys_gui* gui;
+	
 	// Initialize the event manager
 	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager());
 	// Create a core instance
@@ -56,7 +58,7 @@ int main(int argc, char** argv)
 	hints[GLFW_CONTEXT_VERSION_MINOR] = 2;
 	hints[GLFW_OPENGL_PROFILE] = GLFW_OPENGL_CORE_PROFILE;
 	hints[GLFW_OPENGL_FORWARD_COMPAT] = GL_TRUE;
-	hints[GLFW_RESIZABLE] = GL_FALSE;
+	//hints[GLFW_RESIZABLE] = GL_FALSE;
 	glfw_set_win_hints(hints);
 	
 	// Create window and set it to be the active context
@@ -81,7 +83,10 @@ int main(int argc, char** argv)
 		core.add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));
 		
 		core.add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui));
-		SYS_SUBSCRIBE(engine::SYSid::gui, engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR);
+		SYS_SUBSCRIBE(engine::SYSid::gui, 
+			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
+		);
+		gui = dynamic_cast<engine::sys_gui*>(core.get_sys_raw(engine::SYSid::gui));
 		
 		
 	} catch(std::runtime_error& ex) {
@@ -90,8 +95,7 @@ int main(int argc, char** argv)
 		goto terminate;
 	}
 	
-	// Attach input callbacks to input functions that will generate event messages.
-	//glfwSetWindowUserPointer(win, core.get_sys(engine::SYSid::input).get());
+	// Attach input callbacks to input functions that will generate event messages
 	engine::sys_input_attach(win);
 
 	// ---- Quaid, start the reactor!
@@ -100,10 +104,15 @@ int main(int argc, char** argv)
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
 	while(!glfwWindowShouldClose(win)) {
 		// render
+		gui->draw();
+		
 		glfwSwapBuffers(win);
+		
 		// handle events
 		glfwPollEvents();
+		
 		// update
+		core.update_all(0.5f);
 	}
 	
 	// ---- We're done, thanks for your attention

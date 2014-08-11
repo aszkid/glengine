@@ -33,6 +33,18 @@ sys_ptr core::get_sys(SYSid sid)
 	
 	return m_systems[sid];
 }
+engine::system* core::get_sys_raw(SYSid sid)
+{
+	return m_systems[sid].get();
+}
+
+
+void core::update_all(float dt)
+{
+	for(auto it = m_systems.begin(); it != m_systems.end(); it++) {
+		it->second->update(dt);
+	}
+}
 
 
 void core::bootstrap()

@@ -16,7 +16,8 @@ namespace engine {
 	enum ev_channel : uint {
 		INPUT_KEY = 1 << 0,
 		INPUT_CHAR = 1 << 1,
-		INPUT_MOUSE_BTN = 1 << 2
+		INPUT_MOUSE_BTN = 1 << 2,
+		INPUT_WIN_SIZE = 1 << 3
 	};
 
 }

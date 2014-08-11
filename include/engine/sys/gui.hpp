@@ -1,5 +1,7 @@
 #pragma once
 
+#include <GL/glew.h>
+
 #include "engine/system.hpp"
 
 namespace engine {
@@ -14,6 +16,7 @@ namespace engine {
 		void shut_down();
 		void update(float dt);
 		void handle_event(event_t event);
+		void draw();
 	};
 
 }

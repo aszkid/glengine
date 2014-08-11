@@ -11,6 +11,7 @@ namespace engine {
 		void key_c(GLFWwindow *win, int key, int scancode, int action, int mods);
 		void char_c(GLFWwindow *win, unsigned int key);
 		void mouse_btn_c(GLFWwindow *win, int button, int action, int mods);
+		void win_size_c(GLFWwindow *win, int x, int y);
 	}
 	
 	void sys_input_attach(GLFWwindow *win);
