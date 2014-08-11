@@ -9,13 +9,13 @@
 #include <memory>
 
 #include <engine/globals.hpp>
-#include <engine/core.hpp>
 #include <engine/event_manager.hpp>
+#include <engine/core.hpp>
 
 #include <engine/sys/input.hpp>
 #include <engine/sys/gui.hpp>
 
-#define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s())
+#define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s)
 
 void glfw_set_win_hints(const std::map<int,int> &hints)
 {
@@ -28,6 +28,8 @@ void glfw_err_callback(const int errcode, const char* msg)
 	LOG("GLFW_ERR", "(id" << errcode << ") '" << msg << "'.");
 }
 
+engine::event_manager_ptr engine::ev_mngr;
+
 int main(int argc, char** argv)
 {
 	int ret = 0;
@@ -35,7 +37,9 @@ int main(int argc, char** argv)
 	GLFWwindow *win;
 	GLenum err;
 	
-	engine::event_manager ev_manager;
+	// Initialize the event manager
+	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager());
+	// Create a core instance
 	engine::core core(std::vector<std::string>(argv, argv+argc));
 	
 	// ---- Initialize window and GL context

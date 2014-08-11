@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include "engine/event.hpp"
+#include "engine/globals.hpp"
 #include "engine/system.hpp"
 
 namespace engine {
@@ -28,5 +31,8 @@ namespace engine {
 		// list of subscribers
 		std::vector<subscription> m_subs;
 	};
+	
+	typedef std::unique_ptr<event_manager> event_manager_ptr;
+	extern event_manager_ptr ev_mngr;
 	
 }
