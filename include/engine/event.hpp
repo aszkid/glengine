@@ -1,12 +1,14 @@
 #pragma once
 
+#include <vector>
+
+#include "engine/globals.hpp"
+
 namespace engine {
 
-	class event {
-	
-	public:
-		
-		
+	struct event_t {
+		uint channel; // let it be a keyboard, mouse, network, etc event
 	};
+
 
 }

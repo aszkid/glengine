@@ -21,7 +21,6 @@ namespace engine {
 
 		void add_sys(SYSid sid, sys_ptr sys);
 		sys_ptr get_sys(SYSid sid);
-		
 		bool sys_exists(SYSid sid);
 		
 		void bootstrap();

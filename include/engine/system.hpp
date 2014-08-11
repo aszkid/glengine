@@ -3,6 +3,8 @@
 #include <stdexcept>
 #include <memory>
 
+#include "engine/event.hpp"
+
 namespace engine {
 
 	class system {
@@ -14,6 +16,7 @@ namespace engine {
 		virtual void init();
 		virtual void shut_down();
 		virtual void update(float dt);
+		virtual void handle_event(event_t event);
 
 	};
 	

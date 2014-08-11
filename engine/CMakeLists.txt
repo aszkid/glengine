@@ -1,6 +1,9 @@
 SET(SRCS
 	core.cpp
 	system.cpp
+
+	event.cpp
+	event_manager.cpp
 	
 	sys/input.cpp
 	sys/gui.cpp

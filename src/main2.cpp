@@ -1,8 +1,3 @@
-#include <engine/globals.hpp>
-#include <engine/core.hpp>
-
-#include <engine/sys/input.hpp>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -12,6 +7,13 @@
 #include <fstream>
 #include <vector>
 #include <memory>
+
+#include <engine/globals.hpp>
+#include <engine/core.hpp>
+#include <engine/event_manager.hpp>
+
+#include <engine/sys/input.hpp>
+#include <engine/sys/gui.hpp>
 
 #define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s())
 
@@ -32,12 +34,16 @@ int main(int argc, char** argv)
 	std::map<int,int> hints;
 	GLFWwindow *win;
 	GLenum err;
+	
+	engine::event_manager ev_manager;
 
 	engine::core core(std::vector<std::string>(argv, argv+argc));
 	
 	// ---- Create all systems, and add them to the core vector
 	try {
 		core.add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));
+		ev_manager.subscribe(engine::subscription(0 | 2 | 4, core.get_sys(engine::SYSid::input)));
+		
 		
 	} catch(std::runtime_error& ex) {
 		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");
@@ -61,6 +67,7 @@ int main(int argc, char** argv)
 	hints[GLFW_RESIZABLE] = GL_FALSE;
 	glfw_set_win_hints(hints);
 	
+	// Create window and set it to be the active context
 	win = glfwCreateWindow(640, 480, "OpenMilSim", NULL, NULL);
 	glfwMakeContextCurrent(win);
 	if(!win) {
