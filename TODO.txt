@@ -1,0 +1,8 @@
+==================================
+// SHORT TERM OBJECTIVES
+==================================
+--> Implement as quick as possible a 2-state rendering system:
+	- GUI
+	- 3D scene
+--> Implement, therefore, a GUI interface.
+--> Use the messaging system: the first real test will be the UI.
