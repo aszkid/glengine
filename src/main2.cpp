@@ -37,6 +37,7 @@ int main(int argc, char** argv)
 	std::map<int,int> hints;
 	GLFWwindow *win;
 	GLenum err;
+	double ftime, nftime, time, ntime;
 	
 	engine::sys_gui* gui;
 	
@@ -102,7 +103,10 @@ int main(int argc, char** argv)
 	core.bootstrap();
 	
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
+	ftime = nftime = time = ntime = glfwGetTime();
 	while(!glfwWindowShouldClose(win)) {
+		ftime = nftime;
+	
 		// render
 		gui->draw();
 		
@@ -113,6 +117,12 @@ int main(int argc, char** argv)
 		
 		// update
 		core.update_all(0.5f);
+		
+		ntime = nftime = glfwGetTime();
+		if((ntime - time) > 2) {
+			time = ntime;
+			LOG("INFO", "FPS: " << int(1 / (nftime - ftime)));
+		}
 	}
 	
 	// ---- We're done, thanks for your attention

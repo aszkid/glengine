@@ -20,7 +20,7 @@ bool core::sys_exists(SYSid sid)
 void core::add_sys(SYSid sid, sys_ptr sys)
 {
 	if(sys_exists(sid)) {
-		throw std::runtime_error(MKSTR("System with ID " << sid << " is already in the systems vector!"));
+		throw std::runtime_error(MKSTR("System with ID " << uint(sid) << " is already in the systems vector!"));
 	}
 	
 	m_systems[sid] = sys;
@@ -28,7 +28,7 @@ void core::add_sys(SYSid sid, sys_ptr sys)
 sys_ptr core::get_sys(SYSid sid)
 {
 	if(!sys_exists(sid)) {
-		throw std::runtime_error(MKSTR("System with ID " << sid << " does not exist, cannot retrieve!"));
+		throw std::runtime_error(MKSTR("System with ID " << uint(sid) << " does not exist, cannot retrieve!"));
 	}
 	
 	return m_systems[sid];

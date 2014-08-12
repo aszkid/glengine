@@ -17,7 +17,7 @@ typedef unsigned int uint;
 
 namespace engine {
 
-	enum SYSid {
+	enum class SYSid : uint {
 		input,
 		gui
 	};

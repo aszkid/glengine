@@ -3,13 +3,9 @@
 using namespace engine;
 
 event_manager::event_manager()
-{
-	LOG("INFO", "Event manager created.");
-}
+{}
 event_manager::~event_manager()
-{
-	LOG("INFO", "Event manager dying.");
-}
+{}
 
 void event_manager::subscribe(subscription sub)
 {

@@ -12,7 +12,7 @@ namespace engine {
 	class core {
 	
 		// This is the map of the universe, my friend.
-		std::map<uint, sys_ptr> m_systems;
+		std::map<SYSid, sys_ptr> m_systems;
 		std::vector<std::string> m_args;
 	
 	public:
