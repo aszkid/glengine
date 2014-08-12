@@ -32,3 +32,10 @@ void sys_gui::draw()
 	glClearColor(0.1, 0.1, 0.1, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
+
+
+sys_gui::layout_handle sys_gui::new_layout()
+{
+	m_layouts.push_back(gui::layout());
+	return &m_layouts.back();
+}

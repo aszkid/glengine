@@ -2,12 +2,23 @@
 
 #include <GL/glew.h>
 
+#include <vector>
+#include <memory>
+
 #include "engine/system.hpp"
+#include "gui/layout.hpp"
 
 namespace engine {
 
 	class sys_gui : public system {
 	
+	private:
+		typedef std::vector<gui::layout> layout_list;
+		typedef gui::layout* layout_handle;
+		
+		layout_list m_layouts;
+		layout_handle m_active_layout;
+		
 	public:
 		sys_gui();
 		~sys_gui();
@@ -17,6 +28,8 @@ namespace engine {
 		void update(float dt);
 		void handle_event(event_t event);
 		void draw();
+		
+		layout_handle new_layout();
 	};
 
 }
