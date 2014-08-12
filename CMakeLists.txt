@@ -52,6 +52,9 @@ ENDIF()
 
 FIND_PACKAGE(Lua ${LUA_VERSION} REQUIRED)
 INCLUDE_DIRECTORIES(${LUA_INCLUDE_DIR})
+
+FIND_PACKAGE(Freetype REQUIRED)
+INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
 ## --------------------------
 
 ## extlib include directories
