@@ -11,8 +11,10 @@ namespace engine { namespace gui {
 		private:
 			tools::shader_program m_prog;
 			glm::vec2 m_pos;
+			glm::vec2 m_size;
+			GLuint vao, vbo;
 		public:
-			button();
+			button(glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
 			~button();
 			
 			void draw();

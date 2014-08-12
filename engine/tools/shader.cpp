@@ -17,6 +17,7 @@ void shader_program::add_shader(const GLuint type, const std::string filename)
 	const char* source = contents.c_str();
 	
 	shader s;
+	s.m_type = type;
 	s.m_id = glCreateShader(type);
 	glShaderSource(s.m_id, 1, &source, NULL);
 	
@@ -32,6 +33,8 @@ void shader_program::add_shader(const GLuint type, const std::string filename)
 	if(status != GL_TRUE) {
 		throw std::runtime_error(MKSTR("Failed to compile '" << filename << "'!"));
 	}
+	
+	m_shaders.push_back(s);
 }
 void shader_program::link()
 {
@@ -47,8 +50,12 @@ void shader_program::use()
 	glUseProgram(m_id);
 }
 
-GLint shader_program::pos_attrib(const std::string pos)
+
+void shader_program::set_attrib_ptr(const char *attrib_name, GLint size, 
+	GLenum type, GLboolean norm, GLsizei stride, const GLvoid *ptr)
 {
-	return glGetAttribLocation(m_id, pos.c_str());
+	GLint attrib = glGetAttribLocation(m_id, attrib_name);
+	glEnableVertexAttribArray(attrib);
+	glVertexAttribPointer(attrib, size, type, norm, stride, ptr);
 }
 

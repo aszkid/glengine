@@ -118,12 +118,19 @@ int main(int argc, char** argv)
 	auto pause = gui->new_layout();
 	pause->add_component(new engine::gui::component::button());
 	
+	float r, g, b;
+	r = 30 / 255.f;
+	g = 30 / 255.f;
+	b = 30 / 255.f;
+	
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
 	ftime = nftime = time = ntime = glfwGetTime();
 	while(!glfwWindowShouldClose(win)) {
 		ftime = nftime;
 	
 		// render
+		glClearColor(r, g, b, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 		gui->draw();
 		
 		glfwSwapBuffers(win);

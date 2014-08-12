@@ -26,7 +26,8 @@ namespace engine {
 			void link();
 			void use();
 			
-			GLint pos_attrib(const std::string pos);
+			void set_attrib_ptr(const char *attrib_name, GLint size, 
+				GLenum type, GLboolean norm, GLsizei stride, const GLvoid *ptr);
 		};
 	
 	}
