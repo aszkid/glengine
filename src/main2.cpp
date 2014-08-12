@@ -44,7 +44,6 @@ engine::event_manager_ptr engine::ev_mngr;
 
 int main(int argc, char** argv)
 {
-	int ret = 0;
 	std::map<int,int> hints;
 	GLFWwindow *win;
 	GLenum err;
@@ -112,11 +111,7 @@ int main(int argc, char** argv)
 	
 	// Load GUI layouts (future: on demand, script based?)
 	auto pause = gui->new_layout();
-	
-	engine::tools::shader_program prog;
-	prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
-	prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
-	prog.link();
+	pause->add_component(new engine::gui::component::button());
 	
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
 	ftime = nftime = time = ntime = glfwGetTime();

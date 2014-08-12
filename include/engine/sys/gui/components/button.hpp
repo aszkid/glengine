@@ -5,11 +5,12 @@
 
 namespace engine { namespace gui {
 
-	namespace components {
+	namespace component {
 	
 		class button : public base {
 		private:
-			tools::shader_program m_shaderprog;
+			tools::shader_program m_prog;
+			glm::vec2 m_pos;
 		public:
 			button();
 			~button();

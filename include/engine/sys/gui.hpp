@@ -8,6 +8,8 @@
 #include "engine/system.hpp"
 #include "gui/layout.hpp"
 
+#include "gui/components/button.hpp"
+
 namespace engine {
 
 	class sys_gui : public system {

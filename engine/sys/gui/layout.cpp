@@ -12,4 +12,8 @@ void layout::add_component(component_raw_ptr component)
 	m_components.emplace_back(component);
 }
 void layout::draw()
-{}
+{
+	for(auto& comp : m_components) {
+		comp->draw();
+	}
+}
