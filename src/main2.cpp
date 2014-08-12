@@ -1,6 +1,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include <LuaState.h>
+
 #include <map>
 #include <string>
 #include <iostream>
@@ -50,6 +52,16 @@ int main(int argc, char** argv)
 	GLenum err;
 	double ftime, nftime, time, ntime;
 	
+	
+	lua::State base_cfg;
+	try {
+		base_cfg.doFile("../../../rundir/config.lua");
+	} catch(lua::RuntimeError& err) {
+		LOG("FATAL-lua", "'" << err.what() << "'.");
+		return -1;
+	}
+	
+	
 	engine::sys_gui* gui;
 	
 	// Initialize the event manager
@@ -64,16 +76,22 @@ int main(int argc, char** argv)
 		terminate(-1, core);
 	}
 	
+	float gl_v = float(base_cfg["gl_v"]["major"]) + float(base_cfg["gl_v"]["minor"]) / 10.0f;
+	if(gl_v < 3.2f) {
+		LOG("ERROR-cfg", "OpenGL version provided (" << gl_v << ") is not supported! OpenGL >=3.2 required.");
+		terminate(-1, core);
+	}
+	
 	// Set window creation hints
-	hints[GLFW_CONTEXT_VERSION_MAJOR] = 3;
-	hints[GLFW_CONTEXT_VERSION_MINOR] = 2;
+	hints[GLFW_CONTEXT_VERSION_MAJOR] = base_cfg["gl_v"]["major"];
+	hints[GLFW_CONTEXT_VERSION_MINOR] = base_cfg["gl_v"]["minor"];
 	hints[GLFW_OPENGL_PROFILE] = GLFW_OPENGL_CORE_PROFILE;
 	hints[GLFW_OPENGL_FORWARD_COMPAT] = GL_TRUE;
 	//hints[GLFW_RESIZABLE] = GL_FALSE;
 	glfw_set_win_hints(hints);
 	
 	// Create window and set it to be the active context
-	win = glfwCreateWindow(640, 480, "OpenMilSim", NULL, NULL);
+	win = glfwCreateWindow(base_cfg["win_s"]["x"], base_cfg["win_s"]["y"], "OpenMilSim", NULL, NULL);
 	glfwMakeContextCurrent(win);
 	if(!win) {
 		LOG("FATAL", "Could not create window!");
@@ -97,8 +115,7 @@ int main(int argc, char** argv)
 		
 		core.add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui));
 		SYS_SUBSCRIBE(engine::SYSid::gui, 
-			/* INPUT channels */ engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
-			/* STATE channels */ 
+			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
 		);
 		gui = dynamic_cast<engine::sys_gui*>(core.get_sys_raw(engine::SYSid::gui));
 		
@@ -150,5 +167,7 @@ int main(int argc, char** argv)
 	
 	// ---- We're done, thanks for your attention
 	terminate(EXIT_SUCCESS, core);
+	
+	return 0;
 }
 
