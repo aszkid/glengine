@@ -7,6 +7,7 @@
 #include <fstream>
 #include <vector>
 #include <memory>
+#include <thread>
 
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
@@ -86,6 +87,7 @@ int main(int argc, char** argv)
 		terminate(-1, core);
 	}
 	
+	LOG("INFO", std::thread::hardware_concurrency() << " concurrent threads supported.");
 	LOG("INFO", "OpenGL Version: " << glGetString(GL_VERSION));
 	LOG("INFO", "GLEW Version:   " << glewGetString(GLEW_VERSION));
 	
