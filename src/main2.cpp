@@ -29,6 +29,15 @@ void glfw_err_callback(const int errcode, const char* msg)
 	LOG("GLFW_ERR", "(id" << errcode << ") '" << msg << "'.");
 }
 
+
+void terminate(int ret, engine::core& c)
+{
+	c.shut_down();
+	glfwTerminate();
+	exit(ret);
+}
+
+
 engine::event_manager_ptr engine::ev_mngr;
 
 int main(int argc, char** argv)
@@ -50,8 +59,7 @@ int main(int argc, char** argv)
 	glfwSetErrorCallback(glfw_err_callback);
 	if(!glfwInit()) {
 		LOG("FATAL", "Could not initialize GLFW!");
-		ret = -1;
-		goto terminate;
+		terminate(-1, core);
 	}
 	
 	// Set window creation hints
@@ -67,16 +75,14 @@ int main(int argc, char** argv)
 	glfwMakeContextCurrent(win);
 	if(!win) {
 		LOG("FATAL", "Could not create window!");
-		ret = -1;
-		goto terminate;
+		terminate(-1, core);
 	}
 	
 	// Initialize GLEW, and thus load GL function pointers
 	err = glewInit();
 	if(GLEW_OK != err) {
 		LOG("GLEW_ERR", "'" << glewGetErrorString(err) << "'.");
-		ret = -1;
-		goto terminate;
+		terminate(-1, core);
 	}
 	
 	// ---- Create all systems, and add them to the core vector
@@ -85,19 +91,24 @@ int main(int argc, char** argv)
 		
 		core.add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui));
 		SYS_SUBSCRIBE(engine::SYSid::gui, 
-			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
+			/* INPUT channels */ engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
+			/* STATE channels */ 
 		);
 		gui = dynamic_cast<engine::sys_gui*>(core.get_sys_raw(engine::SYSid::gui));
 		
 		
 	} catch(std::runtime_error& ex) {
 		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");
-		ret = -1;
-		goto terminate;
+		terminate(-1, core);
 	}
 	
 	// Attach input callbacks to input functions that will generate event messages
 	engine::sys_input_attach(win);
+	
+	
+	// Load GUI layouts (future: on demand, script based?)
+	auto pause = gui->new_layout();
+	
 
 	// ---- Quaid, start the reactor!
 	core.bootstrap();
@@ -126,10 +137,6 @@ int main(int argc, char** argv)
 	}
 	
 	// ---- We're done, thanks for your attention
-terminate:
-	core.shut_down();
-	glfwTerminate();
-	
-	return ret;
+	terminate(EXIT_SUCCESS, core);
 }
 

@@ -3,6 +3,7 @@
 using namespace engine;
 
 sys_gui::sys_gui()
+	: m_active_layout(nullptr)
 {}
 sys_gui::~sys_gui()
 {}
@@ -29,13 +30,21 @@ void sys_gui::handle_event(event_t event)
 }
 void sys_gui::draw()
 {
-	glClearColor(0.1, 0.1, 0.1, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT);
+	/*glClearColor(0.1, 0.1, 0.1, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);*/
+	if(m_active_layout == nullptr)
+		return;
+	
+	m_active_layout->draw();
 }
 
 
 sys_gui::layout_handle sys_gui::new_layout()
 {
 	m_layouts.emplace_back(new gui::layout());
+	if(m_active_layout == nullptr) {
+		m_active_layout = m_layouts.back().get();
+		return m_active_layout;
+	}
 	return m_layouts.back().get();
 }

@@ -19,5 +19,22 @@ namespace engine {
 		INPUT_MOUSE_BTN = 1 << 2,
 		INPUT_WIN_SIZE = 1 << 3
 	};
+	
+	namespace events {
+	
+		struct input_key : public event_t {
+			int key; int scancode; int action; int mods;
+		};
+		struct input_char : public event_t {
+			unsigned int key;
+		};
+		struct input_mouse_btn : public event_t {
+			int button; int action; int mods;
+		};
+		struct input_win_size : public event_t {
+			 int x; int y;
+		};
+	
+	}
 
 }
