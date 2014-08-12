@@ -3,6 +3,11 @@
 #include <GL/glew.h>
 
 #include <vector>
+#include <string>
+#include <fstream>
+#include <stdexcept>
+
+#include "../globals.hpp"
 
 namespace engine {
 
@@ -13,12 +18,15 @@ namespace engine {
 			GLuint m_id;
 		};
 		
-		class shader_program {
-		private:
-			GLuint m_program;
+		struct shader_program {
+			GLuint m_id;
 			std::vector<shader> m_shaders;
-		public:
 			
+			void add_shader(const GLuint type, const std::string filename);
+			void link();
+			void use();
+			
+			GLint pos_attrib(const std::string pos);
 		};
 	
 	}
