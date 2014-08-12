@@ -13,7 +13,7 @@ namespace engine {
 	class sys_gui : public system {
 	
 	private:
-		typedef std::vector<gui::layout> layout_list;
+		typedef std::vector<std::unique_ptr<gui::layout>> layout_list;
 		typedef gui::layout* layout_handle;
 		
 		layout_list m_layouts;

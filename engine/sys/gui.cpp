@@ -36,6 +36,6 @@ void sys_gui::draw()
 
 sys_gui::layout_handle sys_gui::new_layout()
 {
-	m_layouts.push_back(gui::layout());
-	return &m_layouts.back();
+	m_layouts.emplace_back(new gui::layout());
+	return m_layouts.back().get();
 }

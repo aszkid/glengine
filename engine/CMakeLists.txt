@@ -5,8 +5,13 @@ SET(SRCS
 	event.cpp
 	event_manager.cpp
 	
+	tools/shader.cpp
+	
 	sys/input.cpp
+	
 	sys/gui.cpp
+	sys/gui/base.cpp
+	sys/gui/layout.cpp
 )
 
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
