@@ -15,6 +15,8 @@
 #include <engine/sys/input.hpp>
 #include <engine/sys/gui.hpp>
 
+#include <engine/tools/shader.hpp>
+
 #define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s)
 #define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys_raw(s)));
 
@@ -105,13 +107,16 @@ int main(int argc, char** argv)
 	// Attach input callbacks to input functions that will generate event messages
 	engine::sys_input_attach(win);
 	
+	// ---- Quaid, start the reactor!
+	core.bootstrap();
 	
 	// Load GUI layouts (future: on demand, script based?)
 	auto pause = gui->new_layout();
 	
-
-	// ---- Quaid, start the reactor!
-	core.bootstrap();
+	engine::tools::shader_program prog;
+	prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
+	prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
+	prog.link();
 	
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
 	ftime = nftime = time = ntime = glfwGetTime();
