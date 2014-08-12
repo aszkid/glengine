@@ -86,6 +86,9 @@ int main(int argc, char** argv)
 		terminate(-1, core);
 	}
 	
+	LOG("INFO", "OpenGL Version: " << glGetString(GL_VERSION));
+	LOG("INFO", "GLEW Version:   " << glewGetString(GLEW_VERSION));
+	
 	// ---- Create all systems, and add them to the core vector
 	try {
 		core.add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));

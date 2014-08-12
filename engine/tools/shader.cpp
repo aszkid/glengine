@@ -25,7 +25,10 @@ void shader_program::add_shader(const GLuint type, const std::string filename)
 	glGetShaderiv(s.m_id, GL_COMPILE_STATUS, &status);
 	char buffer[512];
 	glGetShaderInfoLog(s.m_id, 512, NULL, buffer);
-	LOG("DEBUG", buffer);
+	std::string rep(buffer);
+	rep.pop_back();
+	rep.pop_back();
+	LOG("DEBUG", rep);
 	if(status != GL_TRUE) {
 		throw std::runtime_error(MKSTR("Failed to compile '" << filename << "'!"));
 	}
