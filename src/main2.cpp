@@ -119,6 +119,7 @@ int main(int argc, char** argv)
 		core.add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui(win)));
 		SYS_SUBSCRIBE(engine::SYSid::gui, 
 			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
+			| engine::ev_channel::INPUT_CURSOR_POS
 		);
 		gui = dynamic_cast<engine::sys_gui*>(core.get_sys(engine::SYSid::gui));
 		

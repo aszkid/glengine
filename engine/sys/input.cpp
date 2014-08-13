@@ -3,6 +3,8 @@
 using namespace engine;
 
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 void input_callback::key_c(GLFWwindow *win, int key, int scancode, int action, int mods)
 {
 	ev_mngr->broadcast(new engine::events::input_key(ev_channel::INPUT_KEY, key, scancode, action, mods));
@@ -19,7 +21,11 @@ void input_callback::win_size_c(GLFWwindow *win, int x, int y)
 {
 	ev_mngr->broadcast(new engine::events::input_win_size(ev_channel::INPUT_WIN_SIZE, x, y));
 }
-
+void input_callback::cursor_pos_c(GLFWwindow *win, double x, double y)
+{
+	ev_mngr->broadcast(new engine::events::input_cursor_pos(ev_channel::INPUT_CURSOR_POS, x, y));
+}
+#pragma GCC diagnostic pop
 
 void engine::sys_input_attach(GLFWwindow *win)
 {

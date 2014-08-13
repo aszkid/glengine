@@ -17,7 +17,8 @@ namespace engine {
 		INPUT_KEY = 1 << 0,
 		INPUT_CHAR = 1 << 1,
 		INPUT_MOUSE_BTN = 1 << 2,
-		INPUT_WIN_SIZE = 1 << 3
+		INPUT_WIN_SIZE = 1 << 3,
+		INPUT_CURSOR_POS = 1 << 4
 	};
 	
 	namespace events {
@@ -44,6 +45,12 @@ namespace engine {
 			 int m_x; int m_y;
 			 
 			input_win_size(uint channel, int x, int y)
+				: event_t(channel), m_x(x), m_y(y) {}
+		};
+		struct input_cursor_pos : public event_t {
+			double m_x; double m_y;
+			
+			input_cursor_pos(uint channel, double x, double y)
 				: event_t(channel), m_x(x), m_y(y) {}
 		};
 	
