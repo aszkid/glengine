@@ -23,21 +23,16 @@ void core::add_sys(SYSid sid, sys_ptr sys)
 		throw std::runtime_error(MKSTR("System with ID " << uint(sid) << " is already in the systems vector!"));
 	}
 	
-	m_systems[sid] = sys;
+	m_systems[sid] = std::move(sys);
 }
-sys_ptr core::get_sys(SYSid sid)
+engine::system* core::get_sys(SYSid sid)
 {
 	if(!sys_exists(sid)) {
 		throw std::runtime_error(MKSTR("System with ID " << uint(sid) << " does not exist, cannot retrieve!"));
 	}
 	
-	return m_systems[sid];
-}
-engine::system* core::get_sys_raw(SYSid sid)
-{
 	return m_systems[sid].get();
 }
-
 
 void core::update_all(float dt)
 {

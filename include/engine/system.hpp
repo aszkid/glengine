@@ -20,6 +20,6 @@ namespace engine {
 
 	};
 	
-	typedef std::shared_ptr<system> sys_ptr;
+	typedef std::unique_ptr<system> sys_ptr;
 
 }

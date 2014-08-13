@@ -20,8 +20,8 @@
 
 #include <engine/tools/shader.hpp>
 
-#define SYS_MKPTR(s) std::shared_ptr<engine::system>(new s)
-#define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys_raw(s)));
+#define SYS_MKPTR(s) engine::sys_ptr(new s)
+#define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys(s)));
 
 void glfw_set_win_hints(const std::map<int,int> &hints)
 {
@@ -117,7 +117,7 @@ int main(int argc, char** argv)
 		SYS_SUBSCRIBE(engine::SYSid::gui, 
 			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
 		);
-		gui = dynamic_cast<engine::sys_gui*>(core.get_sys_raw(engine::SYSid::gui));
+		gui = dynamic_cast<engine::sys_gui*>(core.get_sys(engine::SYSid::gui));
 		
 		
 	} catch(std::runtime_error& ex) {
@@ -133,7 +133,7 @@ int main(int argc, char** argv)
 	
 	// Load GUI layouts (future: on demand, script based?)
 	auto panel = gui->new_layout();
-	panel->add_component(new engine::gui::component::text_box());
+	panel->add_component(new engine::gui::component::button());
 	
 	
 	float r, g, b;
