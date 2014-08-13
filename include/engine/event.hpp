@@ -23,16 +23,28 @@ namespace engine {
 	namespace events {
 	
 		struct input_key : public event_t {
-			int key; int scancode; int action; int mods;
+			int m_key; int m_scancode; int m_action; int m_mods;
+			
+			input_key(uint channel, int key, int scancode, int action, int mods)
+				: event_t(channel), m_key(key), m_scancode(scancode), m_action(action), m_mods(mods) {}
 		};
 		struct input_char : public event_t {
-			unsigned int key;
+			unsigned int m_key;
+			
+			input_char(uint channel, unsigned int key)
+				: event_t(channel), m_key(key) {}
 		};
 		struct input_mouse_btn : public event_t {
-			int button; int action; int mods;
+			int m_button; int m_action; int m_mods;
+			
+			input_mouse_btn(uint channel, int button, int action, int mods)
+				: event_t(channel), m_button(button), m_action(action), m_mods(mods) {}
 		};
 		struct input_win_size : public event_t {
-			 int x; int y;
+			 int m_x; int m_y;
+			 
+			input_win_size(uint channel, int x, int y)
+				: event_t(channel), m_x(x), m_y(y) {}
 		};
 	
 	}

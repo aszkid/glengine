@@ -16,7 +16,7 @@ namespace engine {
 		virtual void init();
 		virtual void shut_down();
 		virtual void update(float dt);
-		virtual void handle_event(event_t event);
+		virtual void handle_event(event_t *event);
 
 	};
 	

@@ -27,13 +27,16 @@ void sys_gui::update_view()
 	glViewport(0, 0, m_viewport.x, m_viewport.y);
 	m_viewprojmat = glm::ortho(0.f, float(m_viewport.x), float(m_viewport.y), 0.f);
 }
-void sys_gui::handle_event(event_t event)
+void sys_gui::handle_event(event_t *event)
 {
-	switch(event.m_channel) {
-	case INPUT_WIN_SIZE:
+	switch(event->m_channel) {
+	case INPUT_WIN_SIZE: {
+		auto ev = static_cast<events::input_win_size*>(event);
 		update_view();
+		LOG("DEBUG-gui", "Updated view: " << ev->m_x << "x" << ev->m_y);
 		
 		break;
+	}
 	case INPUT_MOUSE_BTN:
 		break;
 	default:

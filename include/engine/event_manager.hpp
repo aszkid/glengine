@@ -25,7 +25,7 @@ namespace engine {
 		// subscribe a system
 		void subscribe(subscription sub);
 		// broadcast an event to the concerned systems
-		void broadcast(event_t event);
+		void broadcast(event_t *event);
 		
 	private:
 		// list of subscribers

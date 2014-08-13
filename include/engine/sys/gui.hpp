@@ -45,7 +45,7 @@ namespace engine {
 		void init();
 		void shut_down();
 		void update(float dt);
-		void handle_event(event_t event);
+		void handle_event(event_t *event);
 		void draw();
 		
 		glm::ivec2* get_viewport();

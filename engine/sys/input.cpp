@@ -5,19 +5,19 @@ using namespace engine;
 
 void input_callback::key_c(GLFWwindow *win, int key, int scancode, int action, int mods)
 {
-	ev_mngr->broadcast(event_t(ev_channel::INPUT_KEY));
+	ev_mngr->broadcast(new engine::events::input_key(ev_channel::INPUT_KEY, key, scancode, action, mods));
 }
 void input_callback::char_c(GLFWwindow *win, unsigned int key)
 {
-	ev_mngr->broadcast(event_t(ev_channel::INPUT_CHAR));
+	ev_mngr->broadcast(new engine::events::input_char(ev_channel::INPUT_CHAR, key));
 }
 void input_callback::mouse_btn_c(GLFWwindow *win, int button, int action, int mods)
 {
-	ev_mngr->broadcast(event_t(ev_channel::INPUT_MOUSE_BTN));
+	ev_mngr->broadcast(new engine::events::input_mouse_btn(ev_channel::INPUT_MOUSE_BTN, button, action, mods));
 }
 void input_callback::win_size_c(GLFWwindow *win, int x, int y)
 {
-	ev_mngr->broadcast(event_t(ev_channel::INPUT_WIN_SIZE));
+	ev_mngr->broadcast(new engine::events::input_win_size(ev_channel::INPUT_WIN_SIZE, x, y));
 }
 
 
