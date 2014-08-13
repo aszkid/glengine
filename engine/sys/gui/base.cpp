@@ -1,5 +1,7 @@
 #include "engine/sys/gui/base.hpp"
 
+#include "engine/sys/gui/layout.hpp"
+
 using namespace engine::gui;
 
 base::base()

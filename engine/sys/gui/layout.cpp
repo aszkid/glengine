@@ -1,5 +1,7 @@
 #include "engine/sys/gui/layout.hpp"
 
+#include "engine/sys/gui/base.hpp"
+
 using namespace engine::gui;
 
 layout::layout(glm::ivec2 *viewport)

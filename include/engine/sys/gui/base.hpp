@@ -9,6 +9,8 @@ namespace engine {
 
 	namespace gui {
 		
+		class layout;
+		
 		// base gui component
 		class base {
 		protected:

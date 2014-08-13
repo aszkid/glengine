@@ -3,11 +3,13 @@
 #include <vector>
 #include <memory>
 
-#include "base.hpp"
+#include <glm/glm.hpp>
 
 namespace engine {
 
 	namespace gui {
+	
+		class base;
 	
 		class layout {
 		public:
