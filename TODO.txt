@@ -7,3 +7,8 @@
        packed in the tightest way possible, and least amount of calls.
 --> MESSAGE/EVENT SYSTEM: try to find a way to avoid abstract class passing (and posterior dynamic_casting).
 --> LUA: yeh. Do that somehow.
+-----------------
+==================================
+// IDEAS/FUTURE
+==================================
+--> Ask http://thehitgame.co.uk/ how does he handle the phone-rendering camera.
