@@ -24,7 +24,7 @@ namespace engine { namespace gui {
 			glm::vec2 m_pos;
 			glm::vec2 m_size;
 		public:
-			window(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
+			window(layout *par_layout, glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
 			~window();
 			
 			void draw();

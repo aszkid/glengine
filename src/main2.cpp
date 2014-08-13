@@ -25,7 +25,7 @@
 #define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys(s)));
 
 // CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
-#define GUI_NEW_COMPONENT(type, layout, ...) dynamic_cast<type*>(layout->add_component(new type(layout->get_viewport(), layout->get_viewproj_mat(), ## __VA_ARGS__)))
+#define GUI_NEW_COMPONENT(type, layout, ...) dynamic_cast<type*>(layout->add_component(new type(layout, ## __VA_ARGS__)))
 
 void glfw_set_win_hints(const std::map<int,int> &hints)
 {

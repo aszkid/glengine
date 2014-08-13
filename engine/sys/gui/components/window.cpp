@@ -1,9 +1,11 @@
 #include "engine/sys/gui/components/window.hpp"
 
+#include "engine/sys/gui/layout.hpp"
+
 using namespace engine::gui::component;
 
-window::window(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 pos, glm::vec2 size)
-	: engine::gui::base(viewport, viewprojmat)
+window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
+	: engine::gui::base(par_layout)
 {
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/2dsurf_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/2dsurf_vert.glsl");
@@ -110,7 +112,7 @@ void window::draw()
 	glBindVertexArray(vao);
 	m_prog.use();
 	
-	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_viewprojmat));
+	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ele_buffer);
 	
 	glDrawElements(

@@ -14,15 +14,12 @@ namespace engine {
 		// base gui component
 		class base {
 		protected:
-			glm::ivec2 *m_viewport;
-			glm::mat4 *m_viewprojmat;
 			GLuint m_uni_mat;
+			layout *m_layout;
 			
 		public:
-			base(glm::ivec2 *viewport, glm::mat4 *viewprojmat);
+			base(layout *par_layout);
 			virtual ~base();
-			
-			void set_viewport(glm::ivec2 *viewport);
 			
 			virtual void draw();
 			
