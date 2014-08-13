@@ -2,6 +2,8 @@
 
 #include <GL/glew.h>
 
+#include <GLFW/glfw3.h>
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -26,8 +28,11 @@ namespace engine {
 		
 		FT_Library m_ft;
 		
+		GLFWwindow *m_win;
+		glm::ivec2 m_viewport;
+		
 	public:
-		sys_gui();
+		sys_gui(GLFWwindow *win);
 		~sys_gui();
 
 		void init();

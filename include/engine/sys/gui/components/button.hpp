@@ -13,6 +13,7 @@ namespace engine { namespace gui {
 			glm::vec2 m_pos;
 			glm::vec2 m_size;
 			GLuint vao, vbo;
+			GLint m_uni_color;
 		public:
 			button(glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
 			~button();

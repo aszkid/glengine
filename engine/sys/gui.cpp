@@ -2,8 +2,8 @@
 
 using namespace engine;
 
-sys_gui::sys_gui()
-	: m_active_layout(nullptr)
+sys_gui::sys_gui(GLFWwindow *win)
+	: m_active_layout(nullptr), m_win(win)
 {}
 sys_gui::~sys_gui()
 {}
@@ -13,6 +13,8 @@ void sys_gui::init()
 	if(FT_Init_FreeType(&m_ft)) {
 		throw std::runtime_error("Could not initialize Freetype library!");
 	}
+	
+	glfwGetWindowSize(m_win, &m_viewport.x, &m_viewport.y);
 }
 void sys_gui::shut_down()
 {}
@@ -23,7 +25,9 @@ void sys_gui::handle_event(event_t event)
 {
 	switch(event.m_channel) {
 	case INPUT_WIN_SIZE:
-		//glViewport(0, 0, x, y);
+		glfwGetWindowSize(m_win, &m_viewport.x, &m_viewport.y);
+		glViewport(0, 0, m_viewport.x, m_viewport.y);
+		
 		break;
 	case INPUT_MOUSE_BTN:
 		break;
@@ -43,7 +47,7 @@ void sys_gui::draw()
 
 sys_gui::layout_handle sys_gui::new_layout()
 {
-	m_layouts.emplace_back(new gui::layout());
+	m_layouts.emplace_back(new gui::layout(&m_viewport));
 	if(m_active_layout == nullptr) {
 		m_active_layout = m_layouts.back().get();
 		return m_active_layout;

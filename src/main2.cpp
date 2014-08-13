@@ -35,12 +35,12 @@ void glfw_err_callback(const int errcode, const char* msg)
 }
 
 
-void terminate(int ret, engine::core& c)
+void cleanup(engine::core& c)
 {
 	c.shut_down();
 	glfwTerminate();
-	exit(ret);
 }
+#define TERMINATE(val) cleanup(core); return val;
 
 
 engine::event_manager_ptr engine::ev_mngr;
@@ -73,13 +73,13 @@ int main(int argc, char** argv)
 	glfwSetErrorCallback(glfw_err_callback);
 	if(!glfwInit()) {
 		LOG("FATAL", "Could not initialize GLFW!");
-		terminate(-1, core);
+		TERMINATE(-1);
 	}
 	
 	float gl_v = float(base_cfg["gl_v"]["major"]) + float(base_cfg["gl_v"]["minor"]) / 10.0f;
 	if(gl_v < 3.2f) {
 		LOG("ERROR-cfg", "OpenGL version provided (" << gl_v << ") is not supported! OpenGL >=3.2 required.");
-		terminate(-1, core);
+		TERMINATE(-1);
 	}
 	
 	// Set window creation hints
@@ -95,14 +95,14 @@ int main(int argc, char** argv)
 	glfwMakeContextCurrent(win);
 	if(!win) {
 		LOG("FATAL", "Could not create window!");
-		terminate(-1, core);
+		TERMINATE(-1);
 	}
 	
 	// Initialize GLEW, and thus load GL function pointers
 	err = glewInit();
 	if(GLEW_OK != err) {
 		LOG("GLEW_ERR", "'" << glewGetErrorString(err) << "'.");
-		terminate(-1, core);
+		TERMINATE(-1);
 	}
 	
 	LOG("INFO", std::thread::hardware_concurrency() << " concurrent threads supported.");
@@ -113,7 +113,7 @@ int main(int argc, char** argv)
 	try {
 		core.add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));
 		
-		core.add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui));
+		core.add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui(win)));
 		SYS_SUBSCRIBE(engine::SYSid::gui, 
 			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
 		);
@@ -122,7 +122,7 @@ int main(int argc, char** argv)
 		
 	} catch(std::runtime_error& ex) {
 		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");
-		terminate(-1, core);
+		TERMINATE(-1);
 	}
 	
 	// Attach input callbacks to input functions that will generate event messages
@@ -140,6 +140,9 @@ int main(int argc, char** argv)
 	r = 30 / 255.f;
 	g = 30 / 255.f;
 	b = 30 / 255.f;
+	
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
 	ftime = nftime = time = ntime = glfwGetTime();
@@ -167,8 +170,6 @@ int main(int argc, char** argv)
 	}
 	
 	// ---- We're done, thanks for your attention
-	terminate(EXIT_SUCCESS, core);
-	
-	return 0;
+	TERMINATE(EXIT_SUCCESS);
 }
 

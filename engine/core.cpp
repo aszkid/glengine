@@ -4,13 +4,10 @@ using namespace engine;
 
 core::core(std::vector<std::string> args)
 	: m_args(args)
-{
-}
+{}
 
 core::~core()
-{
-
-}
+{}
 
 bool core::sys_exists(SYSid sid)
 {

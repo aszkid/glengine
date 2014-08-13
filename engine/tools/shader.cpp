@@ -50,7 +50,10 @@ void shader_program::use()
 	glUseProgram(m_id);
 }
 
-
+GLint shader_program::get_uni_loc(const char *name)
+{
+	return glGetUniformLocation(m_id, name);
+}
 void shader_program::set_attrib_ptr(const char *attrib_name, GLint size, 
 	GLenum type, GLboolean norm, GLsizei stride, const GLvoid *ptr)
 {
