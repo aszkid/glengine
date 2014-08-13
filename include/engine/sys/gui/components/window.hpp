@@ -20,6 +20,7 @@ namespace engine { namespace gui {
 			
 			color m_bg_color;
 			float m_margin;
+			float m_top_margin;
 			std::vector<uint> m_indices;
 			glm::vec2 m_pos;
 			glm::vec2 m_size;
