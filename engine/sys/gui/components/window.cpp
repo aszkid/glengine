@@ -20,6 +20,37 @@ window::window(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 pos, glm:
 	m_size.x = 640.f - m_margin*2;
 	m_size.y = 360.f - m_margin - m_top_margin;
 	
+	std::array<vbo_data, 16> m_vbodat;
+	
+	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
+	m_vbodat[0].color = glm::vec4(0.639, 0.5058, 0.56, 1.f);
+	m_vbodat[1].vert = glm::vec2(0.f, m_top_margin);
+	m_vbodat[2].vert = glm::vec2(m_margin, 0.f);
+	m_vbodat[3].vert = glm::vec2(m_margin, m_top_margin);
+	m_vbodat[4].vert = glm::vec2(0.f, m_top_margin + m_size.y);
+	m_vbodat[4].color = glm::vec4(.95f, .95f, .95f, .95f);
+	m_vbodat[5].vert = glm::vec2(m_margin, m_top_margin + m_size.y);
+	m_vbodat[6].vert = glm::vec2(0.f, m_margin + m_top_margin + m_size.y);
+	m_vbodat[7].vert = glm::vec2(m_margin, m_margin + m_top_margin + m_size.y);
+	m_vbodat[8].vert = glm::vec2(m_margin + m_size.x, m_margin + m_top_margin + m_size.y);
+	m_vbodat[9].vert = glm::vec2(m_margin + m_size.x, m_top_margin + m_size.y);
+	m_vbodat[10].vert = glm::vec2(m_margin*2 + m_size.x, m_margin + m_top_margin + m_size.y);
+	m_vbodat[11].vert = glm::vec2(m_margin*2 + m_size.x, m_top_margin + m_size.y);
+	m_vbodat[12].vert = glm::vec2(m_margin*2 + m_size.x, m_top_margin);
+	m_vbodat[13].vert = glm::vec2(m_margin + m_size.x, m_top_margin);
+	m_vbodat[14].vert = glm::vec2(m_margin*2 + m_size.x, 0.f);
+	m_vbodat[15].vert = glm::vec2(m_margin + m_size.x, 0.f);
+	
+	static const std::array<uint, 8> topbar = {{1, 2, 3, 12, 13, 14, 15}};
+	static const std::array<uint, 8> content = {{5, 6, 7, 8, 9, 10, 11}};
+	
+	for(size_t i : topbar) {
+		m_vbodat[i].color = m_vbodat[0].color;
+	}
+	for(size_t i : content) {
+		m_vbodat[i].color = m_vbodat[4].color;
+	}
+	
 	m_indices = {
 		0, 1, 2,
 		2, 1, 3,
@@ -40,35 +71,10 @@ window::window(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 pos, glm:
 		13, 3, 5,
 		13, 5, 9
 	};	
-	std::vector<GLfloat> vertices = {
-		/*0*/  0.f, 0.f,
-		/*1*/  0.f, m_top_margin,
-		/*2*/  m_margin, 0.f,
-		/*3*/  m_margin, m_top_margin,
-		/*4*/  0.f, m_top_margin + m_size.y,
-		/*5*/  m_margin, m_top_margin + m_size.y,
-		/*6*/  0.f, m_margin + m_top_margin + m_size.y,
-		/*7*/  m_margin, m_margin + m_top_margin + m_size.y,
-		/*8*/  m_margin + m_size.x, m_margin + m_top_margin + m_size.y,
-		/*9*/  m_margin + m_size.x, m_top_margin + m_size.y,
-		/*10*/ m_margin*2 + m_size.x, m_margin + m_top_margin + m_size.y,
-		/*11*/ m_margin*2 + m_size.x, m_top_margin + m_size.y,
-		/*12*/ m_margin*2 + m_size.x, m_top_margin,
-		/*13*/ m_margin + m_size.x, m_top_margin,
-		/*14*/ m_margin*2 + m_size.x, 0.f,
-		/*15*/ m_margin + m_size.x, 0.f
-	};
 	
-	/*std::vector<GLfloat> vertices = {
-		0.f, 0.f,
-		0.f, 20.f,
-		20.f, 0.f,
-		20.f, 20.f
-	};*/
-	
-	for(size_t i = 0; i < vertices.size(); i += 2) {
-		vertices[i]   += m_pos.x;
-		vertices[i+1] += m_pos.y;
+	for(size_t i = 0; i < m_vbodat.size(); i++) {
+		m_vbodat[i].vert.x += m_pos.x;
+		m_vbodat[i].vert.y += m_pos.y;
 	}
 	
 	// ----
@@ -79,7 +85,8 @@ window::window(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 pos, glm:
 	// fill data
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vbo_data), &m_vbodat[0], GL_STATIC_DRAW);
+	
 	// fill indices
 	glGenBuffers(1, &m_ele_buffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ele_buffer);
@@ -87,9 +94,9 @@ window::window(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 pos, glm:
 
 	// ----
 	
-	m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, 0, 0);
+	m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vbo_data), 0);
+	m_prog.set_attrib_ptr("surfColor", 4, GL_FLOAT, GL_FALSE, sizeof(vbo_data), (void*)sizeof(glm::vec2));
 	
-	m_uni_color = m_prog.get_uni_loc("surfColor");
 	m_uni_mat = m_prog.get_uni_loc("viewProjMatrix");
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -104,10 +111,8 @@ void window::draw()
 	m_prog.use();
 	
 	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_viewprojmat));
-	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ele_buffer);
 	
-	glUniform4f(m_uni_color, 0.f, 0.f, 0.f, .25f);
 	glDrawElements(
 		GL_TRIANGLES,
 		m_indices.size(),

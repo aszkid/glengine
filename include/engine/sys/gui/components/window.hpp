@@ -14,7 +14,6 @@ namespace engine { namespace gui {
 		private:
 			tools::shader_program m_prog;
 			GLuint vao, vbo;
-			GLint m_uni_color;
 			
 			GLuint m_ele_buffer;
 			

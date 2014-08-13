@@ -1,9 +1,10 @@
 #version 150
 
 out vec4 outColor;
-uniform vec4 surfColor;
+
+flat in vec4 color;
 
 void main()
 {
-	outColor = vec4(surfColor);
+	outColor = vec4(color);
 }
