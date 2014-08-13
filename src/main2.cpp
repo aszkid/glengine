@@ -132,8 +132,9 @@ int main(int argc, char** argv)
 	core.bootstrap();
 	
 	// Load GUI layouts (future: on demand, script based?)
-	auto pause = gui->new_layout();
-	pause->add_component(new engine::gui::component::button());
+	auto panel = gui->new_layout();
+	panel->add_component(new engine::gui::component::text_box());
+	
 	
 	float r, g, b;
 	r = 30 / 255.f;

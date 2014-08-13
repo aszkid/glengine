@@ -7,6 +7,8 @@
 //  See LICENSE and README.md files
 
 #pragma once
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 #include <limits>
 
@@ -398,3 +400,4 @@ namespace lua { namespace stack {
     }
     
 }}
+#pragma GCC diagnostic pop

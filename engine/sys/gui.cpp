@@ -9,12 +9,15 @@ sys_gui::~sys_gui()
 {}
 
 void sys_gui::init()
-{}
+{
+	if(FT_Init_FreeType(&m_ft)) {
+		throw std::runtime_error("Could not initialize Freetype library!");
+	}
+}
 void sys_gui::shut_down()
 {}
 void sys_gui::update(float dt)
 {}
-
 
 void sys_gui::handle_event(event_t event)
 {
@@ -38,7 +41,6 @@ void sys_gui::draw()
 	m_active_layout->draw();
 }
 
-
 sys_gui::layout_handle sys_gui::new_layout()
 {
 	m_layouts.emplace_back(new gui::layout());
@@ -47,4 +49,13 @@ sys_gui::layout_handle sys_gui::new_layout()
 		return m_active_layout;
 	}
 	return m_layouts.back().get();
+}
+
+FT_Face sys_gui::new_face(const char *filename)
+{
+	FT_Face face;
+	if(FT_New_Face(m_ft, filename, 0, &face)) {
+		throw std::runtime_error(MKSTR("Could not create face '" << filename << "'!"));
+	}
+	return face;
 }

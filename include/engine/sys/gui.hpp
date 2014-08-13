@@ -2,6 +2,9 @@
 
 #include <GL/glew.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #include <vector>
 #include <memory>
 
@@ -21,6 +24,8 @@ namespace engine {
 		layout_list m_layouts;
 		layout_handle m_active_layout;
 		
+		FT_Library m_ft;
+		
 	public:
 		sys_gui();
 		~sys_gui();
@@ -30,6 +35,8 @@ namespace engine {
 		void update(float dt);
 		void handle_event(event_t event);
 		void draw();
+		
+		FT_Face new_face(const char *filename);
 		
 		layout_handle new_layout();
 	};
