@@ -4,21 +4,30 @@
 
 using namespace engine::gui;
 
-layout::layout(glm::ivec2 *viewport)
-	: m_viewport(viewport)
+layout::layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat)
+	: m_viewport(viewport), m_viewprojmat(viewprojmat)
 {
 }
 layout::~layout()
 {}
 
-void layout::add_component(component_raw_ptr component)
+base* layout::add_component(base *component)
 {
 	m_components.emplace_back(component);
 	m_components.back()->set_viewport(m_viewport);
+	return m_components.back().get();
 }
 void layout::draw()
 {
 	for(auto& comp : m_components) {
 		comp->draw();
 	}
+}
+glm::ivec2* layout::get_viewport()
+{
+	return m_viewport;
+}
+glm::mat4* layout::get_viewproj_mat()
+{
+	return m_viewprojmat;
 }

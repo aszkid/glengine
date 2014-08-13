@@ -15,8 +15,11 @@ namespace engine {
 		class base {
 		protected:
 			glm::ivec2 *m_viewport;
+			glm::mat4 *m_viewprojmat;
+			GLuint m_uni_mat;
+			
 		public:
-			base();
+			base(glm::ivec2 *viewport, glm::mat4 *viewprojmat);
 			virtual ~base();
 			
 			void set_viewport(glm::ivec2 *viewport);

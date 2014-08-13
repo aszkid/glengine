@@ -4,6 +4,9 @@
 
 #include <GLFW/glfw3.h>
 
+#define GLM_FORCE_RADIANS
+#include <glm/gtc/matrix_transform.hpp>
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -14,6 +17,7 @@
 #include "gui/layout.hpp"
 
 #include "gui/components/button.hpp"
+#include "gui/components/window.hpp"
 
 namespace engine {
 
@@ -30,6 +34,9 @@ namespace engine {
 		
 		GLFWwindow *m_win;
 		glm::ivec2 m_viewport;
+		glm::mat4 m_viewprojmat;
+		
+		void update_view();
 		
 	public:
 		sys_gui(GLFWwindow *win);
@@ -40,6 +47,8 @@ namespace engine {
 		void update(float dt);
 		void handle_event(event_t event);
 		void draw();
+		
+		glm::ivec2* get_viewport();
 		
 		FT_Face new_face(const char *filename);
 		

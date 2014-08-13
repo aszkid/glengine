@@ -14,15 +14,18 @@ namespace engine {
 		class layout {
 		public:
 			typedef std::unique_ptr<base> component_ptr;
-			typedef base* component_raw_ptr;
 		private:
 			std::vector<component_ptr> m_components;
 			glm::ivec2 *m_viewport;
+			glm::mat4 *m_viewprojmat;
 		public:
-			layout(glm::ivec2 *viewport);
+			layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat);
 			~layout();
 			
-			void add_component(component_raw_ptr component);
+			glm::ivec2* get_viewport();
+			glm::mat4* get_viewproj_mat();
+			
+			base* add_component(base *component);
 			void draw();
 		
 		};

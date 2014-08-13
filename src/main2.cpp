@@ -10,6 +10,7 @@
 #include <vector>
 #include <memory>
 #include <thread>
+#include <typeinfo>
 
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
@@ -22,6 +23,9 @@
 
 #define SYS_MKPTR(s) engine::sys_ptr(new s)
 #define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core.get_sys(s)));
+
+// CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
+#define GUI_NEW_COMPONENT(type, layout, ...) dynamic_cast<type*>(layout->add_component(new type(layout->get_viewport(), layout->get_viewproj_mat(), ## __VA_ARGS__)))
 
 void glfw_set_win_hints(const std::map<int,int> &hints)
 {
@@ -41,7 +45,6 @@ void cleanup(engine::core& c)
 	glfwTerminate();
 }
 #define TERMINATE(val) cleanup(core); return val;
-
 
 engine::event_manager_ptr engine::ev_mngr;
 
@@ -132,14 +135,16 @@ int main(int argc, char** argv)
 	core.bootstrap();
 	
 	// Load GUI layouts (future: on demand, script based?)
-	auto panel = gui->new_layout();
-	panel->add_component(new engine::gui::component::button());
+	auto layout = gui->new_layout();
+	auto window = GUI_NEW_COMPONENT(engine::gui::component::window, layout);
 	
+	
+	// ----------
 	
 	float r, g, b;
-	r = 30 / 255.f;
-	g = 30 / 255.f;
-	b = 30 / 255.f;
+	r = float(base_cfg["bg_c"]["r"]) / 255.f;
+	g = float(base_cfg["bg_c"]["g"]) / 255.f;
+	b = float(base_cfg["bg_c"]["b"]) / 255.f;
 	
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

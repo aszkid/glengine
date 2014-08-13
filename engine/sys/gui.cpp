@@ -14,19 +14,24 @@ void sys_gui::init()
 		throw std::runtime_error("Could not initialize Freetype library!");
 	}
 	
-	glfwGetWindowSize(m_win, &m_viewport.x, &m_viewport.y);
+	update_view();
 }
 void sys_gui::shut_down()
 {}
 void sys_gui::update(float dt)
 {}
 
+void sys_gui::update_view()
+{
+	glfwGetWindowSize(m_win, &m_viewport.x, &m_viewport.y);
+	glViewport(0, 0, m_viewport.x, m_viewport.y);
+	m_viewprojmat = glm::ortho(0.f, float(m_viewport.x), float(m_viewport.y), 0.f);
+}
 void sys_gui::handle_event(event_t event)
 {
 	switch(event.m_channel) {
 	case INPUT_WIN_SIZE:
-		glfwGetWindowSize(m_win, &m_viewport.x, &m_viewport.y);
-		glViewport(0, 0, m_viewport.x, m_viewport.y);
+		update_view();
 		
 		break;
 	case INPUT_MOUSE_BTN:
@@ -47,12 +52,17 @@ void sys_gui::draw()
 
 sys_gui::layout_handle sys_gui::new_layout()
 {
-	m_layouts.emplace_back(new gui::layout(&m_viewport));
+	m_layouts.emplace_back(new gui::layout(&m_viewport, &m_viewprojmat));
 	if(m_active_layout == nullptr) {
 		m_active_layout = m_layouts.back().get();
 		return m_active_layout;
 	}
 	return m_layouts.back().get();
+}
+
+glm::ivec2* sys_gui::get_viewport()
+{
+	return &m_viewport;
 }
 
 FT_Face sys_gui::new_face(const char *filename)

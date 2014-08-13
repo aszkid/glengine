@@ -4,8 +4,8 @@
 
 using namespace engine::gui;
 
-base::base()
-	: m_viewport(nullptr)
+base::base(glm::ivec2 *viewport, glm::mat4 *viewprojmat)
+	: m_viewport(viewport), m_viewprojmat(viewprojmat)
 {}
 base::~base()
 {}

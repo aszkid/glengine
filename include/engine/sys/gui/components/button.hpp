@@ -15,7 +15,7 @@ namespace engine { namespace gui {
 			GLuint vao, vbo;
 			GLint m_uni_color;
 		public:
-			button(glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
+			button(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
 			~button();
 			
 			void draw();

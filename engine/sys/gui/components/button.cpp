@@ -2,7 +2,8 @@
 
 using namespace engine::gui::component;
 
-button::button(glm::vec2 pos, glm::vec2 size)
+button::button(glm::ivec2 *viewport, glm::mat4 *viewprojmat,  glm::vec2 pos, glm::vec2 size)
+	: engine::gui::base(viewport, viewprojmat)
 {
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/2dsurf_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/2dsurf_vert.glsl");
