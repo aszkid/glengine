@@ -1,14 +1,14 @@
 ==================================
 // SHORT TERM OBJECTIVES
 ==================================
+--> Create a global helper class; 'ConfigManager', that will provide acess to JSON and LUA files/scripts.
+--> Adapt text rendering shader to be GLSL 1.50 (GL 3.2) compliant.
+==================================
+// IDEAS/FUTURE
+==================================
 --> GUI
     -> The components MUST NOT know how to draw themselves.
     -> In the draw func, all components will be looped and their geometry
        packed in the tightest way possible, and least amount of calls.
---> MESSAGE/EVENT SYSTEM: try to find a way to avoid abstract class passing (and posterior dynamic_casting).
 --> LUA: yeh. Do that somehow.
------------------
-==================================
-// IDEAS/FUTURE
-==================================
 --> Ask http://thehitgame.co.uk/ how does he handle the phone-rendering camera.
