@@ -35,6 +35,7 @@ namespace engine {
 		GLFWwindow *m_win;
 		glm::ivec2 m_viewport;
 		glm::mat4 m_viewprojmat;
+		glm::vec2 m_cursorpos;
 		
 		void update_view();
 		

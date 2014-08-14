@@ -34,11 +34,22 @@ void sys_gui::handle_event(event_t *event)
 	case INPUT_WIN_SIZE: {
 		auto ev = static_cast<events::input_win_size*>(event);
 		m_viewport.x = ev->m_x; m_viewport.y = ev->m_y;
-		update_view();		
+		update_view();
+			
 		break;
 	}
-	case INPUT_MOUSE_BTN:
+	case INPUT_MOUSE_BTN: {
+		auto ev = static_cast<events::input_mouse_btn*>(event);
+		
+		
 		break;
+	}
+	case INPUT_CURSOR_POS: {
+		auto ev = static_cast<events::input_cursor_pos*>(event);
+		m_cursorpos.x = ev->m_x; m_cursorpos.y = ev->m_y;
+		
+		break;
+	}
 	default:
 		break;
 	}
@@ -55,7 +66,7 @@ void sys_gui::draw()
 
 sys_gui::layout_handle sys_gui::new_layout()
 {
-	m_layouts.emplace_back(new gui::layout(&m_viewport, &m_viewprojmat));
+	m_layouts.emplace_back(new gui::layout(&m_viewport, &m_viewprojmat, &m_cursorpos));
 	if(m_active_layout == nullptr) {
 		m_active_layout = m_layouts.back().get();
 		return m_active_layout;

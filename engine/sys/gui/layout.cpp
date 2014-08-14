@@ -4,8 +4,8 @@
 
 using namespace engine::gui;
 
-layout::layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat)
-	: m_viewport(viewport), m_viewprojmat(viewprojmat)
+layout::layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 *cursorpos)
+	: m_viewport(viewport), m_viewprojmat(viewprojmat), m_cursorpos(cursorpos)
 {
 }
 layout::~layout()

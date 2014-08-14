@@ -33,6 +33,7 @@ void engine::sys_input_attach(GLFWwindow *win)
 	glfwSetCharCallback(win, input_callback::char_c);
 	glfwSetMouseButtonCallback(win, input_callback::mouse_btn_c);
 	glfwSetWindowSizeCallback(win, input_callback::win_size_c);
+	glfwSetCursorPosCallback(win, input_callback::cursor_pos_c);
 }
 
 sys_input::sys_input()
