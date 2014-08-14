@@ -1,5 +1,5 @@
 SET(SRCS
-	main2.cpp
+	main.cpp
 )
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
