@@ -40,19 +40,32 @@ void sys_gui::handle_event(event_t *event)
 	}
 	case INPUT_MOUSE_BTN: {
 		auto ev = static_cast<events::input_mouse_btn*>(event);
-		
+		switch(ev->m_button) {
+		case GLFW_MOUSE_BUTTON_1: {
+			m_mouse.m_lclick = (ev->m_action == GLFW_PRESS);
+			break;
+		}
+		case GLFW_MOUSE_BUTTON_2: {
+			m_mouse.m_rclick = (ev->m_action == GLFW_PRESS);
+			break;
+		}
+		default:
+			break;
+		}
 		
 		break;
 	}
 	case INPUT_CURSOR_POS: {
 		auto ev = static_cast<events::input_cursor_pos*>(event);
-		m_cursorpos.x = ev->m_x; m_cursorpos.y = ev->m_y;
+		m_mouse.m_pos.x = ev->m_x; m_mouse.m_pos.y = ev->m_y;
 		
 		break;
 	}
 	default:
 		break;
 	}
+	
+	// update children... maybe?
 }
 void sys_gui::draw()
 {
@@ -66,7 +79,7 @@ void sys_gui::draw()
 
 sys_gui::layout_handle sys_gui::new_layout()
 {
-	m_layouts.emplace_back(new gui::layout(&m_viewport, &m_viewprojmat, &m_cursorpos));
+	m_layouts.emplace_back(new gui::layout(&m_viewport, &m_viewprojmat, &m_mouse));
 	if(m_active_layout == nullptr) {
 		m_active_layout = m_layouts.back().get();
 		return m_active_layout;

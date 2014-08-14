@@ -22,6 +22,15 @@ namespace engine {
 			glm::vec2 vert;
 			glm::vec4 color;
 		};
+		
+		struct mouse_state {
+			mouse_state() : m_rclick(false), m_lclick(false) {}
+		
+			bool m_rclick;
+			bool m_lclick;
+			
+			glm::vec2 m_pos;
+		};
 	
 	}
 

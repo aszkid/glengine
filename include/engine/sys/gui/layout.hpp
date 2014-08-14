@@ -5,6 +5,8 @@
 
 #include <glm/glm.hpp>
 
+#include "helpers.hpp"
+
 namespace engine {
 
 	namespace gui {
@@ -17,12 +19,12 @@ namespace engine {
 		private:
 			std::vector<component_ptr> m_components;
 		public:
-			layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 *cursorpos);
+			layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, mouse_state *mouse);
 			~layout();
 			
 			glm::ivec2 *m_viewport;
 			glm::mat4 *m_viewprojmat;
-			glm::vec2 *m_cursorpos;
+			mouse_state *m_mouse;
 			
 			base* add_component(base *component);
 			void draw();

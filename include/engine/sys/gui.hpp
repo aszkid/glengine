@@ -15,6 +15,7 @@
 
 #include "engine/system.hpp"
 #include "gui/layout.hpp"
+#include "gui/helpers.hpp"
 
 #include "gui/components/button.hpp"
 #include "gui/components/window.hpp"
@@ -35,7 +36,8 @@ namespace engine {
 		GLFWwindow *m_win;
 		glm::ivec2 m_viewport;
 		glm::mat4 m_viewprojmat;
-		glm::vec2 m_cursorpos;
+		
+		gui::mouse_state m_mouse;
 		
 		void update_view();
 		
