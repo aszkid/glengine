@@ -14,6 +14,7 @@ SET(SRCS
 	sys/gui/layout.cpp
 	sys/gui/components/button.cpp
 	sys/gui/components/window.cpp
+	sys/gui/components/label.cpp
 )
 
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

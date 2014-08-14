@@ -19,6 +19,7 @@
 
 #include "gui/components/button.hpp"
 #include "gui/components/window.hpp"
+#include "gui/components/label.hpp"
 
 namespace engine {
 
