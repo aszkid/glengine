@@ -13,12 +13,6 @@ namespace engine { namespace gui {
 
 	namespace component {
 	
-		typedef struct {
-			float x, y, z; // position
-			float s, t; // texture
-			float r, g, b, a; // color
-		} vertex_t;
-	
 		class label : public base {
 		private:
 			tools::shader_program m_prog;
