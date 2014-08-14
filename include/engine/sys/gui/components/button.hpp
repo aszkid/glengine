@@ -18,6 +18,7 @@ namespace engine { namespace gui {
 			button(layout *par_layout, glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
 			~button();
 			
+			void update();
 			void draw();
 		};
 	

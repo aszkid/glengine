@@ -19,3 +19,5 @@ void button::draw()
 {
 	
 }
+void button::update()
+{}

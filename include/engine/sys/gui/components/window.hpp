@@ -21,12 +21,14 @@ namespace engine { namespace gui {
 			float m_margin;
 			float m_top_margin;
 			std::vector<uint> m_indices;
+			std::array<vbo_data, 16> m_vbodat;
 			glm::vec2 m_pos;
 			glm::vec2 m_size;
 		public:
 			window(layout *par_layout, glm::vec2 pos = glm::vec2(0), glm::vec2 size = glm::vec2(75, 20));
 			~window();
 			
+			void update();
 			void draw();
 		};
 	

@@ -22,3 +22,9 @@ void layout::draw()
 		comp->draw();
 	}
 }
+void layout::update()
+{
+	for(auto& comp : m_components) {
+		comp->update();
+	}
+}

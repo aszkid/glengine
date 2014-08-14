@@ -21,6 +21,7 @@ namespace engine {
 			base(layout *par_layout);
 			virtual ~base();
 			
+			virtual void update();
 			virtual void draw();
 			
 		};

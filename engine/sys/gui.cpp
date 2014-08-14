@@ -21,7 +21,9 @@ void sys_gui::init()
 void sys_gui::shut_down()
 {}
 void sys_gui::update(float dt)
-{}
+{
+	m_active_layout->update();
+}
 
 void sys_gui::update_view()
 {

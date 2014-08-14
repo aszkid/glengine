@@ -11,3 +11,4 @@ base::~base()
 {}
 
 void base::draw() {}
+void base::update() {}

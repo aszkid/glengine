@@ -28,6 +28,7 @@ namespace engine {
 			
 			base* add_component(base *component);
 			void draw();
+			void update();
 		
 		};
 	

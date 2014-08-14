@@ -22,8 +22,6 @@ window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	m_size.x = 640.f - m_margin*2;
 	m_size.y = 360.f - m_margin - m_top_margin;
 	
-	std::array<vbo_data, 16> m_vbodat;
-	
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
 	m_vbodat[0].color = glm::vec4(0.639, 0.5058, 0.56, 1.f);
 	m_vbodat[1].vert = glm::vec2(0.f, m_top_margin);
@@ -121,4 +119,12 @@ void window::draw()
 		GL_UNSIGNED_INT,
 		(void*)0
 	);
+}
+
+void window::update()
+{
+	glm::vec2& pos = m_layout->m_mouse->m_pos;
+	if((pos.x > m_vbodat[0].vert.x) && (pos.x < m_vbodat[12].vert.x) && (pos.y > m_vbodat[0].vert.y) && (pos.y < m_vbodat[1].vert.y)) {
+		
+	}
 }
