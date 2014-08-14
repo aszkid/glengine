@@ -20,7 +20,7 @@ namespace engine {
 		
 		struct vbo_data {
 			glm::vec2 vert;
-			glm::vec4 color;
+			int type;
 		};
 		
 		struct mouse_state {

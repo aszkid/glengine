@@ -7,8 +7,8 @@ using namespace engine::gui::component;
 window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	: engine::gui::base(par_layout)
 {
-	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/2dsurf_frag.glsl");
-	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/2dsurf_vert.glsl");
+	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/2dsurf_frag_bool.glsl");
+	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/2dsurf_vert_bool.glsl");
 	m_prog.link();
 	
 	// -----
@@ -23,12 +23,12 @@ window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	m_size.y = 360.f - m_margin - m_top_margin;
 	
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
-	m_vbodat[0].color = glm::vec4(0.639, 0.5058, 0.56, 1.f);
+	m_vbodat[0].type = 1;
 	m_vbodat[1].vert = glm::vec2(0.f, m_top_margin);
 	m_vbodat[2].vert = glm::vec2(m_margin, 0.f);
 	m_vbodat[3].vert = glm::vec2(m_margin, m_top_margin);
 	m_vbodat[4].vert = glm::vec2(0.f, m_top_margin + m_size.y);
-	m_vbodat[4].color = glm::vec4(.95f, .95f, .95f, .95f);
+	m_vbodat[4].type = 0;
 	m_vbodat[5].vert = glm::vec2(m_margin, m_top_margin + m_size.y);
 	m_vbodat[6].vert = glm::vec2(0.f, m_margin + m_top_margin + m_size.y);
 	m_vbodat[7].vert = glm::vec2(m_margin, m_margin + m_top_margin + m_size.y);
@@ -45,10 +45,14 @@ window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	static const std::array<uint, 8> content = {{5, 6, 7, 8, 9, 10, 11}};
 	
 	for(size_t i : topbar) {
-		m_vbodat[i].color = m_vbodat[0].color;
+		m_vbodat[i].type = m_vbodat[0].type;
 	}
 	for(size_t i : content) {
-		m_vbodat[i].color = m_vbodat[4].color;
+		m_vbodat[i].type = m_vbodat[4].type;
+	}
+	
+	for(auto& v : m_vbodat) {
+		LOG("DEBUG-win", v.type);
 	}
 	
 	m_indices = {
@@ -95,7 +99,7 @@ window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	// ----
 	
 	m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vbo_data), 0);
-	m_prog.set_attrib_ptr("surfColor", 4, GL_FLOAT, GL_FALSE, sizeof(vbo_data), (void*)sizeof(glm::vec2));
+	m_prog.set_attrib_ptr("surfType", 1, GL_INT, GL_FALSE, sizeof(vbo_data), (void*)sizeof(glm::vec2));
 	
 	m_uni_mat = m_prog.get_uni_loc("viewProjMatrix");
 	
