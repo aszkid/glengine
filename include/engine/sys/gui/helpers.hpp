@@ -5,6 +5,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/ext.hpp>
 
+// font rendering
+#include <freetype-gl.h>
+#include <vertex-buffer.h>
+
 #include <array>
 
 namespace engine {
@@ -31,6 +35,8 @@ namespace engine {
 			
 			glm::vec2 m_pos;
 		};
+		
+		void add_text(vertex_buffer_t * buffer, texture_font_t * font, wchar_t * text, vec4 * color, vec2 * pen);
 	
 	}
 

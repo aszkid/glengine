@@ -12,6 +12,7 @@ SET(SRCS
 	sys/gui.cpp
 	sys/gui/base.cpp
 	sys/gui/layout.cpp
+	sys/gui/helpers.cpp
 	sys/gui/components/button.cpp
 	sys/gui/components/window.cpp
 	sys/gui/components/label.cpp
