@@ -7,3 +7,6 @@
 [submodule "ext/rapidjson"]
 	path = ext/rapidjson
 	url = https://github.com/miloyip/rapidjson.git
+[submodule "ext/freetype-gl"]
+	path = ext/freetype-gl
+	url = https://github.com/rougier/freetype-gl

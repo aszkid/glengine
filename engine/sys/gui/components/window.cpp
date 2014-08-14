@@ -51,10 +51,6 @@ window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 		m_vbodat[i].type = m_vbodat[4].type;
 	}
 	
-	for(auto& v : m_vbodat) {
-		LOG("DEBUG-win", v.type);
-	}
-	
 	m_indices = {
 		0, 1, 2,
 		2, 1, 3,
