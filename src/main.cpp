@@ -135,18 +135,8 @@ int main(int argc, char** argv)
 	
 	// Load GUI layouts (future: on demand, script based?)
 	auto layout = gui->new_layout();
-	
-	const char* mystr = base_cfg["demo_txt"];
-	const size_t mystrlen = strlen(mystr);
-	wchar_t *mywstr = new wchar_t[mystrlen];
-	mbstowcs(mywstr, mystr, mystrlen);
-	
-	LOG("INFO", "Lua str: " << mystr << " | len: " << strlen(mystr));
-	std::wcout << "RUSSIAN TEXT: " << L"Эта не правда." << std::endl;
-	
-	auto label = GUI_NEW_COMPONENT(engine::gui::component::label, layout, mywstr);
-	
-	delete[]mywstr;
+	auto label = GUI_NEW_COMPONENT(engine::gui::component::label, 
+		layout, engine::cstr_to_wstr(base_cfg["demo_txt"]).c_str());
 	
 	// ----------
 	

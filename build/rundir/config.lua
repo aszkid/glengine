@@ -14,4 +14,4 @@ bg_c = {
 	g = 179,
 	b = 167
 }
-demo_txt = "Thðse aréæ sóme symbols (ñçüö). It w¤erks! Рускии? Да!"
+demo_txt = "Рускии? Да! Okay, a quick brown fox jumped over the lazy dog. 0123456789: áçñàüïö."

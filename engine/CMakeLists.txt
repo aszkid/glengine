@@ -1,10 +1,10 @@
 SET(SRCS
 	core.cpp
 	system.cpp
+	globals.cpp
 
 	event.cpp
 	event_manager.cpp
-	
 	config_manager.cpp
 	
 	tools/shader.cpp

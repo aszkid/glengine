@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstring>
 
 #define LOG(t, msg) std::cout << "[" << t << "] " << msg << std::endl
 
@@ -21,6 +22,8 @@ namespace engine {
 		input,
 		gui
 	};
+	
+	std::wstring cstr_to_wstr(const char *str);
 
 }
 
