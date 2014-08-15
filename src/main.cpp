@@ -14,6 +14,7 @@
 
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
+#include <engine/config_manager.hpp>
 #include <engine/core.hpp>
 
 #include <engine/sys/input.hpp>
@@ -47,6 +48,7 @@ void cleanup(engine::core& c)
 #define TERMINATE(val) cleanup(core); return val;
 
 engine::event_manager_ptr engine::ev_mngr;
+engine::config_manager_ptr engine::cfg_mngr;
 
 int main(int argc, char** argv)
 {
@@ -55,22 +57,18 @@ int main(int argc, char** argv)
 	GLenum err;
 	double ftime, nftime, time, ntime;
 	
+	std::setlocale(LC_CTYPE, "");
 	
-	lua::State base_cfg;
-	try {
-		base_cfg.doFile("../../../rundir/config.lua");
-	} catch(lua::RuntimeError& err) {
-		LOG("FATAL-lua", "'" << err.what() << "'.");
-		return -1;
-	}
-	
-	
+	// Initialize the config manager
+	engine::cfg_mngr = engine::config_manager_ptr(new engine::config_manager());
 	engine::sys_gui* gui;
-	
 	// Initialize the event manager
 	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager());
 	// Create a core instance
 	engine::core core(std::vector<std::string>(argv, argv+argc));
+	
+	// Load our base config file
+	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/config.lua");
 	
 	// ---- Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
@@ -137,8 +135,18 @@ int main(int argc, char** argv)
 	
 	// Load GUI layouts (future: on demand, script based?)
 	auto layout = gui->new_layout();
-	auto label = GUI_NEW_COMPONENT(engine::gui::component::label, layout);
 	
+	const char* mystr = base_cfg["demo_txt"];
+	const size_t mystrlen = strlen(mystr);
+	wchar_t *mywstr = new wchar_t[mystrlen];
+	mbstowcs(mywstr, mystr, mystrlen);
+	
+	LOG("INFO", "Lua str: " << mystr << " | len: " << strlen(mystr));
+	std::wcout << "RUSSIAN TEXT: " << L"Эта не правда." << std::endl;
+	
+	auto label = GUI_NEW_COMPONENT(engine::gui::component::label, layout, mywstr);
+	
+	delete[]mywstr;
 	
 	// ----------
 	

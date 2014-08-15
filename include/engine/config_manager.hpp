@@ -1,0 +1,27 @@
+#pragma once
+
+#include <memory>
+#include <string>
+#include <map>
+#include <stdexcept>
+
+#include <LuaState.h>
+
+#include "globals.hpp"
+
+namespace engine {
+
+	class config_manager {
+	private:
+		std::map<std::string, std::unique_ptr<lua::State>> m_files;
+	
+	public:
+		config_manager();
+		~config_manager();
+	
+		lua::State& get(const char *file);
+	};
+	
+	typedef std::unique_ptr<config_manager> config_manager_ptr;
+	extern config_manager_ptr cfg_mngr;
+}

@@ -5,6 +5,8 @@ SET(SRCS
 	event.cpp
 	event_manager.cpp
 	
+	config_manager.cpp
+	
 	tools/shader.cpp
 	
 	sys/input.cpp
