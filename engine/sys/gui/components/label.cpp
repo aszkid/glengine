@@ -11,9 +11,13 @@ label::label(layout *par_layout, const wchar_t *text, glm::vec2 pos)
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/textnew_vert.glsl");
 	m_prog.link();
 	
+	auto& guidat = cfg_mngr->get("../../../rundir/cfg/gui.lua");
+	const char *fontname = guidat["font"]["name"];
+	std::string fontfinal = "../../../rundir/fonts/";
+	fontfinal += fontname;
+	
 	m_atlas = texture_atlas_new(512, 512, 1);
-	//m_font = texture_font_new_from_file(m_atlas, 18, "../../../rundir/fonts/encode-sans/EncodeSansNormal-500-Medium.ttf");
-	m_font = texture_font_new_from_file(m_atlas, 18, "../../../rundir/fonts/clear-sans/ClearSans-Regular.ttf");
+	m_font = texture_font_new_from_file(m_atlas, guidat["font"]["size"], fontfinal.c_str());
 	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
 	
 	vec2 pen = {{80, (m_layout->m_viewport->y - m_font->height) / 2}};

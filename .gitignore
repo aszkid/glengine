@@ -1,2 +1,4 @@
 *~
-build/*
+build/32*/*
+build/64*/*
+build/rundir/fonts/*

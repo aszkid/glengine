@@ -14,4 +14,4 @@ bg_c = {
 	g = 179,
 	b = 167
 }
-demo_txt = "Рускии? Да! Okay, a quick brown fox jumped over the lazy dog. 0123456789: áçñàüïö."
+demo_txt = "Рускии? Да! Okay, a quick brown fox jumped over the lazy dog. 0123456789: áçñàüïö. 1.52€, 1,32$. 1.000.000."

@@ -47,8 +47,8 @@ void cleanup(engine::core& c)
 }
 #define TERMINATE(val) cleanup(core); return val;
 
-engine::event_manager_ptr engine::ev_mngr;
-engine::config_manager_ptr engine::cfg_mngr;
+EV_DECL();
+CFG_DECL();
 
 int main(int argc, char** argv)
 {
@@ -68,7 +68,7 @@ int main(int argc, char** argv)
 	engine::core core(std::vector<std::string>(argv, argv+argc));
 	
 	// Load our base config file
-	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/config.lua");
+	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/cfg/core.lua");
 	
 	// ---- Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);

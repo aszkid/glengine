@@ -5,6 +5,8 @@
 
 #include "engine/globals.hpp"
 
+#include "engine/config_manager.hpp"
+
 namespace engine {
 
 	namespace gui {

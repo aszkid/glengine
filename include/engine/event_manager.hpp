@@ -34,5 +34,5 @@ namespace engine {
 	
 	typedef std::unique_ptr<event_manager> event_manager_ptr;
 	extern event_manager_ptr ev_mngr;
-	
+	#define EV_DECL() engine::event_manager_ptr engine::ev_mngr;
 }

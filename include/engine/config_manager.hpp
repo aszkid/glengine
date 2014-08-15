@@ -24,4 +24,5 @@ namespace engine {
 	
 	typedef std::unique_ptr<config_manager> config_manager_ptr;
 	extern config_manager_ptr cfg_mngr;
+	#define CFG_DECL() engine::config_manager_ptr engine::cfg_mngr
 }
