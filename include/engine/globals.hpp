@@ -5,7 +5,7 @@
 #include <string>
 #include <cstring>
 
-#define LOG(t, msg) std::cout << "[" << t << "] " << msg << std::endl
+#include "log_manager.hpp"
 
 #define MKSTR(stream)                                             \
   ( ( dynamic_cast<std::ostringstream &> (                             \
@@ -13,6 +13,11 @@
     ) . str() )
 
 #define METHODSTR std::string(typeid(*this).name()) + std::string("::") +  std::string(__func__) + std::string("()")
+
+
+#define NLOG(ch) engine::log_mngr->get(ch) << "(L:" << __LINE__ << ") "
+#define LOG(t, msg) NLOG(t) << msg
+
 
 typedef unsigned int uint;
 
