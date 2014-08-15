@@ -18,8 +18,6 @@ lua::State& config_manager::get(const char *file)
 			throw std::runtime_error(MKSTR("LUA ERROR: " << err.what()));
 		}
 	}
-	else
-		LOG("CFGMANAGER", "File already loaded (" << file << ").");
 	
 	return *m_files[file].get();
 }
