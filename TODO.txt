@@ -1,7 +1,7 @@
 ==================================
 // SHORT TERM OBJECTIVES
 ==================================
---> Create a global helper class; 'ConfigManager', that will provide acess to JSON and LUA files/scripts.
+--> Make 'FontManager' class to deal with equal fonts in the GUI and such.
 --> Fix memory leaks: watch little FREETYPE-GL objects, wrap them in unique_ptrs maybe.
 ==================================
 // IDEAS/FUTURE
