@@ -135,8 +135,11 @@ int main(int argc, char** argv)
 	
 	// Load GUI layouts (future: on demand, script based?)
 	auto layout = gui->new_layout();
-	auto label = GUI_NEW_COMPONENT(engine::gui::component::label, 
-		layout, engine::cstr_to_wstr(base_cfg["demo_txt"]).c_str());
+	GUI_NEW_COMPONENT(engine::gui::component::label,
+		layout, engine::cstr_to_wstr("Hello world!").c_str(), glm::vec2(50, 80));
+	GUI_NEW_COMPONENT(engine::gui::component::label,
+		layout, engine::cstr_to_wstr(base_cfg["demo_txt"]).c_str(), glm::vec2(50, 50));
+	
 	
 	// ----------
 	

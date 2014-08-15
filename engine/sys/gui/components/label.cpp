@@ -20,7 +20,7 @@ label::label(layout *par_layout, const wchar_t *text, glm::vec2 pos)
 	m_font = texture_font_new_from_file(m_atlas, guidat["font"]["size"], fontfinal.c_str());
 	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
 	
-	vec2 pen = {{80, (m_layout->m_viewport->y - m_font->height) / 2}};
+	vec2 pen = {{pos.x, /*(m_layout->m_viewport->y - m_font->height) / 2*/ pos.y}};
 	vec4 col = {{0.1, 0.1, 0.1, 1}};
 	
 	texture_font_load_glyphs(m_font, text);

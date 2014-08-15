@@ -1,4 +1,4 @@
 font = {
-	name = "encode-sans/EncodeSansNormal-400-Regular.ttf",
+	name = "fira-sans/FiraSans-Book.otf",
 	size = 20
 }
