@@ -14,6 +14,16 @@ void logger::handle(const std::string& val)
 	std::cout << "[LOG::" << m_name << "] " << val << std::endl;
 }
 
+// void logger
+void_logger::void_logger(const std::string &name)
+	: logger(name)
+{}
+void void_logger::handle(const std::string &val)
+{
+	
+}
+
+
 // log instance
 log_instance::log_instance(const log_instance &l)
 {
@@ -24,8 +34,8 @@ log_instance& log_instance::operator=(const log_instance &l)
 	m_buff << l.m_buff.str();
 	return *this;
 }
-log_instance::log_instance(logger *parent)
-	: m_parent(parent)
+log_instance::log_instance(logger *parent, int level)
+	: m_parent(parent), m_level(level)
 {}
 log_instance::~log_instance()
 {
@@ -40,13 +50,13 @@ log_manager::~log_manager()
 
 void log_manager::make(const std::string &name)
 {
-	m_loggers[name] = std::unique_ptr<logger>(new logger(name));
+	make<logger>(name);
 }
-log_instance log_manager::get(const std::string &name)
+log_instance log_manager::get(const std::string &name, int level)
 {
 	if(m_loggers.find(name) == m_loggers.end()) {
 		make(name);
 	}
 
-	return log_instance(m_loggers[name].get());
+	return log_instance(m_loggers[name].get(), level);
 }

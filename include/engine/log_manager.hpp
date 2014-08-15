@@ -8,6 +8,17 @@
 
 namespace engine {
 
+	namespace log {
+		enum {
+			DEBUG,
+			INFO,
+			WARNING,
+			ERROR,
+			FATAL
+		};
+	}
+
+
 	// base logger class - inherit from this one (i guess)
 	class logger {
 		std::string m_name;
@@ -17,17 +28,24 @@ namespace engine {
 		
 		virtual void handle(const std::string& val);
 	};
+	// -- void logger
+	class void_logger : public logger {
+	public:
+		void_logger(const std::string &name);
+		void handle(const std::string &val);
+	};
 	
 	// logger instance
 	class log_instance {
 		std::stringstream m_buff;
 		logger *m_parent;
+		int m_level;
 	public:
 		// copy constructors, to avoid sstream hell
 		log_instance(const log_instance &l);
 		log_instance& operator=(const log_instance &l);
 	
-		log_instance(logger *parent);
+		log_instance(logger *parent, int level);
 		~log_instance();
 		
 		template<typename T>
@@ -48,8 +66,14 @@ namespace engine {
 		log_manager();
 		~log_manager();
 		
+		template<class T, typename... Args>
+		void make(const std::string &name, Args... args)
+		{
+			m_loggers[name] = std::unique_ptr<logger>(new T(name, args...));
+		}
+		
 		void make(const std::string &name);
-		log_instance get(const std::string &name);
+		log_instance get(const std::string &name, int level = log::INFO);
 	};
 	
 	typedef std::unique_ptr<log_manager> log_manager_ptr;
