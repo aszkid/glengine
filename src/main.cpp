@@ -139,6 +139,8 @@ int main(int argc, char** argv)
 		layout, engine::cstr_to_wstr("A Game?").c_str(), 120, glm::vec2(50, 50), "bebas-neue/BebasNeue.otf");
 	GUI_NEW_COMPONENT(engine::gui::component::label,
 		layout, engine::cstr_to_wstr("An OpenGL extravaganza experiment.").c_str(), 22, glm::vec2(10,10));
+	GUI_NEW_COMPONENT(engine::gui::component::label,
+		layout, engine::cstr_to_wstr("We'll see...").c_str(), 35, glm::vec2(50, 150), "fira-sans/FiraSans-LightItalic.otf");
 	
 	
 	// ----------
