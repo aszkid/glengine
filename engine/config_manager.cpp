@@ -10,7 +10,7 @@ config_manager::~config_manager()
 lua::State& config_manager::get(const char *file)
 {
 	if(m_files.find(file) == m_files.end()) {
-		LOG("CFGMANAGER", "Loading new config file (" << file << ").");
+		NLOG("cfg_mngr", log::INFO) << "Loading new config file (" << file << ").";
 		try {
 			m_files[file] = std::unique_ptr<lua::State>(new lua::State());
 			m_files[file]->doFile(file);

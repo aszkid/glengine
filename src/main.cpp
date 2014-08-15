@@ -55,6 +55,7 @@ EV_DECL();
 CFG_DECL();
 LOG_DECL();
 
+
 int main(int argc, char** argv)
 {
 	std::map<int,int> hints;
@@ -82,6 +83,7 @@ int main(int argc, char** argv)
 	log_mngr->make("cfg_mngr");
 	log_mngr->make("sys_gui");
 	log_mngr->make("core");
+	log_mngr->make("t_shader");
 	// -----
 	
 	LOG_IF("main", loglev::INFO, 1 < 2) << "Yes, one is less that two.";

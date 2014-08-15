@@ -29,7 +29,7 @@ void shader_program::add_shader(const GLuint type, const std::string filename)
 	std::string rep(buffer);
 	rep.pop_back();
 	rep.pop_back();
-	LOG("DEBUG", rep);
+	NLOG("t_shader", log::INFO) << rep;
 	if(status != GL_TRUE) {
 		throw std::runtime_error(MKSTR("Failed to compile '" << filename << "'!"));
 	}
