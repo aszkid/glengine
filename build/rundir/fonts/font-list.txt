@@ -1,0 +1,6 @@
+Download and unpack in fonts/fira-sans/*, fonts/bebas-neue/*, etc...
+
+Fira Sans:	http://www.fontsquirrel.com/fonts/fira-sans
+Bebas Neue:	http://www.fontsquirrel.com/fonts/bebas-neue
+Clear Sans:	http://www.fontsquirrel.com/fonts/clear-sans
+Encode Sans:	http://www.fontsquirrel.com/fonts/encode-sans
