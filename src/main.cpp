@@ -29,6 +29,7 @@
 // CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
 #define GUI_NEW_COMPONENT(type, layout, ...) dynamic_cast<type*>(layout->add_component(new type(layout, ## __VA_ARGS__)))
 
+
 void glfw_set_win_hints(const std::map<int,int> &hints)
 {
 	for(auto it = hints.begin(); it != hints.end(); it++) {
@@ -37,7 +38,7 @@ void glfw_set_win_hints(const std::map<int,int> &hints)
 }
 void glfw_err_callback(const int errcode, const char* msg)
 {
-	LOG("GLFW_ERR", "(id" << errcode << ") '" << msg << "'.");
+	NLOG("main") << "GLFW_ERR: (id" << errcode << ") '" << msg << "'.";
 }
 
 
@@ -47,6 +48,7 @@ void cleanup(engine::core& c)
 	glfwTerminate();
 }
 #define TERMINATE(val) cleanup(core); return val;
+
 
 EV_DECL();
 CFG_DECL();
@@ -86,7 +88,7 @@ int main(int argc, char** argv)
 	// ---- Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
 	if(!glfwInit()) {
-		LOG("FATAL", "Could not initialize GLFW!");
+		NLOG("main") << "Could not initialize GLFW!";
 		TERMINATE(-1);
 	}
 	
@@ -95,7 +97,7 @@ int main(int argc, char** argv)
 	
 	float gl_v = float(base_cfg["gl_v"]["major"]) + float(base_cfg["gl_v"]["minor"]) / 10.0f;
 	if(gl_v < 3.2f) {
-		LOG("ERROR-cfg", "OpenGL version provided (" << gl_v << ") is not supported! OpenGL >=3.2 required.");
+		NLOG("main") << "OpenGL version provided (" << gl_v << ") is not supported! OpenGL >=3.2 required.";
 		TERMINATE(-1);
 	}
 	
@@ -111,20 +113,20 @@ int main(int argc, char** argv)
 	win = glfwCreateWindow(base_cfg["win_s"]["x"], base_cfg["win_s"]["y"], "OpenMilSim", NULL, NULL);
 	glfwMakeContextCurrent(win);
 	if(!win) {
-		LOG("FATAL", "Could not create window!");
+		NLOG("main") << "Could not create window!";
 		TERMINATE(-1);
 	}
 	
 	// Initialize GLEW, and thus load GL function pointers
 	err = glewInit();
 	if(GLEW_OK != err) {
-		LOG("GLEW_ERR", "'" << glewGetErrorString(err) << "'.");
+		NLOG("main") << "GLEW_ERR: '" << glewGetErrorString(err) << "'.";
 		TERMINATE(-1);
 	}
 	
-	LOG("INFO", std::thread::hardware_concurrency() << " concurrent threads supported.");
-	LOG("INFO", "OpenGL Version: " << glGetString(GL_VERSION));
-	LOG("INFO", "GLEW Version:   " << glewGetString(GLEW_VERSION));
+	NLOG("main") << std::thread::hardware_concurrency() << " concurrent threads supported.";
+	NLOG("main") << "OpenGL Version: " << glGetString(GL_VERSION);
+	NLOG("main") << "GLEW Version:   " << glewGetString(GLEW_VERSION);
 	
 	// ---- Create all systems, and add them to the core vector
 	try {
@@ -139,7 +141,7 @@ int main(int argc, char** argv)
 		
 		
 	} catch(std::runtime_error& ex) {
-		LOG("FATAL", "Exception at 'engine::system' creation: '" << ex.what() << "'.");
+		NLOG("main") << "Exception at 'engine::system' creation: '" << ex.what() << "'.";
 		TERMINATE(-1);
 	}
 	
@@ -190,7 +192,7 @@ int main(int argc, char** argv)
 		ntime = nftime = glfwGetTime();
 		if((ntime - time) > 2) {
 			time = ntime;
-			LOG("INFO", "FPS: " << int(1 / (nftime - ftime)));
+			NLOG("main") << "FPS: " << int(1 / (nftime - ftime));
 		}
 	}
 	
