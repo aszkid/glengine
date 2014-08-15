@@ -3,25 +3,37 @@
 #include <memory>
 #include <string>
 #include <sstream>
+#include <map>
 #include "globals.hpp"
 
 namespace engine {
 
 	// base logger class - inherit from this one (i guess)
 	class logger {
-		std::stringstream buff;
+		std::string m_name;
+	public:
+		logger(const std::string &name);
+		virtual ~logger();
+		
+		virtual void handle(const std::string& val);
+	};
+	
+	// logger instance
+	class log_instance {
+		std::stringstream m_buff;
+		logger *m_parent;
 	public:
 		// copy constructors, to avoid sstream hell
-		logger(const logger &l);
-		logger& operator=(const logger &l);
+		log_instance(const log_instance &l);
+		log_instance& operator=(const log_instance &l);
 	
-		logger();
-		~logger();
+		log_instance(logger *parent);
+		~log_instance();
 		
 		template<typename T>
-		logger& operator <<(const T& val)
+		log_instance& operator <<(const T& val)
 		{
-			buff << val;
+			m_buff << val;
 			return *this;
 		}
 	};
@@ -31,11 +43,13 @@ namespace engine {
 	// when the logger dies, it dispatches to its parent the str() of the stringstream.
 
 	class log_manager {
+		std::map<std::string, std::unique_ptr<logger>> m_loggers;
 	public:
 		log_manager();
 		~log_manager();
 		
-		logger get();
+		void make(const std::string &name);
+		log_instance get(const std::string &name);
 	};
 	
 	typedef std::unique_ptr<log_manager> log_manager_ptr;

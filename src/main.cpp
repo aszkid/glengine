@@ -72,8 +72,12 @@ int main(int argc, char** argv)
 	
 	// -----
 	using engine::log_mngr;
-	
-	log_mngr->get() << "hello: " << 32 << " - world" << LOG_END;
+	// premake all the loggers
+	log_mngr->make("main");
+	log_mngr->make("ev_mngr");
+	log_mngr->make("cfg_mngr");
+	log_mngr->make("sys_gui");
+	log_mngr->make("core");
 	// -----
 	
 	// Load our base config file
