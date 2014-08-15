@@ -4,7 +4,7 @@
 
 using namespace engine::gui::component;
 
-label::label(layout *par_layout, const wchar_t *text, glm::vec2 pos)
+label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos, const char* fontfile)
 	: engine::gui::base(par_layout)
 {
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/textnew_frag.glsl");
@@ -12,12 +12,18 @@ label::label(layout *par_layout, const wchar_t *text, glm::vec2 pos)
 	m_prog.link();
 	
 	auto& guidat = cfg_mngr->get("../../../rundir/cfg/gui.lua");
-	const char *fontname = guidat["font"]["name"];
 	std::string fontfinal = "../../../rundir/fonts/";
-	fontfinal += fontname;
+	
+	// no panic
+	if(fontfile[0] == '\0')
+		fontfinal += static_cast<const char*>(guidat["font_std"]["name"]);
+	else
+		fontfinal += fontfile;
+	if(size == -1)
+		size = guidat["font_std"]["size"];
 	
 	m_atlas = texture_atlas_new(512, 512, 1);
-	m_font = texture_font_new_from_file(m_atlas, guidat["font"]["size"], fontfinal.c_str());
+	m_font = texture_font_new_from_file(m_atlas, size, fontfinal.c_str());
 	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
 	
 	vec2 pen = {{pos.x, /*(m_layout->m_viewport->y - m_font->height) / 2*/ pos.y}};
@@ -28,7 +34,6 @@ label::label(layout *par_layout, const wchar_t *text, glm::vec2 pos)
 	
 	texture_font_delete(m_font);
 	
-	glBindTexture(GL_TEXTURE_2D, m_atlas->id);
 	
 	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
 	m_uni_tex = m_prog.get_uni_loc("_tex");
@@ -39,6 +44,7 @@ label::~label()
 void label::draw()
 {	
 	m_prog.use();
+	glBindTexture(GL_TEXTURE_2D, m_atlas->id);
 	
 	glUniform1i(m_uni_tex, 0);
 	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));

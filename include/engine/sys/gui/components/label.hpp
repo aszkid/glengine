@@ -23,7 +23,7 @@ namespace engine { namespace gui {
 			texture_atlas_t *m_atlas;
 			GLuint m_uni_mat, m_uni_tex;
 		public:
-			label(layout *par_layout, const wchar_t *text, glm::vec2 pos = glm::vec2(0));
+			label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos = glm::vec2(0), const char* fontfile = "\0");
 			~label();
 			
 			void update();
