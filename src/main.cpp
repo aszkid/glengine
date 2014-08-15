@@ -88,8 +88,8 @@ int main(int argc, char** argv)
 	// Set window creation hints
 	hints[GLFW_CONTEXT_VERSION_MAJOR] = base_cfg["gl_v"]["major"];
 	hints[GLFW_CONTEXT_VERSION_MINOR] = base_cfg["gl_v"]["minor"];
-	hints[GLFW_OPENGL_PROFILE] = GLFW_OPENGL_COMPAT_PROFILE;
-	//hints[GLFW_OPENGL_FORWARD_COMPAT] = GL_TRUE;
+	hints[GLFW_OPENGL_PROFILE] = GLFW_OPENGL_CORE_PROFILE;
+	hints[GLFW_OPENGL_FORWARD_COMPAT] = GL_TRUE;
 	//hints[GLFW_RESIZABLE] = GL_FALSE;
 	glfw_set_win_hints(hints);
 	

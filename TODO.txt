@@ -2,7 +2,7 @@
 // SHORT TERM OBJECTIVES
 ==================================
 --> Create a global helper class; 'ConfigManager', that will provide acess to JSON and LUA files/scripts.
---> Adapt text rendering shader to be GLSL 1.50 (GL 3.2) compliant.
+--> Fix memory leaks: watch little FREETYPE-GL objects, wrap them in unique_ptrs maybe.
 ==================================
 // IDEAS/FUTURE
 ==================================

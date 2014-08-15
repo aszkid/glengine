@@ -41,7 +41,7 @@ namespace engine {
 			float s, t; // texture
 			float r, g, b, a; // color
 		} glyph_vertex_t;
-		void add_text(vertex_buffer_t * buffer, texture_font_t * font, wchar_t * text, vec4 * color, vec2 * pen);
+		void add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t * text, vec4 * color, vec2 * pen);
 	
 	}
 
