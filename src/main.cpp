@@ -15,6 +15,7 @@
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
 #include <engine/config_manager.hpp>
+#include <engine/log_manager.hpp>
 #include <engine/core.hpp>
 
 #include <engine/sys/input.hpp>
@@ -49,6 +50,7 @@ void cleanup(engine::core& c)
 
 EV_DECL();
 CFG_DECL();
+LOG_DECL();
 
 int main(int argc, char** argv)
 {
@@ -59,13 +61,20 @@ int main(int argc, char** argv)
 	
 	std::setlocale(LC_CTYPE, "");
 	
+	// Initialize the log manager
+	engine::log_mngr = engine::log_manager_ptr(new engine::log_manager());
 	// Initialize the config manager
 	engine::cfg_mngr = engine::config_manager_ptr(new engine::config_manager());
-	engine::sys_gui* gui;
 	// Initialize the event manager
 	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager());
 	// Create a core instance
 	engine::core core(std::vector<std::string>(argv, argv+argc));
+	
+	// -----
+	using engine::log_mngr;
+	
+	log_mngr->get() << "hello: " << 32 << " - world" << LOG_END;
+	// -----
 	
 	// Load our base config file
 	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/cfg/core.lua");
@@ -76,6 +85,9 @@ int main(int argc, char** argv)
 		LOG("FATAL", "Could not initialize GLFW!");
 		TERMINATE(-1);
 	}
+	
+	// Prepare a pointer to the GUI system, we want to access it directly to build a test UI
+	engine::sys_gui* gui;
 	
 	float gl_v = float(base_cfg["gl_v"]["major"]) + float(base_cfg["gl_v"]["minor"]) / 10.0f;
 	if(gl_v < 3.2f) {

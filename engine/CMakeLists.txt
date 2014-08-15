@@ -6,6 +6,7 @@ SET(SRCS
 	event.cpp
 	event_manager.cpp
 	config_manager.cpp
+	log_manager.cpp
 	
 	tools/shader.cpp
 	
