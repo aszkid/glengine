@@ -91,6 +91,11 @@ int main(int argc, char** argv)
 	// Load our base config file
 	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/cfg/core.lua");
 	
+	
+	std::string txt = base_cfg["demo_txt"];
+	NLOG("main", loglev::INFO) << txt;
+	
+	
 	// ---- Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
 	if(!glfwInit()) {
