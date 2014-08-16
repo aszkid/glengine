@@ -5,7 +5,10 @@
 #include <map>
 #include <stdexcept>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include <LuaState.h>
+#pragma GCC diagnostic pop
 
 #include "globals.hpp"
 

@@ -1,8 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <LuaState.h>
-
 #include <map>
 #include <string>
 #include <iostream>
@@ -86,15 +84,9 @@ int main(int argc, char** argv)
 	log_mngr->make("t_shader");
 	// -----
 	
-	LOG_IF("main", loglev::INFO, 1 < 2) << "Yes, one is less that two.";
-	
-	// Load our base config file
+	// preload our config files
 	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/cfg/core.lua");
-	
-	
-	std::string txt = base_cfg["demo_txt"];
-	NLOG("main", loglev::INFO) << txt;
-	
+	auto& gui_cfg = engine::cfg_mngr->get("../../../rundir/cfg/gui.lua");
 	
 	// ---- Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
