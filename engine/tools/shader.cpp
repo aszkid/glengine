@@ -16,6 +16,8 @@ void shader_program::add_shader(const GLuint type, const std::string filename)
 	in.read(&contents[0], contents.size());
 	const char* source = contents.c_str();
 	
+	glGetError();
+	
 	shader s;
 	s.m_type = type;
 	s.m_id = glCreateShader(type);
@@ -29,8 +31,12 @@ void shader_program::add_shader(const GLuint type, const std::string filename)
 	std::string rep(buffer);
 	rep.pop_back();
 	rep.pop_back();
-	LOG("t_shader", log::INFO) << rep;
+	
+	GLenum err = glGetError();
+	if(err != GL_NO_ERROR)
+		LOG("t_shader", log::INFO) << "Error code " << err;
 	if(status != GL_TRUE) {
+		LOG("t_shader", log::INFO) << rep;
 		throw std::runtime_error(MKSTR("Failed to compile '" << filename << "'!"));
 	}
 	
@@ -60,5 +66,9 @@ void shader_program::set_attrib_ptr(const char *attrib_name, GLint size,
 	GLint attrib = glGetAttribLocation(m_id, attrib_name);
 	glEnableVertexAttribArray(attrib);
 	glVertexAttribPointer(attrib, size, type, norm, stride, ptr);
+}
+GLint shader_program::get_attrib_loc(const char *name)
+{
+	return glGetAttribLocation(m_id, name);
 }
 

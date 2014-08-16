@@ -18,7 +18,8 @@ namespace engine {
 		protected:
 			GLuint m_uni_mat;
 			layout *m_layout;
-			
+			std::vector<std::unique_ptr<base>> m_children;
+			base *m_parent;
 		public:
 			base(layout *par_layout);
 			virtual ~base();

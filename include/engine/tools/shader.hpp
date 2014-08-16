@@ -26,6 +26,7 @@ namespace engine {
 			void link();
 			void use();
 			
+			GLint get_attrib_loc(const char *name);
 			GLint get_uni_loc(const char *name);
 			
 			void set_attrib_ptr(const char *attrib_name, GLint size, 

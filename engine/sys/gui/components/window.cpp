@@ -7,8 +7,8 @@ using namespace engine::gui::component;
 window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	: engine::gui::base(par_layout)
 {
-	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/2dsurf_frag_bool.glsl");
-	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/2dsurf_vert_bool.glsl");
+	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/2dsurf_frag.glsl");
+	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/2dsurf_vert.glsl");
 	m_prog.link();
 	
 	// -----
@@ -107,11 +107,12 @@ window::~window()
 
 void window::draw()
 {
-	glBindVertexArray(vao);
 	m_prog.use();
-	
-	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
+	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ele_buffer);
+	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
+	m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vbo_data), 0);
+	m_prog.set_attrib_ptr("surfType", 1, GL_INT, GL_FALSE, sizeof(vbo_data), (void*)sizeof(glm::vec2));
 	
 	glDrawElements(
 		GL_TRIANGLES,

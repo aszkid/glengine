@@ -11,6 +11,8 @@
 
 #include <array>
 
+#include "engine/globals.hpp"
+
 namespace engine {
 
 	namespace gui {

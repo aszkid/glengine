@@ -120,6 +120,7 @@ int main(int argc, char** argv)
 		TERMINATE(-1);
 	}
 	
+	glGetError();
 	// Initialize GLEW, and thus load GL function pointers
 	err = glewInit();
 	if(GLEW_OK != err) {
@@ -154,14 +155,17 @@ int main(int argc, char** argv)
 	// ---- Quaid, start the reactor!
 	core.bootstrap();
 	
+	
 	// Load GUI layouts (future: on demand, script based?)
 	auto layout = gui->new_layout();
 	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(50, 50), "bebas-neue/BebasNeue.otf");
+		layout, engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(0), "bebas-neue/BebasNeue.otf");
 	GUI_NEW_COMPONENT(engine::gui::component::label,
 		layout, engine::cstr_to_wstr(gui_cfg["txt"]["line"]).c_str(), 22, glm::vec2(10,10));
 	GUI_NEW_COMPONENT(engine::gui::component::label,
 		layout, engine::cstr_to_wstr(gui_cfg["txt"]["subtitle"]).c_str(), 35, glm::vec2(50, 160), "fira-sans/FiraSans-LightItalic.otf");
+	GUI_NEW_COMPONENT(engine::gui::component::button, layout, glm::vec2(500));
+	//GUI_NEW_COMPONENT(engine::gui::component::window, layout);
 	
 	
 	// ----------
