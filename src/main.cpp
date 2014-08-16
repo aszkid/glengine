@@ -157,11 +157,11 @@ int main(int argc, char** argv)
 	// Load GUI layouts (future: on demand, script based?)
 	auto layout = gui->new_layout();
 	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr("A Game?").c_str(), 120, glm::vec2(50, 50), "bebas-neue/BebasNeue.otf");
+		layout, engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(50, 50), "bebas-neue/BebasNeue.otf");
 	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr("An OpenGL extravaganza experiment.").c_str(), 22, glm::vec2(10,10));
+		layout, engine::cstr_to_wstr(gui_cfg["txt"]["line"]).c_str(), 22, glm::vec2(10,10));
 	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr("We'll see...").c_str(), 35, glm::vec2(50, 150), "fira-sans/FiraSans-LightItalic.otf");
+		layout, engine::cstr_to_wstr(gui_cfg["txt"]["subtitle"]).c_str(), 35, glm::vec2(50, 160), "fira-sans/FiraSans-LightItalic.otf");
 	
 	
 	// ----------
