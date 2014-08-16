@@ -2,8 +2,9 @@
 // SHORT TERM OBJECTIVES
 ==================================
 --> Make 'ShaderManager' class to provide global clean access to shaders.
---> Make 'LogManager' class to provide global clean access to logging.
-	-> TODO: flags (debug, info, etc)
+--> Make 'LogManager' class to provide global clean access to logging: OK.
+	-> !TODO: flags (debug, info, etc)
+	-> TODO: multiple 'sinks': file, stdout, etc, using derived classes.
 --> Make 'FontManager' class to deal with equal fonts in the GUI and such.
 --> Fix memory leaks: watch little FREETYPE-GL objects, wrap them in unique_ptrs maybe.
 ==================================

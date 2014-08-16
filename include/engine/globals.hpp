@@ -15,9 +15,8 @@
 #define METHODSTR std::string(typeid(*this).name()) + std::string("::") +  std::string(__func__) + std::string("()")
 
 
-#define NLOG(ch, lev) engine::log_mngr->get(ch, lev) << "(L:" << __LINE__ << ") "
+#define LOG(ch, lev) engine::log_mngr->get(ch, lev) << "(L:" << __LINE__ << ") "
 #define LOG_IF(ch, lev, b) NLOG((b ? ch : "void"), lev)
-#define LOG(t, msg) NLOG(t, engine::log::INFO) << msg
 
 
 typedef unsigned int uint;
