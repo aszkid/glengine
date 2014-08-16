@@ -12,4 +12,4 @@
 	url = https://github.com/rougier/freetype-gl
 [submodule "ext/luastate"]
 	path = ext/luastate
-	url = https://github.com/AdUki/LuaState
+	url = https://github.com/aszkid/LuaState
