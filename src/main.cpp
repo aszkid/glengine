@@ -159,9 +159,9 @@ int main(int argc, char** argv)
 	// Load GUI layouts (future: on demand, script based?)
 	auto layout = gui->new_layout();
 	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(0), "bebas-neue/BebasNeue.otf");
+		layout, engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(50, 50), "bebas-neue/BebasNeue.otf");
 	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr(gui_cfg["txt"]["line"]).c_str(), 22, glm::vec2(10,10));
+		layout, engine::cstr_to_wstr(gui_cfg["txt"]["line"]).c_str(), 50);
 	GUI_NEW_COMPONENT(engine::gui::component::label,
 		layout, engine::cstr_to_wstr(gui_cfg["txt"]["subtitle"]).c_str(), 35, glm::vec2(50, 160), "fira-sans/FiraSans-LightItalic.otf");
 	GUI_NEW_COMPONENT(engine::gui::component::button, layout, glm::vec2(500));
@@ -203,6 +203,7 @@ int main(int argc, char** argv)
 		}
 	}
 	
+	LOG("main", loglev::INFO) << "kbye.";
 	// ---- We're done, thanks for your attention
 	TERMINATE(EXIT_SUCCESS);
 }

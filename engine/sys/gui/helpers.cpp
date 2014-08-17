@@ -27,10 +27,18 @@ void gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_
 			float x1 = (int)(x0 + glyph->width);
 			float y1 = (int)(y0 + glyph->height);*/
 			
-			float x0 = (int)(pen->x + glyph->offset_x);
+			/*float x0 = (int)(pen->x + glyph->offset_x);
 			float y0 = (int)(pen->y + ceil(font->height/2) - glyph->offset_y);
 			float x1 = (int)(x0 + glyph->width);
+			float y1 = (int)(y0 + glyph->height);*/
+			
+			float x0 = (int)(pen->x + glyph->offset_x);
+			float y0 = (int)(pen->y - glyph->offset_y + (font->height - abs(font->descender) - 13.0*(font->height)/100.0));
+			float x1 = (int)(x0 + glyph->width);
 			float y1 = (int)(y0 + glyph->height);
+			
+			LOG("sys_gui", log::INFO) << "Linegap: " << font->linegap;
+
 
 			float s0 = glyph->s0;
 			float t0 = glyph->t0;
