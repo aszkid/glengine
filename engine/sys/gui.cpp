@@ -10,10 +10,6 @@ sys_gui::~sys_gui()
 
 void sys_gui::init()
 {
-	if(FT_Init_FreeType(&m_ft)) {
-		throw std::runtime_error("Could not initialize Freetype library!");
-	}
-	
 	// initial view setup, otherwise the viewport is 0,0 and nothing is drawn until a window size event is received!
 	glfwGetWindowSize(m_win, &m_viewport.x, &m_viewport.y);
 	update_view();
@@ -92,13 +88,4 @@ sys_gui::layout_handle sys_gui::new_layout()
 glm::ivec2* sys_gui::get_viewport()
 {
 	return &m_viewport;
-}
-
-FT_Face sys_gui::new_face(const char *filename)
-{
-	FT_Face face;
-	if(FT_New_Face(m_ft, filename, 0, &face)) {
-		throw std::runtime_error(MKSTR("Could not create face '" << filename << "'!"));
-	}
-	return face;
 }

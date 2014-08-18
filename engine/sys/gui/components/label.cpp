@@ -39,7 +39,10 @@ label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 
 	m_uni_tex = m_prog.get_uni_loc("_tex");
 }
 label::~label()
-{}
+{
+	texture_atlas_delete(m_atlas);
+	vertex_buffer_delete(m_buffer);
+}
 
 void label::draw()
 {	

@@ -7,9 +7,6 @@
 #define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
 #include <vector>
 #include <memory>
 
@@ -32,8 +29,6 @@ namespace engine {
 		layout_list m_layouts;
 		layout_handle m_active_layout;
 		
-		FT_Library m_ft;
-		
 		GLFWwindow *m_win;
 		glm::ivec2 m_viewport;
 		glm::mat4 m_viewprojmat;
@@ -53,8 +48,6 @@ namespace engine {
 		void draw();
 		
 		glm::ivec2* get_viewport();
-		
-		FT_Face new_face(const char *filename);
 		
 		layout_handle new_layout();
 	};

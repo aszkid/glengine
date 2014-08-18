@@ -55,3 +55,9 @@
 	...
 	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
 }
+{
+	atiadl
+	Memcheck:Leak
+	...
+	obj:/usr/lib/x86_64-linux-gnu/libatiadlxx.so
+}
