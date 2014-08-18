@@ -8,7 +8,7 @@ button::button(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	: engine::gui::base(par_layout)
 {		
 	// -- add label
-	m_children.push_back(std::unique_ptr<base>(new label(m_layout, engine::cstr_to_wstr("`PlaYgAymeS`").c_str(), 35, pos)));
+	m_children.push_back(std::unique_ptr<base>(new label(m_layout, engine::cstr_to_wstr("`PlaYgAmeS").c_str(), 35, pos)));
 	// ------
 
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");

@@ -1,0 +1,57 @@
+{
+	fglrx
+	Memcheck:Param
+	ioctl(generic)
+	fun:ioctl
+	fun:ukiCreateContext
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Param
+	ioctl(generic)
+	fun:ioctl
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Param
+	...
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Addr8
+	...
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Addr4
+	...
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Addr1
+	...
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Cond
+	...
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Leak
+	...
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}
+{
+	fglrx
+	Memcheck:Overlap
+	...
+	obj:/usr/lib/x86_64-linux-gnu/dri/fglrx_dri.so
+}

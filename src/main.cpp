@@ -9,6 +9,7 @@
 #include <memory>
 #include <thread>
 #include <typeinfo>
+#include <csignal>
 
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
@@ -26,6 +27,13 @@
 
 // CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
 #define GUI_NEW_COMPONENT(type, layout, ...) dynamic_cast<type*>(layout->add_component(new type(layout, ## __VA_ARGS__)))
+
+
+struct exit_exception { 
+   int c; 
+   exit_exception(int c):c(c) { } 
+};
+
 
 namespace loglev = engine::log;
 
@@ -46,15 +54,20 @@ void cleanup(engine::core& c)
 	c.shut_down();
 	glfwTerminate();
 }
+#define EXCEPT(c) throw exit_exception(c);
 #define TERMINATE(val) cleanup(core); return val;
 
+void signal_handler(int code)
+{
+	LOG("main", loglev::INFO) << "Received signal '" << code << "'.";
+	EXCEPT(code);
+}
 
 EV_DECL();
 CFG_DECL();
 LOG_DECL();
 
-
-int main(int argc, char** argv)
+void run(int argc, char** argv, engine::core& core)
 {
 	std::map<int,int> hints;
 	GLFWwindow *win;
@@ -69,8 +82,6 @@ int main(int argc, char** argv)
 	engine::cfg_mngr = engine::config_manager_ptr(new engine::config_manager());
 	// Initialize the event manager
 	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager());
-	// Create a core instance
-	engine::core core(std::vector<std::string>(argv, argv+argc));
 	
 	// -----
 	// premake all the loggers
@@ -84,6 +95,21 @@ int main(int argc, char** argv)
 	log_mngr->make("t_shader");
 	// -----
 	
+	// set up signal handler
+	/*std::signal(SIGTERM, signal_handler);
+	std::signal(SIGABRT, signal_handler);
+	std::signal(SIGINT, signal_handler);*/
+
+	std::signal(SIGTERM, [](int){
+		EXCEPT(0);
+	});
+	std::signal(SIGABRT, [](int){
+		EXCEPT(0);
+	});
+	std::signal(SIGINT, [](int){
+		EXCEPT(0);
+	});
+	
 	// preload our config files
 	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/cfg/core.lua");
 	auto& gui_cfg = engine::cfg_mngr->get("../../../rundir/cfg/gui.lua");
@@ -92,7 +118,7 @@ int main(int argc, char** argv)
 	glfwSetErrorCallback(glfw_err_callback);
 	if(!glfwInit()) {
 		LOG("main", loglev::FATAL) << "Could not initialize GLFW!";
-		TERMINATE(-1);
+		EXCEPT(-1);
 	}
 	
 	// Prepare a pointer to the GUI system, we want to access it directly to build a test UI
@@ -101,7 +127,7 @@ int main(int argc, char** argv)
 	float gl_v = float(base_cfg["gl_v"]["major"]) + float(base_cfg["gl_v"]["minor"]) / 10.0f;
 	if(gl_v < 3.2f) {
 		LOG("main", loglev::FATAL) << "OpenGL version provided (" << gl_v << ") is not supported! OpenGL >=3.2 required.";
-		TERMINATE(-1);
+		EXCEPT(-1);
 	}
 	
 	// Set window creation hints
@@ -117,7 +143,7 @@ int main(int argc, char** argv)
 	glfwMakeContextCurrent(win);
 	if(!win) {
 		LOG("main", loglev::FATAL) << "Could not create window!";
-		TERMINATE(-1);
+		EXCEPT(-1);
 	}
 	
 	glGetError();
@@ -125,7 +151,7 @@ int main(int argc, char** argv)
 	err = glewInit();
 	if(GLEW_OK != err) {
 		LOG("main", loglev::FATAL) << "GLEW_ERR: '" << glewGetErrorString(err) << "'.";
-		TERMINATE(-1);
+		EXCEPT(-1);
 	}
 	
 	LOG("main", loglev::INFO) << std::thread::hardware_concurrency() << " concurrent threads supported.";
@@ -146,7 +172,7 @@ int main(int argc, char** argv)
 		
 	} catch(std::runtime_error& ex) {
 		LOG("main", loglev::FATAL) << "Exception at 'engine::system' creation: '" << ex.what() << "'.";
-		TERMINATE(-1);
+		EXCEPT(-1);
 	}
 	
 	// Attach input callbacks to input functions that will generate event messages
@@ -202,9 +228,20 @@ int main(int argc, char** argv)
 			LOG("main", loglev::INFO) << "FPS: " << int(1 / (nftime - ftime));
 		}
 	}
-	
-	LOG("main", loglev::INFO) << "kbye.";
-	// ---- We're done, thanks for your attention
-	TERMINATE(EXIT_SUCCESS);
 }
 
+int main(int argc, char** argv)
+{
+	engine::core core(std::vector<std::string>(argv, argv+argc));
+	
+	try {
+		run(argc, argv, core);
+		
+	} catch(exit_exception& e) {
+		LOG("main", loglev::INFO) << "Catched exit_exception!";
+		TERMINATE(e.c);
+	}
+
+	LOG("main", loglev::INFO) << "Closing down.";
+	TERMINATE(EXIT_SUCCESS);
+}

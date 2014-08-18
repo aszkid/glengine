@@ -39,7 +39,9 @@ void engine::sys_input_attach(GLFWwindow *win)
 sys_input::sys_input()
 {}
 sys_input::~sys_input()
-{}
+{
+	LOG("sys_input", log::INFO) << "Destroying input system.";
+}
 
 void sys_input::init()
 {}
