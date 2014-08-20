@@ -21,6 +21,10 @@
 #include <engine/sys/gui.hpp>
 #include <engine/sys/state.hpp>
 
+#ifdef OS_LINUX
+	#include <unistd.h> // geteuid
+#endif
+
 #define SYS_MKPTR(s) engine::sys_ptr(new s)
 #define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core->get_sys(s)));
 
@@ -226,6 +230,21 @@ void run()
 
 int main(int argc, char** argv)
 {
+#ifdef OS_LINUX
+	// no root - thank you 0A.D - https://github.com/0ad/0ad/blob/master/source/main.cpp
+	if (geteuid() == 0)
+	{
+		std::cerr << "********************************************************\n"
+				  << "WARNING: Attempted to run the game with root permission!\n"
+				  << "This is not allowed because it can alter home directory \n"
+				  << "permissions and opens your system to vulnerabilities.   \n"
+				  << "(You received this message because you were either      \n"
+				  <<"  logged in as root or used e.g. the 'sudo' command.) \n"
+				  << "********************************************************\n";
+		return EXIT_FAILURE;
+	}
+#endif // OS_LINUX
+
 	core = std::unique_ptr<engine::core>(new engine::core(std::vector<std::string>(argv, argv+argc)));
 	
 	try {
