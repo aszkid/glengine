@@ -29,11 +29,32 @@ void sys_gui::update_view()
 void sys_gui::handle_event(event_t *event)
 {
 	switch(event->m_channel) {
+	case INPUT_KEY: {
+		auto ev = static_cast<events::input_key*>(event);
+		if(ev->m_key == GLFW_KEY_H) {
+			switch(ev->m_action) {
+			case GLFW_PRESS: {
+				glDisable(GL_BLEND);
+				break;
+			}
+			case GLFW_RELEASE: {
+				glEnable(GL_BLEND);
+				break;
+			}}
+		}
+		
+		break;
+	}
+	case EXIT: {
+		LOG("sys_gui", log::INFO) << "Exit signal catched.";
+		
+		break;
+	}
 	case INPUT_WIN_SIZE: {
 		auto ev = static_cast<events::input_win_size*>(event);
 		m_viewport.x = ev->m_x; m_viewport.y = ev->m_y;
 		update_view();
-			
+		
 		break;
 	}
 	case INPUT_MOUSE_BTN: {

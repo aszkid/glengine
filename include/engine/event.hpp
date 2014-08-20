@@ -18,11 +18,20 @@ namespace engine {
 		INPUT_CHAR = 1 << 1,
 		INPUT_MOUSE_BTN = 1 << 2,
 		INPUT_WIN_SIZE = 1 << 3,
-		INPUT_CURSOR_POS = 1 << 4
+		INPUT_CURSOR_POS = 1 << 4,
+		EXIT = 1 << 5
 	};
 	
 	namespace events {
 	
+		struct exit : public event_t {
+			int m_code;
+			// -1 = hard exit, no questions asked | 0 = soft exit (win close)
+			
+			exit(uint channel, int code)
+				: event_t(channel), m_code(code) {}
+		};
+		
 		struct input_key : public event_t {
 			int m_key; int m_scancode; int m_action; int m_mods;
 			

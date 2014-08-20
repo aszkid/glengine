@@ -25,6 +25,10 @@ void input_callback::cursor_pos_c(GLFWwindow *win, double x, double y)
 {
 	ev_mngr->broadcast(new engine::events::input_cursor_pos(ev_channel::INPUT_CURSOR_POS, x, y));
 }
+void input_callback::win_close_c(GLFWwindow *win)
+{
+	ev_mngr->broadcast(new engine::events::exit(ev_channel::EXIT, 0));
+}
 #pragma GCC diagnostic pop
 
 void engine::sys_input_attach(GLFWwindow *win)
@@ -34,14 +38,13 @@ void engine::sys_input_attach(GLFWwindow *win)
 	glfwSetMouseButtonCallback(win, input_callback::mouse_btn_c);
 	glfwSetWindowSizeCallback(win, input_callback::win_size_c);
 	glfwSetCursorPosCallback(win, input_callback::cursor_pos_c);
+	glfwSetWindowCloseCallback(win, input_callback::win_close_c);
 }
 
 sys_input::sys_input()
 {}
 sys_input::~sys_input()
-{
-	LOG("sys_input", log::INFO) << "Destroying input system.";
-}
+{}
 
 void sys_input::init()
 {}

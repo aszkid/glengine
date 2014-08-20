@@ -27,6 +27,8 @@ namespace engine { namespace gui {
 			glm::vec2 m_pos;
 			glm::vec2 m_size;
 			
+			label *m_label;
+			
 			GLuint vao, vbo;
 		public:
 			button(layout *par_layout, glm::vec2 pos = glm::vec2(500, 500), glm::vec2 size = glm::vec2(75, 20));

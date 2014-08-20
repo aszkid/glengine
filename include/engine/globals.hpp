@@ -29,6 +29,11 @@ namespace engine {
 	};
 	
 	std::wstring cstr_to_wstr(const char *str);
-
+	
+	struct exit_exception { 
+		int c;
+		exit_exception(int c) : c(c) {}
+	};
+	#define EXIT_EXCEPT(c) throw engine::exit_exception(c);
+	
 }
-

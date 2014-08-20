@@ -3,9 +3,10 @@ gl_v = {
 	minor = 2
 }
 win_s = {
-	x = 1280,
-	y = 720
+	x = 1920,
+	y = 1080
 }
+fullscreen = true
 
 -- nice bg color: 150,179,167
 -- nice contrasting color: 163,129,143 (0.639, 0.5058, 0.56)

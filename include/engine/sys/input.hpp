@@ -14,6 +14,7 @@ namespace engine {
 		void mouse_btn_c(GLFWwindow *win, int button, int action, int mods);
 		void win_size_c(GLFWwindow *win, int x, int y);
 		void cursor_pos_c(GLFWwindow *win, double x, double y);
+		void win_close_c(GLFWwindow *win);
 	}
 	
 	void sys_input_attach(GLFWwindow *win);

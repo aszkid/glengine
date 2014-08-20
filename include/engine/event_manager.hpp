@@ -5,6 +5,7 @@
 #include "engine/event.hpp"
 #include "engine/globals.hpp"
 #include "engine/system.hpp"
+#include "engine/core.hpp"
 
 namespace engine {
 
@@ -19,7 +20,7 @@ namespace engine {
 	class event_manager {
 
 	public:
-		event_manager();
+		event_manager(core *core);
 		~event_manager();
 		
 		// subscribe a system
@@ -30,6 +31,8 @@ namespace engine {
 	private:
 		// list of subscribers
 		std::vector<subscription> m_subs;
+		
+		core *m_core;
 	};
 	
 	typedef std::unique_ptr<event_manager> event_manager_ptr;

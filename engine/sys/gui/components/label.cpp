@@ -4,8 +4,8 @@
 
 using namespace engine::gui::component;
 
-label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos, const char* fontfile)
-	: engine::gui::base(par_layout)
+label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos, const glm::vec4 col, const char* fontfile)
+	: engine::gui::base(par_layout), m_pos(pos)
 {
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/textnew_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/textnew_vert.glsl");
@@ -27,13 +27,13 @@ label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 
 	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
 	
 	vec2 pen = {{pos.x, /*(m_layout->m_viewport->y - m_font->height) / 2*/ pos.y}};
-	vec4 col = {{0.1, 0.1, 0.1, 1}};
+	vec4 _col = {{col.r, col.g, col.b, col.a}};
 	
 	texture_font_load_glyphs(m_font, text);
-	add_text(m_buffer, m_font, text, &col, &pen);	
+	m_width = add_text(m_buffer, m_font, text, &_col, &pen);
+	
 	
 	texture_font_delete(m_font);
-	
 	
 	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
 	m_uni_tex = m_prog.get_uni_loc("_tex");
@@ -56,5 +56,8 @@ void label::draw()
 
 void label::update()
 {
+	if(!m_dirty)
+		return;
 	
+	// update text if changed
 }

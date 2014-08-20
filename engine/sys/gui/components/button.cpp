@@ -6,16 +6,14 @@ using namespace engine::gui::component;
 
 button::button(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	: engine::gui::base(par_layout)
-{		
-	// -- add label
-	m_children.push_back(std::unique_ptr<base>(new label(m_layout, engine::cstr_to_wstr("`PlaYgAmeS").c_str(), 35, pos)));
-	// ------
+{
+	m_label = static_cast<label*>(add_child(new label(m_layout, engine::cstr_to_wstr("LPLAY").c_str(), 35, pos)));
 
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
-	m_prog.link();	
+	m_prog.link();
 	
-	const float w = 110.f, h = 35.f;
+	const float w = m_label->m_width, h = 35.f;
 	std::array<vertex, 4> m_vbodat;
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
 	m_vbodat[1].vert = glm::vec2(0.f, h);
@@ -55,4 +53,9 @@ void button::draw()
 	}
 }
 void button::update()
-{}
+{
+	if(!m_dirty)
+		return;
+	
+	// update vbo (change in position, color, etc...)
+}

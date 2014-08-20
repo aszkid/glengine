@@ -17,13 +17,15 @@ namespace engine { namespace gui {
 		class label : public base {
 		private:
 			tools::shader_program m_prog;
-			glm::vec2 m_pos;
 			vertex_buffer_t *m_buffer;
 			texture_font_t *m_font;
 			texture_atlas_t *m_atlas;
 			GLuint m_uni_mat, m_uni_tex;
 		public:
-			label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos = glm::vec2(0), const char* fontfile = "\0");
+			glm::vec2 m_pos;
+			int m_width;
+			
+			label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos = glm::vec2(0), const glm::vec4 col = glm::vec4(.1, .1, .1, 1), const char* fontfile = "\0");
 			~label();
 			
 			void update();

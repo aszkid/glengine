@@ -12,6 +12,8 @@ SET(SRCS
 	
 	sys/input.cpp
 	
+	sys/state.cpp
+	
 	sys/gui.cpp
 	sys/gui/base.cpp
 	sys/gui/layout.cpp

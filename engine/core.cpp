@@ -3,11 +3,13 @@
 using namespace engine;
 
 core::core(std::vector<std::string> args)
-	: m_args(args)
+	: m_args(args), m_should_close(false)
 {}
 
 core::~core()
-{}
+{
+	shut_down();
+}
 
 bool core::sys_exists(SYSid sid)
 {
@@ -37,6 +39,22 @@ void core::update_all(float dt)
 		it->second->update(dt);
 	}
 }
+void core::route_event(event_t *ev, system *sys)
+{
+	if(ev->m_channel == EXIT) {
+		m_should_close = true;
+	} else if(ev->m_channel == INPUT_KEY) {
+		auto _ev = static_cast<events::input_key*>(ev);
+		if(_ev->m_key == GLFW_KEY_ESCAPE) {
+			switch(_ev->m_action) {
+			case GLFW_PRESS:
+				m_should_close = true;
+				break;
+			}
+		}
+	}
+	sys->handle_event(ev);
+}
 
 
 void core::bootstrap()
@@ -48,7 +66,10 @@ void core::bootstrap()
 void core::shut_down()
 {
 	for(auto it = m_systems.begin(); it != m_systems.end(); it++) {
+		if(!it->second)
+			continue;
 		it->second->shut_down();
+		it->second.reset();
 	}
 }
 
