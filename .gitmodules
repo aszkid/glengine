@@ -13,3 +13,6 @@
 [submodule "ext/luastate"]
 	path = ext/luastate
 	url = https://github.com/aszkid/LuaState
+[submodule "ext/assimp"]
+	path = ext/assimp
+	url = https://github.com/assimp/assimp

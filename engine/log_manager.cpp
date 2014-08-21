@@ -20,7 +20,7 @@ void_logger::void_logger(const std::string &name)
 {}
 void void_logger::handle(const std::string &val)
 {
-	
+	// it's a void logger. it does nothing.
 }
 
 
