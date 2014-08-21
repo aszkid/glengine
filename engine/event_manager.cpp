@@ -20,7 +20,8 @@ void event_manager::broadcast(event_t *event)
 	
 	for(auto it = m_subs.begin(); it != m_subs.end(); it++) {
 		if(it->m_channels & ev_ptr->m_channel) {
-			m_core->route_event(ev_ptr.get(), it->m_sys);
+			m_core->handle_event(ev_ptr.get());
+			it->m_sys->handle_event(ev_ptr.get());
 		}
 	}
 }

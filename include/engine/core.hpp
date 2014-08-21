@@ -30,7 +30,7 @@ namespace engine {
 		
 		void update_all(float dt);
 		
-		void route_event(event_t *ev, system *sys);
+		void handle_event(event_t *ev);
 		
 		void bootstrap();
 		void shut_down();

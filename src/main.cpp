@@ -10,6 +10,8 @@
 #include <thread>
 #include <typeinfo>
 #include <csignal>
+#include <chrono>
+#include <ctime>
 
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
@@ -20,6 +22,8 @@
 #include <engine/sys/input.hpp>
 #include <engine/sys/gui.hpp>
 #include <engine/sys/state.hpp>
+
+#include <boost/filesystem/operations.hpp>
 
 #ifdef OS_LINUX
 	#include <unistd.h> // geteuid
@@ -55,15 +59,15 @@ std::unique_ptr<engine::core> core;
 void cleanup()
 {
 	LOG("main", loglev::INFO) << "Cleanup...";
-	core.reset();
+	glfwTerminate();
 	engine::ev_mngr.reset();
 	engine::cfg_mngr.reset();
 	engine::log_mngr.reset();
-	glfwTerminate();
+	core.reset();
 }
 #define TERMINATE(val) cleanup(); return val;
 
-void signal_handler(int code)
+/*void signal_handler(int code)
 {
 	LOG("main", loglev::INFO) << "Closing down (signal '" << code << "').";
 
@@ -75,12 +79,13 @@ void signal_handler(int code)
 	
 	cleanup();	
 	exit(-1);
-}
+}*/
 
 void run()
 {
 	// set up signal handler
-	std::signal(SIGINT, signal_handler);
+	// this is a TODO
+	//std::signal(SIGINT, signal_handler);
 	
 	std::map<int,int> hints;
 	GLFWwindow *win;
@@ -96,19 +101,22 @@ void run()
 	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager(core.get()));	
 	
 	// Construct all the loggers
-	using engine::log_mngr;
-	log_mngr->make<engine::void_logger>("void"); // this is needed for conditional logging
-	log_mngr->make("main");
-	log_mngr->make("ev_mngr");
-	log_mngr->make("cfg_mngr");
-	log_mngr->make("sys_gui");
-	log_mngr->make("core");
-	log_mngr->make("t_shader");
-	
+	engine::log_mngr->make<engine::void_logger>("void"); // this is needed for conditional logging
+	engine::log_mngr->make("main");
+	engine::log_mngr->make("ev_mngr");
+	engine::log_mngr->make("cfg_mngr");
+	engine::log_mngr->make("log_mngr");
+	engine::log_mngr->make("sys_gui");
+	engine::log_mngr->make("core");
+	engine::log_mngr->make("t_shader");
+
 	// Preload our config files
-	auto& base_cfg = engine::cfg_mngr->get("../../../rundir/cfg/core.lua");
-	auto& gui_cfg = engine::cfg_mngr->get("../../../rundir/cfg/gui.lua");
+	const char* p_core  = "../../../rundir/cfg/core.lua";
+	const char* p_gui   = "../../../rundir/cfg/gui.lua";
 	
+	auto& base_cfg = engine::cfg_mngr->get(p_core);
+	auto& gui_cfg = engine::cfg_mngr->get(p_gui);
+
 	// Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
 	if(!glfwInit()) {
@@ -191,6 +199,8 @@ void run()
 	GUI_NEW_COMPONENT(engine::gui::component::button, layout, glm::vec2(500));
 	//GUI_NEW_COMPONENT(engine::gui::component::window, layout);
 	
+	boost::filesystem::path p(p_core);
+	std::time_t lmod, diff, lcheck = std::time(0);
 	
 	float r, g, b;
 	r = float(base_cfg["bg_c"]["r"]) / 255.f;
@@ -216,12 +226,22 @@ void run()
 		glfwPollEvents();
 		
 		// update
-		core->update_all(0.5f);
+		core->update_all(0.5f);	
 		
 		ntime = nftime = glfwGetTime();
 		if((ntime - time) > 2) {
 			time = ntime;
 			LOG("main", loglev::INFO) << "FPS: " << int(1 / (nftime - ftime));
+			
+			if(boost::filesystem::exists(p)) {
+				lmod = boost::filesystem::last_write_time(p);
+				diff = lcheck - lmod;
+				lcheck = std::time(NULL);
+				if(diff <= 0) {
+					// file has been modified since last check
+					// reload the file
+				}
+			}
 		}
 	}
 	
@@ -258,3 +278,21 @@ int main(int argc, char** argv)
 	LOG("main", loglev::INFO) << "Closing down.";
 	TERMINATE(EXIT_SUCCESS);
 }
+
+/***************************
+  class GAME_STATE {
+  	gui::layout *m_layout	// 2d layout, GUI system
+  	render::scene *m_scene	// 3d scene, RENDER system
+  };
+  
+  core {
+	  vector<GAME_STATE> g_States
+  };
+  
+  GAME_STATE *s1 = new GAME_STATE
+  s1->set_layout(gui->new_layout(all layout objects))
+  s1->set_scene(render->new_scene(all scene objects))
+  
+  core->add_state(s1) // and set as active
+  
+***************************/

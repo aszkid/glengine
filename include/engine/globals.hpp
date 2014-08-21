@@ -14,10 +14,6 @@
 
 #define METHODSTR std::string(typeid(*this).name()) + std::string("::") +  std::string(__func__) + std::string("()")
 
-
-#define LOG(ch, lev) engine::log_mngr->get(ch, lev) << "(L:" << __LINE__ << ") "
-#define LOG_IF(ch, lev, b) NLOG((b ? ch : "void"), lev)
-
 #if defined(__linux__)
 	#define OS_LINUX
 #elif defined(_WIN32)

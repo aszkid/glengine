@@ -79,5 +79,8 @@ namespace engine {
 	typedef std::unique_ptr<log_manager> log_manager_ptr;
 	extern log_manager_ptr log_mngr;
 	#define LOG_DECL() engine::log_manager_ptr engine::log_mngr;
+	
+	#define LOG(ch, lev) engine::log_mngr->get(ch, lev) << "(L:" << __LINE__ << ") "
+	#define LOG_IF(ch, lev, b) NLOG((b ? ch : "void"), lev)
 
 }

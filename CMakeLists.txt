@@ -55,6 +55,9 @@ INCLUDE_DIRECTORIES(${LUA_INCLUDE_DIR})
 
 FIND_PACKAGE(Freetype REQUIRED)
 INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
+
+FIND_PACKAGE(Boost COMPONENTS system filesystem REQUIRED)
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 ## --------------------------
 
 ## extlib include directories

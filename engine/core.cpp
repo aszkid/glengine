@@ -39,7 +39,7 @@ void core::update_all(float dt)
 		it->second->update(dt);
 	}
 }
-void core::route_event(event_t *ev, system *sys)
+void core::handle_event(event_t *ev)
 {
 	if(ev->m_channel == EXIT) {
 		m_should_close = true;
@@ -53,7 +53,6 @@ void core::route_event(event_t *ev, system *sys)
 			}
 		}
 	}
-	sys->handle_event(ev);
 }
 
 
