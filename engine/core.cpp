@@ -16,13 +16,13 @@ bool core::sys_exists(SYSid sid)
 	return (m_systems.find(sid) != m_systems.end());
 }
 
-void core::add_sys(SYSid sid, sys_ptr sys)
+void core::add_sys(SYSid sid, system *sys)
 {
 	if(sys_exists(sid)) {
 		throw std::runtime_error(MKSTR("System with ID " << uint(sid) << " is already in the systems vector!"));
 	}
 	
-	m_systems[sid] = std::move(sys);
+	m_systems[sid] = sys_ptr(sys);
 }
 engine::system* core::get_sys(SYSid sid)
 {

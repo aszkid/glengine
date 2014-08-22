@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 
+// std includes
 #include <map>
 #include <string>
 #include <iostream>
@@ -12,6 +13,7 @@
 #include <chrono>
 #include <ctime>
 
+// engine includes
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
 #include <engine/config_manager.hpp>
@@ -22,8 +24,10 @@
 #include <engine/sys/gstate.hpp>
 #include <engine/sys/gui.hpp>
 
+// boost includes
 #include <boost/filesystem/operations.hpp>
 
+// macro heaven
 #ifdef OS_LINUX
 	#include <unistd.h> // geteuid
 #endif
@@ -31,6 +35,7 @@
 #define SYS_MKPTR(s) engine::sys_ptr(new s)
 #define SYS_SUBSCRIBE(s, ch) engine::ev_mngr->subscribe(engine::subscription(ch, core->get_sys(s)));
 
+// TODO: check why we can't use the 'log' alias
 namespace loglev = engine::log;
 
 void glfw_set_win_hints(const std::map<int,int> &hints)
@@ -162,21 +167,21 @@ void run()
 	
 	// ---- Create all systems, and add them to the core vector
 	try {
-		core->add_sys(engine::SYSid::input, SYS_MKPTR(engine::sys_input));
+		core->add_sys(engine::SYSid::input, new engine::sys_input);
 		
-		core->add_sys(engine::SYSid::gui, SYS_MKPTR(engine::sys_gui(win)));
+		core->add_sys(engine::SYSid::gui, new engine::sys_gui(win));
 		SYS_SUBSCRIBE(engine::SYSid::gui, 
 			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
 			| engine::ev_channel::INPUT_CURSOR_POS | engine::ev_channel::EXIT | engine::ev_channel::INPUT_KEY
 		);
-		gui = static_cast<engine::sys_gui*>(core->get_sys(engine::SYSid::gui));
+		gui = core->get_sys<engine::sys_gui>(engine::SYSid::gui);
 		
-		core->add_sys(engine::SYSid::gstate, SYS_MKPTR(engine::sys_gstate()));
+		core->add_sys(engine::SYSid::gstate, new engine::sys_gstate);
 		SYS_SUBSCRIBE(engine::SYSid::gstate,
 			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
 			| engine::ev_channel::INPUT_CURSOR_POS | engine::ev_channel::EXIT | engine::ev_channel::INPUT_KEY
 		);
-		gstate = static_cast<engine::sys_gstate*>(core->get_sys(engine::SYSid::gstate));
+		gstate = core->get_sys<engine::sys_gstate>(engine::SYSid::gstate);
 		
 	} catch(std::runtime_error& ex) {
 		LOG("main", loglev::FATAL) << "Exception at 'engine::system' creation: '" << ex.what() << "'.";

@@ -9,6 +9,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <type_traits>
 
 namespace engine {
 
@@ -24,8 +25,16 @@ namespace engine {
 		core(std::vector<std::string> args);
 		~core();
 
-		void add_sys(SYSid sid, sys_ptr sys);
+		void add_sys(SYSid sid, system *sys);
 		system* get_sys(SYSid sid);
+		
+		template<class T>
+		typename std::enable_if<std::is_base_of<system, T>::value, T*>::type
+		get_sys(SYSid sid)
+		{
+			return static_cast<T*>(get_sys(sid));
+		}
+		
 		bool sys_exists(SYSid sid);
 		
 		void update_all(float dt);
