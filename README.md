@@ -3,7 +3,7 @@ project
 
 #### Dependency list (may be incomplete):
 * GLEW
-* `libglu1-mesa-dev`, `xorg-dev`, `liblua5.1-dev`
+* `libglu1-mesa-dev`, `xorg-dev`, `liblua5.2-dev`
 * FreeType
 
 #### Build instructions (may not work):
