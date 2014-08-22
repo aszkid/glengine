@@ -5,8 +5,6 @@
 #include <string>
 #include <cstring>
 
-//#include <codecvt> - just VC++
-
 #include "log_manager.hpp"
 #include "config_manager.hpp"
 
