@@ -190,17 +190,17 @@ void run()
 	core->bootstrap();
 	
 	
-	// Load GUI layouts (future: on demand, script based?)
+	// Load GUI layouts (TODO: on demand, script based?)
 	auto layout = gui->new_layout();
-	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(50, 50), glm::vec4(0.1, 0.1, 0.1, 1), "bebas-neue/BebasNeue.otf");
-	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr(gui_cfg["txt"]["line"]).c_str(), 50);
-	GUI_NEW_COMPONENT(engine::gui::component::label,
-		layout, engine::cstr_to_wstr(gui_cfg["txt"]["subtitle"]).c_str(), 35, glm::vec2(50, 160), glm::vec4(0.1, 0.1, 0.1, 1), "fira-sans/FiraSans-LightItalic.otf");
-	
-	GUI_NEW_COMPONENT(engine::gui::component::button, layout, glm::vec2(500));
-	//GUI_NEW_COMPONENT(engine::gui::component::window, layout);
+	// macro way
+	GUI_NEW_COMPONENT(engine::gui::component::label, layout,
+		engine::cstr_to_wstr(gui_cfg["txt"]["line"]).c_str(), 50);
+	// templated way
+	layout->new_component<engine::gui::component::label>(
+		engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(50, 50), glm::vec4(0.1, 0.1, 0.1, 1), "bebas-neue/BebasNeue.otf");
+	// raw way
+	layout->add_component(new engine::gui::component::label(layout,
+		engine::cstr_to_wstr(gui_cfg["txt"]["subtitle"]).c_str(), 35, glm::vec2(50, 160), glm::vec4(0.1, 0.1, 0.1, 1), "fira-sans/FiraSans-LightItalic.otf"));
 	
 	boost::filesystem::path p(p_core);
 	std::time_t lmod, diff, lcheck = std::time(0);

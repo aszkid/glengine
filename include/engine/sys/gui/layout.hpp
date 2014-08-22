@@ -2,6 +2,9 @@
 
 #include <vector>
 #include <memory>
+#include <type_traits>
+
+#include <boost/config.hpp> // to check for c++11 features
 
 #include <glm/glm.hpp>
 
@@ -27,12 +30,23 @@ namespace engine {
 			base* add_component(base *component);
 			void draw();
 			void update();
-		
+			
+			#if !defined(BOOST_NO_VARIADIC_TEMPLATES)
+				template<class T, typename... Args>
+				typename std::enable_if<std::is_base_of<base, T>::value, T*>::type
+				new_component(Args... args)
+				{
+					return static_cast<T*>(add_component(new T(this, args...)));
+				}
+			#endif
+			
 		};
 		
-		// CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
-		#define GUI_NEW_COMPONENT(type, layout, ...) dynamic_cast<type*>(layout->add_component(new type(layout, ## __VA_ARGS__)))
-	
+		#if !defined(BOOST_NO_VARIADIC_MACROS)
+			// CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
+			#define GUI_NEW_COMPONENT(type, layout, ...) static_cast<type*>(layout->add_component(new type(layout, ## __VA_ARGS__)))
+		#endif
+			
 	}
 
 }
