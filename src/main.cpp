@@ -94,7 +94,7 @@ void run()
 	// Initialize the managers
 	engine::log_mngr = engine::log_manager_ptr(new engine::log_manager());
 	engine::cfg_mngr = engine::config_manager_ptr(new engine::config_manager());
-	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager(core.get()));	
+	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager(core.get()));
 	
 	// Construct all the loggers
 	engine::log_mngr->make<engine::void_logger>("void"); // this is needed for conditional logging
@@ -199,7 +199,7 @@ void run()
 	layout->new_component<engine::gui::component::label>(
 		engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(50, 50), glm::vec4(0.1, 0.1, 0.1, 1), "bebas-neue/BebasNeue.otf");
 	// raw way
-	layout->add_component(new engine::gui::component::label(layout,
+	layout->new_component(new engine::gui::component::label(layout,
 		engine::cstr_to_wstr(gui_cfg["txt"]["subtitle"]).c_str(), 35, glm::vec2(50, 160), glm::vec4(0.1, 0.1, 0.1, 1), "fira-sans/FiraSans-LightItalic.otf"));
 	
 	boost::filesystem::path p(p_core);

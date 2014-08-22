@@ -27,7 +27,7 @@ namespace engine {
 			glm::mat4 *m_viewprojmat;
 			mouse_state *m_mouse;
 			
-			base* add_component(base *component);
+			base* new_component(base *component);
 			void draw();
 			void update();
 			
@@ -36,7 +36,7 @@ namespace engine {
 				typename std::enable_if<std::is_base_of<base, T>::value, T*>::type
 				new_component(Args... args)
 				{
-					return static_cast<T*>(add_component(new T(this, args...)));
+					return static_cast<T*>(new_component(new T(this, args...)));
 				}
 			#endif
 			
@@ -44,7 +44,7 @@ namespace engine {
 		
 		#if !defined(BOOST_NO_VARIADIC_MACROS)
 			// CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
-			#define GUI_NEW_COMPONENT(type, layout, ...) static_cast<type*>(layout->add_component(new type(layout, ## __VA_ARGS__)))
+			#define GUI_NEW_COMPONENT(type, layout, ...) static_cast<type*>(layout->new_component(new type(layout, ## __VA_ARGS__)))
 		#endif
 			
 	}

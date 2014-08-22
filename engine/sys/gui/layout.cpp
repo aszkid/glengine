@@ -11,7 +11,7 @@ layout::layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, mouse_state *mouse)
 layout::~layout()
 {}
 
-base* layout::add_component(base *component)
+base* layout::new_component(base *component)
 {
 	m_components.emplace_back(component);
 	return m_components.back().get();
