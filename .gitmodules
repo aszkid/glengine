@@ -13,3 +13,6 @@
 [submodule "ext/assimp"]
 	path = ext/assimp
 	url = https://github.com/assimp/assimp
+[submodule "ext/sol"]
+	path = ext/sol
+	url = https://github.com/Rapptz/sol

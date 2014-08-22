@@ -11,7 +11,7 @@ namespace game {
 	
 	class main_screen : public gstate::state {
 	private:
-		lua::State* m_cfg;
+		sol::state* m_cfg;
 	public:
 		main_screen(gui::layout *layout);
 		~main_screen();

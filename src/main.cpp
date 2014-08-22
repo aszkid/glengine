@@ -120,6 +120,9 @@ void run()
 	// Preload our config files
 	const char* p_core  = "../../../rundir/cfg/core.lua";
 	auto& base_cfg = engine::cfg_mngr->get(p_core);
+	auto gl_vt = base_cfg.get<sol::table>("gl_v");
+	auto win_st = base_cfg.get<sol::table>("win_s");
+	auto bg_ct = base_cfg.get<sol::table>("bg_c");
 
 	// Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
@@ -132,15 +135,16 @@ void run()
 	engine::sys_gui* gui;
 	engine::sys_gstate* gstate;
 	
-	float gl_v = float(base_cfg["gl_v"]["major"]) + float(base_cfg["gl_v"]["minor"]) / 10.0f;
+	
+	float gl_v = int(gl_vt["major"]) + float(gl_vt["minor"]) / 10.0f;
 	if(gl_v < 3.2f) {
 		LOG("main", loglev::FATAL) << "OpenGL version provided (" << gl_v << ") is not supported! OpenGL >=3.2 required.";
 		EXIT_EXCEPT(-1);
 	}
 	
 	// Set window creation hints
-	hints[GLFW_CONTEXT_VERSION_MAJOR] = base_cfg["gl_v"]["major"];
-	hints[GLFW_CONTEXT_VERSION_MINOR] = base_cfg["gl_v"]["minor"];
+	hints[GLFW_CONTEXT_VERSION_MAJOR] = gl_vt["major"];
+	hints[GLFW_CONTEXT_VERSION_MINOR] = gl_vt["minor"];
 	hints[GLFW_OPENGL_PROFILE] = GLFW_OPENGL_CORE_PROFILE;
 	hints[GLFW_OPENGL_FORWARD_COMPAT] = GL_TRUE;
 	//hints[GLFW_RESIZABLE] = GL_FALSE;
@@ -149,7 +153,7 @@ void run()
 	// Create window and set it to be the active context
 	bool cfg_mon = base_cfg["fullscreen"];
 	GLFWmonitor *monitor = (cfg_mon ? glfwGetPrimaryMonitor() : NULL);
-	win = glfwCreateWindow(base_cfg["win_s"]["x"], base_cfg["win_s"]["y"], "OpenMilSim", monitor, NULL);
+	win = glfwCreateWindow(win_st["x"], win_st["y"], "OpenMilSim", monitor, NULL);
 	glfwMakeContextCurrent(win);
 	if(!win) {
 		LOG("main", loglev::FATAL) << "Could not create window!";
@@ -205,9 +209,9 @@ void run()
 	std::time_t lmod, diff, lcheck = std::time(0);
 	
 	float r, g, b;
-	r = float(base_cfg["bg_c"]["r"]) / 255.f;
-	g = float(base_cfg["bg_c"]["g"]) / 255.f;
-	b = float(base_cfg["bg_c"]["b"]) / 255.f;
+	r = int(bg_ct["r"]) / 255.f;
+	g = int(bg_ct["g"]) / 255.f;
+	b = int(bg_ct["b"]) / 255.f;
 	
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

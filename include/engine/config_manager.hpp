@@ -5,10 +5,7 @@
 #include <map>
 #include <stdexcept>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#include <LuaState.h>
-#pragma GCC diagnostic pop
+#include <sol.hpp>
 
 #include "log_manager.hpp"
 
@@ -16,13 +13,13 @@ namespace engine {
 
 	class config_manager {
 	private:
-		std::map<std::string, std::unique_ptr<lua::State>> m_files;
+		std::map<std::string, std::unique_ptr<sol::state>> m_files;
 	
 	public:
 		config_manager();
 		~config_manager();
 	
-		lua::State& get(const char *file);
+		sol::state& get(const char *file);
 	};
 	
 	typedef std::unique_ptr<config_manager> config_manager_ptr;

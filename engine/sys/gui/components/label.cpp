@@ -12,21 +12,22 @@ label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 
 	m_prog.link();
 	
 	auto& guidat = cfg_mngr->get("../../../rundir/cfg/gui.lua");
+	auto fstd_t = guidat.get<sol::table>("font_std");
 	std::string fontfinal = "../../../rundir/fonts/";
 	
 	// no panic
 	if(fontfile[0] == '\0')
-		fontfinal += static_cast<const char*>(guidat["font_std"]["name"]);
+		fontfinal += fstd_t.get<const char*>("name");
 	else
 		fontfinal += fontfile;
 	if(size == -1)
-		size = guidat["font_std"]["size"];
+		size = fstd_t["size"];
 	
 	m_atlas = texture_atlas_new(512, 512, 1);
 	m_font = texture_font_new_from_file(m_atlas, size, fontfinal.c_str());
 	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
 	
-	vec2 pen = {{pos.x, /*(m_layout->m_viewport->y - m_font->height) / 2*/ pos.y}};
+	vec2 pen = {{pos.x, pos.y}};
 	vec4 _col = {{col.r, col.g, col.b, col.a}};
 	
 	texture_font_load_glyphs(m_font, text);
