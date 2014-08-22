@@ -12,7 +12,8 @@ SET(SRCS
 	
 	sys/input.cpp
 	
-	sys/state.cpp
+	sys/gstate.cpp
+	sys/gstate/state.cpp
 	
 	sys/gui.cpp
 	sys/gui/base.cpp

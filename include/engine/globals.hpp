@@ -26,7 +26,8 @@ namespace engine {
 
 	enum class SYSid : uint {
 		input,
-		gui
+		gui,
+		gstate
 	};
 	
 	std::wstring cstr_to_wstr(const char *str);

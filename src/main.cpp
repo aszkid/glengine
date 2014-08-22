@@ -1,5 +1,4 @@
 #include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
 #include <map>
 #include <string>
@@ -20,8 +19,8 @@
 #include <engine/core.hpp>
 
 #include <engine/sys/input.hpp>
+#include <engine/sys/gstate.hpp>
 #include <engine/sys/gui.hpp>
-#include <engine/sys/state.hpp>
 
 #include <boost/filesystem/operations.hpp>
 
@@ -124,8 +123,9 @@ void run()
 		EXIT_EXCEPT(-1);
 	}
 	
-	// Prepare a pointer to the GUI system, we want to access it directly to build a test UI
+	// Prepare a pointer to the systems
 	engine::sys_gui* gui;
+	engine::sys_gstate* gstate;
 	
 	float gl_v = float(base_cfg["gl_v"]["major"]) + float(base_cfg["gl_v"]["minor"]) / 10.0f;
 	if(gl_v < 3.2f) {
@@ -172,8 +172,14 @@ void run()
 			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
 			| engine::ev_channel::INPUT_CURSOR_POS | engine::ev_channel::EXIT | engine::ev_channel::INPUT_KEY
 		);
-		gui = dynamic_cast<engine::sys_gui*>(core->get_sys(engine::SYSid::gui));
+		gui = static_cast<engine::sys_gui*>(core->get_sys(engine::SYSid::gui));
 		
+		core->add_sys(engine::SYSid::gstate, SYS_MKPTR(engine::sys_gstate()));
+		SYS_SUBSCRIBE(engine::SYSid::gstate,
+			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
+			| engine::ev_channel::INPUT_CURSOR_POS | engine::ev_channel::EXIT | engine::ev_channel::INPUT_KEY
+		);
+		gstate = static_cast<engine::sys_gstate*>(core->get_sys(engine::SYSid::gstate));
 		
 	} catch(std::runtime_error& ex) {
 		LOG("main", loglev::FATAL) << "Exception at 'engine::system' creation: '" << ex.what() << "'.";

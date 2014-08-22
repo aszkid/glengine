@@ -6,6 +6,7 @@
 #include <glm/ext.hpp>
 
 // font rendering
+#include <GL/glew.h>
 #include <freetype-gl.h>
 #include <vertex-buffer.h>
 
