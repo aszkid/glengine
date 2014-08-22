@@ -1,6 +1,7 @@
 ==================================
 // SHORT TERM OBJECTIVES
 ==================================
+--> Use BOOST Serialization to convert str to wstr using utf8 (i guess?): http://www.boost.org/doc/libs/1_49_0/libs/serialization/doc/codecvt.html
 --> Make 'ShaderManager' class to provide global clean access to shaders.
 --> Make 'LogManager' class to provide global clean access to logging: OK.
 	-> !TODO: flags (debug, info, etc)
