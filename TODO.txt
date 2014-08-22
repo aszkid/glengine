@@ -6,7 +6,6 @@
 	-> !TODO: flags (debug, info, etc)
 	-> TODO: multiple 'sinks': file, stdout, etc, using derived classes.
 --> Make 'FontManager' class to deal with equal fonts in the GUI and such.
---> Fix memory leaks: watch little FREETYPE-GL objects, wrap them in unique_ptrs maybe.
 ==================================
 // IDEAS/FUTURE
 ==================================

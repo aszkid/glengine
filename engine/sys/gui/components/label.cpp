@@ -4,7 +4,7 @@
 
 using namespace engine::gui::component;
 
-label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos, const glm::vec4 col, const char* fontfile)
+label::label(layout *par_layout, const std::string text, int size, const glm::vec2 pos, const glm::vec4 col, const char* fontfile)
 	: engine::gui::base(par_layout), m_pos(pos)
 {
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/textnew_frag.glsl");
@@ -14,6 +14,8 @@ label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 
 	auto& guidat = cfg_mngr->get("../../../rundir/cfg/gui.lua");
 	auto fstd_t = guidat.get<sol::table>("font_std");
 	std::string fontfinal = "../../../rundir/fonts/";
+	
+	const std::wstring wchar = engine::cstr_to_wstr(text);
 	
 	// no panic
 	if(fontfile[0] == '\0')
@@ -30,8 +32,8 @@ label::label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 
 	vec2 pen = {{pos.x, pos.y}};
 	vec4 _col = {{col.r, col.g, col.b, col.a}};
 	
-	texture_font_load_glyphs(m_font, text);
-	m_width = add_text(m_buffer, m_font, text, &_col, &pen);
+	texture_font_load_glyphs(m_font, wchar.c_str());
+	m_width = add_text(m_buffer, m_font, wchar.c_str(), &_col, &pen);
 	
 	
 	texture_font_delete(m_font);

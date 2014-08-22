@@ -5,6 +5,8 @@
 #include <string>
 #include <cstring>
 
+//#include <codecvt> - just VC++
+
 #include "log_manager.hpp"
 #include "config_manager.hpp"
 
@@ -31,7 +33,7 @@ namespace engine {
 		gstate
 	};
 	
-	std::wstring cstr_to_wstr(const char *str);
+	std::wstring cstr_to_wstr(const std::string str);
 	
 	struct exit_exception { 
 		int c;

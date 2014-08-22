@@ -3,6 +3,8 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+#include <boost/config.hpp>
+
 #include "engine/globals.hpp"
 
 #include "engine/config_manager.hpp"
@@ -29,7 +31,14 @@ namespace engine {
 			virtual void draw();
 			
 			base* add_child(base *child);
-			
+		#if !defined(BOOST_NO_VARIADIC_TEMPLATES)
+			template<class T, typename... Args>
+			typename std::enable_if<std::is_base_of<base, T>::value, T*>::type
+			add_child(Args... args)
+			{
+				return static_cast<T*>(add_child(new T(m_layout, args...)));
+			}
+		#endif
 		};
 		
 	}

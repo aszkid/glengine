@@ -25,7 +25,7 @@ namespace engine { namespace gui {
 			glm::vec2 m_pos;
 			int m_width;
 			
-			label(layout *par_layout, const wchar_t *text, int size, const glm::vec2 pos = glm::vec2(0), const glm::vec4 col = glm::vec4(.1, .1, .1, 1), const char* fontfile = "\0");
+			label(layout *par_layout, const std::string text, int size, const glm::vec2 pos = glm::vec2(0), const glm::vec4 col = glm::vec4(.1, .1, .1, 1), const char* fontfile = "\0");
 			~label();
 			
 			void update();

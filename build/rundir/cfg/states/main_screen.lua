@@ -1,3 +1,3 @@
 hello = "yes of course"
 world = "PLAY GAMES"
-foobar = "no way"
+foobar = "no way русалка hello"

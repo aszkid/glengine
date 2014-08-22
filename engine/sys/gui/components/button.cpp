@@ -4,10 +4,10 @@
 
 using namespace engine::gui::component;
 
-button::button(layout *par_layout, glm::vec2 pos, glm::vec2 size)
+button::button(layout *par_layout, const std::string text, glm::vec2 pos, glm::vec2 size)
 	: engine::gui::base(par_layout)
 {
-	m_label = static_cast<label*>(add_child(new label(m_layout, engine::cstr_to_wstr("LPLAY").c_str(), 35, pos)));
+	m_label = add_child<label>(text, 35, pos);
 
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
