@@ -1,7 +1,13 @@
 #pragma once
 
 #include <GL/glew.h>
+
+// include layout (2D)
 #include "engine/sys/gui/layout.hpp"
+// include scene (3D)
+// #include "engine/sys/render/scene.hpp"
+
+#include <memory>
 
 namespace engine {
 
@@ -14,15 +20,19 @@ namespace engine {
 			// Either of these pointers can be null; then we have a 'simple' state (just GUI or just 3D)
 			// If both are pointing to a valid object, then we have a combined state, which renders both 3D (first) and then GUI
 			// --------
-			// Instead of creating 10 billion derived classes, use component-based design; create a state, add things to it, push it
-			// to the state stack, render if active.
-			// --------
 			// TODO: inactive states: everything is loaded in memory? lazy loading?
 		
 		public:
-			state();
-			~state();
+			state(gui::layout *layout);
+			virtual ~state();
+			
+			virtual void stop() = 0;
+			virtual void update(float dt) = 0;
+			virtual void draw() = 0;
+			virtual state* is_over() = 0;	// think about state switching. hard.
 		};
+		
+		typedef std::unique_ptr<state> state_ptr;
 	
 	}
 

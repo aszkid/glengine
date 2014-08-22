@@ -2,9 +2,8 @@
 
 using namespace engine::gstate;
 
-state::state()
+state::state(gui::layout *layout)
+	: m_layout(layout)
 {}
 state::~state()
 {}
-
-

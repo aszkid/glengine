@@ -29,6 +29,9 @@ namespace engine {
 			void update();
 		
 		};
+		
+		// CHECK THIS OUT M8: https://gcc.gnu.org/onlinedocs/gcc/Variadic-Macros.html
+		#define GUI_NEW_COMPONENT(type, layout, ...) dynamic_cast<type*>(layout->add_component(new type(layout, ## __VA_ARGS__)))
 	
 	}
 
