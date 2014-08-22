@@ -6,6 +6,7 @@
 #include <cstring>
 
 #include "log_manager.hpp"
+#include "config_manager.hpp"
 
 #define MKSTR(stream)                                             \
   ( ( dynamic_cast<std::ostringstream &> (                             \

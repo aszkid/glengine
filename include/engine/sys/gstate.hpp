@@ -10,8 +10,6 @@
 
 namespace engine {
 
-	#define CHECK_ACTIVE_STATE if(!m_active_state) return
-
 	class sys_gstate : public system {
 		std::vector<gstate::state_ptr> m_states;
 		gstate::state *m_active_state;
@@ -20,7 +18,8 @@ namespace engine {
 		sys_gstate();
 		~sys_gstate();
 		
-		void add_state(gstate::state *state);
+		gstate::state* add_state(gstate::state *state);
+		void set_active_state(gstate::state *state);
 
 		void init();
 		void shut_down();

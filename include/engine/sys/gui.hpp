@@ -27,7 +27,6 @@ namespace engine {
 		typedef gui::layout* layout_handle;
 		
 		layout_list m_layouts;
-		layout_handle m_active_layout;
 		
 		GLFWwindow *m_win;
 		glm::ivec2 m_viewport;

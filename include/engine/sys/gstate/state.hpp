@@ -14,6 +14,7 @@ namespace engine {
 	namespace gstate {
 	
 		class state {
+		protected:
 			gui::layout *m_layout;
 			// render::scene *m_scene; TODO implement renderer
 		

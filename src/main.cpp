@@ -27,6 +27,11 @@
 // boost includes
 #include <boost/filesystem/operations.hpp>
 
+
+// game-specific states
+#include "states/main_screen.hpp"
+
+
 // macro heaven
 #ifdef OS_LINUX
 	#include <unistd.h> // geteuid
@@ -108,13 +113,13 @@ void run()
 	engine::log_mngr->make("cfg_mngr");
 	engine::log_mngr->make("log_mngr");
 	engine::log_mngr->make("sys_gui");
+	engine::log_mngr->make("sys_gstate");
 	engine::log_mngr->make("core");
 	engine::log_mngr->make("t_shader");
 
 	// Preload our config files
 	const char* p_core  = "../../../rundir/cfg/core.lua";
 	const char* p_gui   = "../../../rundir/cfg/gui.lua";
-	
 	auto& base_cfg = engine::cfg_mngr->get(p_core);
 	auto& gui_cfg = engine::cfg_mngr->get(p_gui);
 
@@ -194,18 +199,9 @@ void run()
 	// ---- Quaid, start the reactor!
 	core->bootstrap();
 	
-	
-	// Load GUI layouts (TODO: on demand, script based?)
-	auto layout = gui->new_layout();
-	// macro way
-	GUI_NEW_COMPONENT(engine::gui::component::label, layout,
-		engine::cstr_to_wstr(gui_cfg["txt"]["line"]).c_str(), 50);
-	// templated way
-	layout->new_component<engine::gui::component::label>(
-		engine::cstr_to_wstr(gui_cfg["txt"]["title"]).c_str(), 120, glm::vec2(50, 50), glm::vec4(0.1, 0.1, 0.1, 1), "bebas-neue/BebasNeue.otf");
-	// raw way
-	layout->new_component(new engine::gui::component::label(layout,
-		engine::cstr_to_wstr(gui_cfg["txt"]["subtitle"]).c_str(), 35, glm::vec2(50, 160), glm::vec4(0.1, 0.1, 0.1, 1), "fira-sans/FiraSans-LightItalic.otf"));
+	// Create game states
+	auto main_screen = gstate->add_state(new game::main_screen(gui->new_layout()));
+	gstate->set_active_state(main_screen);
 	
 	boost::filesystem::path p(p_core);
 	std::time_t lmod, diff, lcheck = std::time(0);
@@ -223,19 +219,23 @@ void run()
 	while(!core->m_should_close) {
 		ftime = nftime;
 	
-		// render
+		// --- render
 		glClearColor(r, g, b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		gui->draw();
+		
+		gstate->draw();
 		
 		glfwSwapBuffers(win);
 		
-		// handle events
+		// --- handle events
 		glfwPollEvents();
 		
-		// update
-		core->update_all(0.5f);	
+		// --- update
+		core->update_all(0.5f);
 		
+		gstate->update(0.5f);
+		
+		// --- end of loop
 		ntime = nftime = glfwGetTime();
 		if((ntime - time) > 2) {
 			time = ntime;
@@ -246,8 +246,7 @@ void run()
 				diff = lcheck - lmod;
 				lcheck = std::time(NULL);
 				if(diff <= 0) {
-					// file has been modified since last check
-					// reload the file
+					// file has been modified since last check - reload it
 				}
 			}
 		}

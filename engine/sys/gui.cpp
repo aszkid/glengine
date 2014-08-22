@@ -3,7 +3,7 @@
 using namespace engine;
 
 sys_gui::sys_gui(GLFWwindow *win)
-	: m_active_layout(nullptr), m_win(win)
+	: m_win(win)
 {}
 sys_gui::~sys_gui()
 {}
@@ -17,9 +17,7 @@ void sys_gui::init()
 void sys_gui::shut_down()
 {}
 void sys_gui::update(float dt)
-{
-	m_active_layout->update();
-}
+{}
 
 void sys_gui::update_view()
 {
@@ -86,23 +84,10 @@ void sys_gui::handle_event(event_t *event)
 	
 	// update children... maybe?
 }
-void sys_gui::draw()
-{
-	/*glClearColor(0.1, 0.1, 0.1, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT);*/
-	if(m_active_layout == nullptr)
-		return;
-	
-	m_active_layout->draw();
-}
 
 sys_gui::layout_handle sys_gui::new_layout()
 {
 	m_layouts.emplace_back(new gui::layout(&m_viewport, &m_viewprojmat, &m_mouse));
-	if(m_active_layout == nullptr) {
-		m_active_layout = m_layouts.back().get();
-		return m_active_layout;
-	}
 	return m_layouts.back().get();
 }
 

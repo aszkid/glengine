@@ -15,7 +15,7 @@ lua::State& config_manager::get(const char *file)
 			m_files[file] = std::unique_ptr<lua::State>(new lua::State());
 			m_files[file]->doFile(file);
 		} catch(lua::RuntimeError& err) {
-			throw std::runtime_error(MKSTR("LUA ERROR: " << err.what()));
+			throw std::runtime_error(err.what());
 		}
 	}
 	

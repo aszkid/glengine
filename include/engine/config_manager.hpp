@@ -10,7 +10,7 @@
 #include <LuaState.h>
 #pragma GCC diagnostic pop
 
-#include "globals.hpp"
+#include "log_manager.hpp"
 
 namespace engine {
 
