@@ -10,9 +10,6 @@
 [submodule "ext/freetype-gl"]
 	path = ext/freetype-gl
 	url = https://github.com/rougier/freetype-gl
-[submodule "ext/luastate"]
-	path = ext/luastate
-	url = https://github.com/aszkid/LuaState
 [submodule "ext/assimp"]
 	path = ext/assimp
 	url = https://github.com/assimp/assimp
