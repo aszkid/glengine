@@ -90,7 +90,7 @@ void cleanup()
 void run()
 {
 	// set up signal handler
-	// this is a TODO
+	// TODO
 	//std::signal(SIGINT, signal_handler);
 	
 	std::map<int,int> hints;
@@ -98,7 +98,7 @@ void run()
 	GLenum err;
 	double ftime, nftime, time, ntime;
 	
-	// This is a dirty fix to print unicode
+	// This is a (dirty?) fix to print unicode
 	std::setlocale(LC_CTYPE, "");
 	
 	// Initialize the managers
@@ -119,9 +119,7 @@ void run()
 
 	// Preload our config files
 	const char* p_core  = "../../../rundir/cfg/core.lua";
-	const char* p_gui   = "../../../rundir/cfg/gui.lua";
 	auto& base_cfg = engine::cfg_mngr->get(p_core);
-	auto& gui_cfg = engine::cfg_mngr->get(p_gui);
 
 	// Initialize window and GL context
 	glfwSetErrorCallback(glfw_err_callback);
@@ -285,21 +283,3 @@ int main(int argc, char** argv)
 	LOG("main", loglev::INFO) << "Closing down.";
 	TERMINATE(EXIT_SUCCESS);
 }
-
-/***************************
-  class GAME_STATE {
-  	gui::layout *m_layout	// 2d layout, GUI system
-  	render::scene *m_scene	// 3d scene, RENDER system
-  };
-  
-  core {
-	  vector<GAME_STATE> g_States
-  };
-  
-  GAME_STATE *s1 = new GAME_STATE
-  s1->set_layout(gui->new_layout(all layout objects))
-  s1->set_scene(render->new_scene(all scene objects))
-  
-  core->add_state(s1) // and set as active
-  
-***************************/
