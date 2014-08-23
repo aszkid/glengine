@@ -4,6 +4,7 @@ using namespace engine;
 
 int gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t * text, vec4 * color, vec2 * pen)
 {
+	vec2 ipos = *pen;
 	int width = 0;
 	const size_t tlen = wcslen(text);
 	float r = color->red, g = color->green, b = color->blue, a = color->alpha;
@@ -17,16 +18,14 @@ int gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t
 			
 			pen->x += kerning;
 			
-			width += glyph->offset_x + glyph->width;
-			if(i != tlen-1) {
-				width += glyph->advance_x - glyph->width;
-			} else {
-				LOG("sys_gui", log::INFO) << "Last char! WOHOP";
-			}
+			float offx = 0;
+			if(i != 0)
+				offx = glyph->offset_x;
 			
-			float x0 = (int)(pen->x + glyph->offset_x);
+			float x0 = (int)(pen->x + offx);
 			float x1 = (int)(x0 + glyph->width);
 			
+			// horrible trick here. really bad. find a fucking solution. http://stackoverflow.com/questions/25353472/
 			float y0 = (int)(pen->y - glyph->offset_y + (font->height - abs(font->descender) - 14.0*(font->height)/100.0));
 			float y1 = (int)(y0 + glyph->height);
 
@@ -43,10 +42,16 @@ int gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t
 			                               { x1,y0,0,  s1,t0,  r,g,b,a } };
 			vertex_buffer_push_back( buffer, vertices, 4, indices, 6 );
 			
-			pen->x += glyph->advance_x;
+			
+			if(i != tlen-1) {
+				//pen->x += glyph->width; old, fixed way
+				pen->x += glyph->advance_x;
+			} else {
+				width += glyph->width + glyph->offset_x;
+			}
 		}
 	}
 	
-	return width;
+	return width + (pen->x - ipos.x);
 }
 

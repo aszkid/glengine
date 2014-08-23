@@ -20,14 +20,17 @@ main_screen::main_screen(gui::layout *layout)
 	const float spacing = 25.f;
 	const float ioff = 20.f;
 	const float h = 35.f;
-	auto play_btn = m_layout->new_component<engine::gui::component::button>(
-		"HELLO WORLD ПРИВИЕТ JESUS CHRIST MARIE", glm::vec2(ioff, ioff)
+	auto hello_btn = m_layout->new_component<engine::gui::component::button>(
+		"PLAY Привиет Jesus Christ Marie", glm::vec2(ioff, ioff)
 	);
 	auto opts_btn = m_layout->new_component<engine::gui::component::button>(
 		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing))
 	);
 	auto exit_btn = m_layout->new_component<engine::gui::component::button>(
 		"EXIT", glm::vec2(ioff, ioff + (h + spacing)*2)
+	);
+	auto play_btn = m_layout->new_component<engine::gui::component::button>(
+		"ABOUT", glm::vec2(ioff, ioff + (h + spacing)*3)
 	);
 	
 }
