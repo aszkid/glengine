@@ -13,10 +13,10 @@ namespace engine {
 		system();
 		virtual ~system();
 
-		virtual void init();
-		virtual void shut_down();
-		virtual void update(float dt);
-		virtual void handle_event(event_t *event);
+		virtual void init() = 0;
+		virtual void shut_down() = 0;
+		virtual void update(float dt) = 0;
+		virtual void handle_event(event_t *event) = 0;
 
 	};
 	

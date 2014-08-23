@@ -7,7 +7,7 @@ main_screen::main_screen(gui::layout *layout)
 {
 	m_cfg = &cfg_mngr->get("../../../rundir/cfg/states/main_screen.lua");
 
-	m_layout->new_component<engine::gui::component::label>(
+	/*m_layout->new_component<engine::gui::component::label>(
 		m_cfg->get<std::string>("hello"), 50
 	);
 	m_layout->new_component<engine::gui::component::label>(
@@ -15,10 +15,19 @@ main_screen::main_screen(gui::layout *layout)
 	);
 	m_layout->new_component<engine::gui::component::label>(
 		m_cfg->get<std::string>("foobar"), 35, glm::vec2(50, 160), glm::vec4(0.1, 0.1, 0.1, 1), "fira-sans/FiraSans-LightItalic.otf"
-	);
+	);*/
 	
-	m_layout->new_component<engine::gui::component::button>(
-		"PLAY"
+	const float spacing = 25.f;
+	const float ioff = 20.f;
+	const float h = 35.f;
+	auto play_btn = m_layout->new_component<engine::gui::component::button>(
+		"PLAY", glm::vec2(ioff, ioff)
+	);
+	auto opts_btn = m_layout->new_component<engine::gui::component::button>(
+		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing))
+	);
+	auto exit_btn = m_layout->new_component<engine::gui::component::button>(
+		"EXIT", glm::vec2(ioff, ioff + (h + spacing)*2)
 	);
 	
 }
@@ -39,3 +48,5 @@ gstate::state* main_screen::is_over()
 {
 	return nullptr;
 }
+void main_screen::handle_event(event_t *event)
+{}

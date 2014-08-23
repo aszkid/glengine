@@ -7,6 +7,8 @@
 // include scene (3D)
 // #include "engine/sys/render/scene.hpp"
 
+#include "engine/event.hpp"
+
 #include <memory>
 
 namespace engine {
@@ -30,6 +32,7 @@ namespace engine {
 			virtual void stop() = 0;
 			virtual void update(float dt) = 0;
 			virtual void draw() = 0;
+			virtual void handle_event(event_t *event) = 0;
 			virtual state* is_over() = 0;	// think about state switching. hard.
 		};
 		

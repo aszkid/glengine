@@ -25,6 +25,7 @@ namespace engine {
 		void shut_down();
 		void update(float dt);
 		void draw();
+		void handle_event(event_t *event);
 		
 	};
 

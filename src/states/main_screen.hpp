@@ -19,6 +19,7 @@ namespace game {
 		void stop();
 		void update(float dt);
 		void draw();
+		void handle_event(event_t *event);
 		gstate::state* is_over();
 	};
 

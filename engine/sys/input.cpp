@@ -52,3 +52,5 @@ void sys_input::shut_down()
 {}
 void sys_input::update(float dt)
 {}
+void sys_input::handle_event(event_t *event)
+{}

@@ -40,3 +40,9 @@ void sys_gstate::set_active_state(gstate::state *state)
 		m_active_state->stop();
 	m_active_state = state;
 }
+void sys_gstate::handle_event(event_t *event)
+{
+	if(!m_active_state)
+		return;
+	m_active_state->handle_event(event);
+}
