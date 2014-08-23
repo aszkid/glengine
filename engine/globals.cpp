@@ -20,5 +20,5 @@ std::wstring engine::cstr_to_wstr(const std::string str)
 	wstr.assign(str.begin(), str.end());
 	return wstr;*/
 	
-	return boost::locale::conv::to_utf<wchar_t>(str, std::locale());
+	return boost::locale::conv::utf_to_utf<wchar_t>(str);
 }
