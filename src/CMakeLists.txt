@@ -13,11 +13,4 @@ ADD_EXECUTABLE(milsim ${SRCS})
 
 TARGET_LINK_LIBRARIES(milsim engine)
 
-## link extlibs
-TARGET_LINK_LIBRARIES(milsim glfw ${GLFW_LIBRARIES})
-TARGET_LINK_LIBRARIES(milsim GLEW ${GLEW_LIBRARIES})
-TARGET_LINK_LIBRARIES(milsim lua${LUA_VERSION} ${LUA_LIBRARIES})
-TARGET_LINK_LIBRARIES(milsim ${FREETYPE_LIBRARIES})
-TARGET_LINK_LIBRARIES(milsim freetype-gl)
-TARGET_LINK_LIBRARIES(milsim ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
-## --------------------------
+## link extlibs - if needed

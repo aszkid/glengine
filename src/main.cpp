@@ -12,6 +12,7 @@
 #include <csignal>
 #include <chrono>
 #include <ctime>
+#include <locale>
 
 // engine includes
 #include <engine/globals.hpp>
@@ -26,7 +27,7 @@
 
 // boost includes
 #include <boost/filesystem/operations.hpp>
-
+#include <boost/locale.hpp>
 
 // game-specific states
 #include "states/main_screen.hpp"
@@ -97,9 +98,11 @@ void run()
 	GLFWwindow *win;
 	GLenum err;
 	double ftime, nftime, time, ntime;
-	
-	// This is a (dirty?) fix to print unicode
-	std::setlocale(LC_CTYPE, "");
+
+	// Set locale
+	boost::locale::generator gen;
+	std::locale loc = gen("en_US.UTF-8");
+	std::locale::global(loc);
 	
 	// Initialize the managers
 	engine::log_mngr = engine::log_manager_ptr(new engine::log_manager());
