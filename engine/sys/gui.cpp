@@ -44,7 +44,7 @@ void sys_gui::handle_event(event_t *event)
 		break;
 	}
 	case EXIT: {
-		LOG("sys_gui", log::INFO) << "Exit signal catched.";
+		// should we really do something here?
 		
 		break;
 	}

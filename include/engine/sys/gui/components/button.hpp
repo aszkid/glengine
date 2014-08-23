@@ -16,9 +16,10 @@ namespace engine { namespace gui {
 	
 		struct vertex {
 			vertex() {}
-			vertex(glm::vec2 _vert) : vert(_vert) {}
+			vertex(glm::vec2 _vert, glm::vec4 _col) : vert(_vert), col(_col) {}
 		
 			glm::vec2 vert;
+			glm::vec4 col;
 		};
 	
 		class button : public base {
@@ -31,7 +32,7 @@ namespace engine { namespace gui {
 			
 			GLuint vao, vbo;
 		public:
-			button(layout *par_layout, const std::string text, glm::vec2 pos = glm::vec2(500, 500), glm::vec2 size = glm::vec2(75, 20));
+			button(layout *par_layout, const std::string text, glm::vec2 pos = glm::vec2(500, 500), glm::vec2 size = glm::vec2(75, 20), glm::vec4 col = glm::vec4(0.1, 0.1, 0.1, 1));
 			~button();
 			
 			void update();

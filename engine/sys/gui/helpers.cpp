@@ -5,9 +5,9 @@ using namespace engine;
 int gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t * text, vec4 * color, vec2 * pen)
 {
 	int width = 0;
-	size_t i;
+	const size_t tlen = wcslen(text);
 	float r = color->red, g = color->green, b = color->blue, a = color->alpha;
-	for(i = 0; i < wcslen(text); ++i) {
+	for(size_t i = 0; i < tlen; i++) {
 		texture_glyph_t *glyph = texture_font_get_glyph(font, text[i]);
 		if( glyph != NULL )
 		{
@@ -16,7 +16,13 @@ int gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t
 				kerning = texture_glyph_get_kerning( glyph, text[i-1] );
 			
 			pen->x += kerning;
-			width += glyph->advance_x;
+			
+			width += glyph->offset_x + glyph->width;
+			if(i != tlen-1) {
+				width += glyph->advance_x - glyph->width;
+			} else {
+				LOG("sys_gui", log::INFO) << "Last char! WOHOP";
+			}
 			
 			float x0 = (int)(pen->x + glyph->offset_x);
 			float x1 = (int)(x0 + glyph->width);

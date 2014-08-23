@@ -1,8 +1,9 @@
 #version 150
 
+in vec4 _color;
 out vec4 color;
 
 void main()
 {
-	color = vec4(1, 0, 0, 0.75);
+	color = _color;
 }
