@@ -13,7 +13,7 @@ button::button(layout *par_layout, const std::string text, glm::vec2 pos, glm::v
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
 	m_prog.link();
 	
-	const float w = m_label->m_width, h = 35.f;
+	const float w = m_label->m_size.x, h = m_label->m_size.y;
 	std::array<vertex, 4> m_vbodat;
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
 	m_vbodat[0].col = col;

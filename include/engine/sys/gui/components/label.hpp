@@ -22,8 +22,8 @@ namespace engine { namespace gui {
 			texture_atlas_t *m_atlas;
 			GLuint m_uni_mat, m_uni_tex;
 		public:
+			glm::vec2 m_size;
 			glm::vec2 m_pos;
-			int m_width;
 			
 			label(layout *par_layout, const std::string text, int size, const glm::vec2 pos = glm::vec2(0), const glm::vec4 col = glm::vec4(.1, .1, .1, 1), const char* fontfile = "\0");
 			~label();

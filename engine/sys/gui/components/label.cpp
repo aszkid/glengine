@@ -33,8 +33,8 @@ label::label(layout *par_layout, const std::string text, int size, const glm::ve
 	vec4 _col = {{col.r, col.g, col.b, col.a}};
 	
 	texture_font_load_glyphs(m_font, wchar.c_str());
-	m_width = add_text(m_buffer, m_font, wchar.c_str(), &_col, &pen);
 	
+	m_size = add_text(m_buffer, m_font, wchar.c_str(), &_col, &pen);
 	
 	texture_font_delete(m_font);
 	

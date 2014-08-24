@@ -45,7 +45,7 @@ namespace engine {
 			float r, g, b, a; // color
 		} glyph_vertex_t;
 		
-		int add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t * text, vec4 * color, vec2 * pen);
+		glm::vec2 add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t * text, vec4 * color, vec2 * pen);
 	
 	}
 

@@ -21,7 +21,7 @@ main_screen::main_screen(gui::layout *layout)
 	const float ioff = 20.f;
 	const float h = 35.f;
 	auto hello_btn = m_layout->new_component<engine::gui::component::button>(
-		"PLAY Привиет Jesus Christ Marie", glm::vec2(ioff, ioff)
+		"PLAY ПРИВИЕТ", glm::vec2(ioff, ioff)
 	);
 	auto opts_btn = m_layout->new_component<engine::gui::component::button>(
 		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing))
