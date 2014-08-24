@@ -28,7 +28,7 @@ label::label(layout *par_layout, const std::string text, int size, const glm::ve
 	m_atlas = texture_atlas_new(512, 512, 1);
 	m_font = texture_font_new_from_file(m_atlas, size, fontfinal.c_str());
 
-	update();
+	upload();
 	
 	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
 	m_uni_tex = m_prog.get_uni_loc("_tex");
@@ -51,6 +51,9 @@ void label::draw()
 }
 
 void label::update()
+{}
+
+void label::upload()
 {
 	const std::wstring wchar = engine::cstr_to_wstr(m_str);
 	
@@ -69,15 +72,15 @@ void label::update()
 void label::set_pos(const glm::vec2 pos)
 {
 	m_pos = pos;
-	update();
+	upload();
 }
 void label::set_font(const std::string file)
 {
 	m_font = texture_font_new_from_file(m_atlas, m_size, MKSTR("../../../rundir/fonts/" << file).c_str());
-	update();
+	upload();
 }
 void label::set_col(const glm::vec4 col)
 {
 	m_col = col;
-	update();
+	upload();
 }

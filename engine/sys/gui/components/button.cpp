@@ -5,7 +5,7 @@
 using namespace engine::gui::component;
 
 button::button(layout *par_layout, const std::string text, glm::vec2 pos, int margin, glm::vec2 size, glm::vec4 col)
-	: engine::gui::base(par_layout), m_size(size), m_pos(pos)
+	: engine::gui::base(par_layout), m_size(size), m_pos(pos), m_col(col)
 {
 	static const char* deffont = "fira-sans/FiraSans-ExtraLight.otf";
 	static const int fsize = 30;
@@ -34,28 +34,7 @@ button::button(layout *par_layout, const std::string text, glm::vec2 pos, int ma
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
 	m_prog.link();
 	
-	const float w = m_size.x, h = m_size.y;
-	std::array<vertex, 4> m_vbodat;
-	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
-	m_vbodat[0].col = col;
-	m_vbodat[1].vert = glm::vec2(0.f, h);
-	m_vbodat[1].col = col;
-	m_vbodat[2].vert = glm::vec2(w, 0.f);
-	m_vbodat[2].col = col;
-	m_vbodat[3].vert = glm::vec2(w, h);
-	m_vbodat[3].col = col;
-	
-	for(vertex& v : m_vbodat) {
-		v.vert += m_pos;
-	}
-	
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	
-	glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vertex), &m_vbodat[0], GL_STATIC_DRAW);
+	upload();
 
 	m_uni_mat = m_prog.get_uni_loc("viewProjMatrix");
 }
@@ -79,5 +58,32 @@ void button::draw()
 }
 void button::update()
 {
-	// update vbo (change in position, color, etc...)
+	
+}
+
+
+void button::upload()
+{
+	const float w = m_size.x, h = m_size.y;
+	std::array<vertex, 4> m_vbodat;
+	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
+	m_vbodat[0].col = m_col;
+	m_vbodat[1].vert = glm::vec2(0.f, h);
+	m_vbodat[1].col = m_col;
+	m_vbodat[2].vert = glm::vec2(w, 0.f);
+	m_vbodat[2].col = m_col;
+	m_vbodat[3].vert = glm::vec2(w, h);
+	m_vbodat[3].col = m_col;
+	
+	for(vertex& v : m_vbodat) {
+		v.vert += m_pos;
+	}
+	
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	
+	glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vertex), &m_vbodat[0], GL_STATIC_DRAW);
 }

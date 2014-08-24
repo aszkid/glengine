@@ -32,12 +32,15 @@ namespace engine { namespace gui {
 		public:
 			glm::vec2 m_pos;
 			glm::vec2 m_size;
+			glm::vec4 m_col;
 			
 			button(layout *par_layout, const std::string text, glm::vec2 pos, int margin, glm::vec2 size = glm::vec2(-1,-1), glm::vec4 col = glm::vec4(0.1, 0.1, 0.1, 1));
 			~button();
 			
 			void update();
 			void draw();
+			
+			void upload();
 		};
 	
 	}
