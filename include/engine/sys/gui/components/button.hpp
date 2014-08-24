@@ -22,13 +22,21 @@ namespace engine { namespace gui {
 			glm::vec4 col;
 		};
 	
+		enum class btn_state {
+			NONE,
+			HOVER,
+			CLICK
+		};
+	
 		class button : public base {
 		private:
 			tools::shader_program m_prog;
 			
 			label *m_label;
-			
+			std::array<vertex, 4> m_vbodat;
 			GLuint vao, vbo;
+			
+			btn_state m_state;
 		public:
 			glm::vec2 m_pos;
 			glm::vec2 m_size;
@@ -41,6 +49,8 @@ namespace engine { namespace gui {
 			void draw();
 			
 			void upload();
+			
+			void set_col(const glm::vec4 col);
 		};
 	
 	}

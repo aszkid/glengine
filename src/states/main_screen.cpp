@@ -39,7 +39,9 @@ main_screen::~main_screen()
 void main_screen::stop()
 {}
 void main_screen::update(float dt)
-{}
+{
+	m_layout->update();
+}
 void main_screen::draw()
 {
 	

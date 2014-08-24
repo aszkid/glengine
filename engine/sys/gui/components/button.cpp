@@ -5,7 +5,7 @@
 using namespace engine::gui::component;
 
 button::button(layout *par_layout, const std::string text, glm::vec2 pos, int margin, glm::vec2 size, glm::vec4 col)
-	: engine::gui::base(par_layout), m_size(size), m_pos(pos), m_col(col)
+	: engine::gui::base(par_layout), m_state(btn_state::NONE), m_pos(pos), m_size(size), m_col(col)
 {
 	static const char* deffont = "fira-sans/FiraSans-ExtraLight.otf";
 	static const int fsize = 30;
@@ -58,6 +58,24 @@ void button::draw()
 }
 void button::update()
 {
+	glm::vec2 mpos = m_layout->m_mouse->m_pos;
+	
+	// check mouse hovering
+	if(mpos.x > m_pos.x && mpos.x < (m_pos.x + m_size.x) && mpos.y > m_pos.y && mpos.y < (m_pos.y + m_size.y)) {
+		// hover-in
+		if(m_state != btn_state::HOVER) {
+			m_state = btn_state::HOVER;
+			set_col(glm::vec4(.2, .2, .2, m_col.a));
+			upload();
+		}		
+	} else {
+		// hover-out
+		if(m_state == btn_state::HOVER) {
+			m_state = btn_state::NONE;
+			set_col(glm::vec4(.1, .1, .1, m_col.a));
+			upload();
+		}
+	}
 	
 }
 
@@ -65,7 +83,6 @@ void button::update()
 void button::upload()
 {
 	const float w = m_size.x, h = m_size.y;
-	std::array<vertex, 4> m_vbodat;
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
 	m_vbodat[0].col = m_col;
 	m_vbodat[1].vert = glm::vec2(0.f, h);
@@ -86,4 +103,9 @@ void button::upload()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	
 	glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vertex), &m_vbodat[0], GL_STATIC_DRAW);
+}
+void button::set_col(const glm::vec4 col)
+{
+	m_col = col;
+	upload();
 }
