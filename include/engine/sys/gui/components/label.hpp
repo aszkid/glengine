@@ -29,9 +29,9 @@ namespace engine { namespace gui {
 			std::string m_str;
 			int m_size;
 			
-			void set_pos(const glm::vec2 pos);
-			void set_font(const std::string file);
-			void set_col(const glm::vec4 col);
+			label* set_pos(const glm::vec2 pos);
+			label* set_font(const std::string file);
+			label* set_col(const glm::vec4 col);
 			
 			label(layout *par_layout, const std::string text, int size, const glm::vec2 pos = glm::vec2(0), const glm::vec4 col = glm::vec4(.1, .1, .1, 1), const char* fontfile = "\0");
 			~label();

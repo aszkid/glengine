@@ -104,8 +104,9 @@ void button::upload()
 	
 	glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vertex), &m_vbodat[0], GL_STATIC_DRAW);
 }
-void button::set_col(const glm::vec4 col)
+button* button::set_col(const glm::vec4 col)
 {
 	m_col = col;
 	upload();
+	return this;
 }

@@ -50,7 +50,7 @@ namespace engine { namespace gui {
 			
 			void upload();
 			
-			void set_col(const glm::vec4 col);
+			button* set_col(const glm::vec4 col);
 		};
 	
 	}

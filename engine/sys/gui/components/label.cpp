@@ -69,18 +69,21 @@ void label::upload()
 }
 
 // setters
-void label::set_pos(const glm::vec2 pos)
+label* label::set_pos(const glm::vec2 pos)
 {
 	m_pos = pos;
 	upload();
+	return this;
 }
-void label::set_font(const std::string file)
+label* label::set_font(const std::string file)
 {
 	m_font = texture_font_new_from_file(m_atlas, m_size, MKSTR("../../../rundir/fonts/" << file).c_str());
 	upload();
+	return this;
 }
-void label::set_col(const glm::vec4 col)
+label* label::set_col(const glm::vec4 col)
 {
 	m_col = col;
 	upload();
+	return this;
 }

@@ -24,25 +24,21 @@ main_screen::main_screen(gui::layout *layout)
 
 	auto vers = m_layout->new_component<engine::gui::component::label>(
 		"DEV", 35
-	);
-	vers->set_font("bebas-neue/BebasNeue.otf");
+	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.1, .1, .1, .7));
 	glm::vec2 vbbox = vers->m_bbox;
 	vers->set_pos(glm::vec2(
 		m_layout->m_viewport->x - vbbox.x - 10,
 		m_layout->m_viewport->y - vbbox.y - 10
 	));
-	vers->set_col(glm::vec4(.1, .1, .1, .7));
 	
 	auto title = m_layout->new_component<engine::gui::component::label>(
 		"OPENMILSIM", 100
-	);
-	title->set_font("bebas-neue/BebasNeue.otf");
+	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.1, .1, .1, .7));
 	glm::vec2 tbbox = title->m_bbox;
 	title->set_pos(glm::vec2(
 		vers->m_pos.x - tbbox.x - 10,
 		m_layout->m_viewport->y - tbbox.y - 9
 	));
-	title->set_col(glm::vec4(.1, .1, .1, .7));
 	
 	
 }
