@@ -14,20 +14,20 @@ button::button(layout *par_layout, const std::string text, glm::vec2 pos, int ma
 
 	if(m_size.x != -1) {
 		m_label->set_pos(glm::vec2(
-			(m_size.x - m_label->m_size.x)/2.0 + m_pos.x,
+			(m_size.x - m_label->m_bbox.x)/2.0 + m_pos.x,
 			m_label->m_pos.y
 		));
 	} else {
-		m_size.x = m_label->m_size.x + margin*2;
+		m_size.x = m_label->m_bbox.x + margin*2;
 	}
 	
 	if(m_size.y != -1) {
 		m_label->set_pos(glm::vec2(
 			m_label->m_pos.x,
-			(m_size.y - m_label->m_size.y)/2.0 + m_pos.y
+			(m_size.y - m_label->m_bbox.y)/2.0 + m_pos.y
 		));
 	} else {
-		m_size.y = m_label->m_size.y + margin*2;
+		m_size.y = m_label->m_bbox.y + margin*2;
 	}
 
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");

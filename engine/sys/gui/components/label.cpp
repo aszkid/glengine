@@ -5,7 +5,7 @@
 using namespace engine::gui::component;
 
 label::label(layout *par_layout, const std::string text, int size, const glm::vec2 pos, const glm::vec4 col, const char* fontfile)
-	: engine::gui::base(par_layout), m_pos(pos), m_col(col), m_str(text)
+	: engine::gui::base(par_layout), m_pos(pos), m_col(col), m_str(text), m_size(size)
 {
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/textnew_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/textnew_vert.glsl");
@@ -54,6 +54,7 @@ void label::update()
 {
 	const std::wstring wchar = engine::cstr_to_wstr(m_str);
 	
+	// TODO: to change the color or position, whe don't need to reload all the glyphs, just change the VBO pos or col data!
 	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
 	
 	vec2 pen = {{m_pos.x, m_pos.y}};
@@ -61,13 +62,22 @@ void label::update()
 	
 	texture_font_load_glyphs(m_font, wchar.c_str());
 	
-	m_size = add_text(m_buffer, m_font, wchar.c_str(), &col, &pen);
+	m_bbox = add_text(m_buffer, m_font, wchar.c_str(), &col, &pen);
 }
 
 // setters
 void label::set_pos(const glm::vec2 pos)
 {
-	LOG("sys_gui", log::INFO) << "Heyo setting position.";
 	m_pos = pos;
+	update();
+}
+void label::set_font(const std::string file)
+{
+	m_font = texture_font_new_from_file(m_atlas, m_size, MKSTR("../../../rundir/fonts/" << file).c_str());
+	update();
+}
+void label::set_col(const glm::vec4 col)
+{
+	m_col = col;
 	update();
 }

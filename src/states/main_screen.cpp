@@ -6,35 +6,31 @@ main_screen::main_screen(gui::layout *layout)
 	: gstate::state(layout)
 {
 	m_cfg = &cfg_mngr->get("../../../rundir/cfg/states/main_screen.lua");
-
-	/*m_layout->new_component<engine::gui::component::label>(
-		m_cfg->get<std::string>("hello"), 50
-	);
-	m_layout->new_component<engine::gui::component::label>(
-		m_cfg->get<std::string>("world"), 120, glm::vec2(50, 50), glm::vec4(0.1, 0.1, 0.1, 1), "bebas-neue/BebasNeue.otf"
-	);
-	m_layout->new_component<engine::gui::component::label>(
-		m_cfg->get<std::string>("foobar"), 35, glm::vec2(50, 160), glm::vec4(0.1, 0.1, 0.1, 1), "fira-sans/FiraSans-LightItalic.otf"
-	);*/
 	
-	const float spacing = 25.f;
-	const float ioff = 50.f;
-	const float h = 35.f;
-	auto hello_btn = m_layout->new_component<engine::gui::component::button>(
-		"PLAY", glm::vec2(ioff, ioff), 10, glm::vec2(300, -1)
+	const float spacing = 20.f;
+	const float topmar = 30.f;
+	std::array<engine::gui::component::button*, 3> btns;
+	
+	btns[0] = m_layout->new_component<engine::gui::component::button>(
+		"PLAY", glm::vec2(topmar, topmar), 10, glm::vec2(300, -1)
 	);
-	auto opts_btn = m_layout->new_component<engine::gui::component::button>(
-		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing)), 10, glm::vec2(300, -1)
+	btns[1] = m_layout->new_component<engine::gui::component::button>(
+		"OPTIONS", glm::vec2(topmar, (btns[0]->m_size.y + btns[0]->m_pos.y) + spacing), 10, glm::vec2(300, -1)
 	);
-	auto exit_btn = m_layout->new_component<engine::gui::component::button>(
-		"EXIT", glm::vec2(ioff, ioff + (h + spacing)*2), 10, glm::vec2(300, -1)
+	btns[2] = m_layout->new_component<engine::gui::component::button>(
+		"EXIT", glm::vec2(topmar, (btns[1]->m_size.y + btns[1]->m_pos.y) + spacing), 10, glm::vec2(300, -1)
 	);
-	auto play_btn = m_layout->new_component<engine::gui::component::button>(
-		"ABOUT", glm::vec2(ioff, ioff + (h + spacing)*3), 10, glm::vec2(300, -1)
+	
+	auto title = m_layout->new_component<engine::gui::component::label>(
+		"OPENMILSIM", 100
 	);
-	m_layout->new_component<engine::gui::component::button>(
-		"SERVERS", glm::vec2(ioff, ioff + (h + spacing)*4), 10, glm::vec2(300, -1)
-	);
+	title->set_font("bebas-neue/BebasNeue.otf");
+	glm::vec2 tbbox = title->m_bbox;
+	title->set_pos(glm::vec2(
+		m_layout->m_viewport->x - tbbox.x - 10,
+		m_layout->m_viewport->y - tbbox.y - 10
+	));
+	title->set_col(glm::vec4(.1, .1, .1, .7));
 	
 }
 main_screen::~main_screen()
