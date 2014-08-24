@@ -16,3 +16,6 @@
 [submodule "ext/sol"]
 	path = ext/sol
 	url = https://github.com/Rapptz/sol
+[submodule "ext/ftgl"]
+	path = ext/ftgl
+	url = https://github.com/ulrichard/ftgl
