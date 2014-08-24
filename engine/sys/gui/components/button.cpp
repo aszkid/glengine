@@ -4,16 +4,24 @@
 
 using namespace engine::gui::component;
 
-button::button(layout *par_layout, const std::string text, glm::vec2 pos, glm::vec2 size, glm::vec4 col)
+button::button(layout *par_layout, const std::string text, glm::vec2 pos, int margin, glm::vec2 size, glm::vec4 col)
 	: engine::gui::base(par_layout)
 {
-	m_label = add_child<label>(text, 35, pos, glm::vec4(1), "fira-sans/FiraSans-Light.otf");
+	glm::vec2 lpos;
+
+	if(size.x == -1 && size.y == -1) {
+		lpos = pos + glm::vec2(margin);
+	} else {
+		//lpos = glm::vec2((size.x - ), pos.y + margin);
+	}
+
+	m_label = add_child<label>(text, 30, lpos, glm::vec4(1), "fira-sans/FiraSans-ExtraLight.otf");
 
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
 	m_prog.link();
 	
-	const float w = m_label->m_size.x, h = m_label->m_size.y;
+	const float w = m_label->m_size.x + margin*2, h = m_label->m_size.y + margin*2;
 	std::array<vertex, 4> m_vbodat;
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
 	m_vbodat[0].col = col;
@@ -58,8 +66,5 @@ void button::draw()
 }
 void button::update()
 {
-	if(!m_dirty)
-		return;
-	
 	// update vbo (change in position, color, etc...)
 }

@@ -22,7 +22,6 @@ namespace engine {
 			layout *m_layout;
 			std::vector<std::unique_ptr<base>> m_children;
 			base *m_parent;
-			bool m_dirty;
 		public:
 			base(layout *par_layout);
 			virtual ~base();

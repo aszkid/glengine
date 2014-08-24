@@ -32,7 +32,7 @@ namespace engine { namespace gui {
 			
 			GLuint vao, vbo;
 		public:
-			button(layout *par_layout, const std::string text, glm::vec2 pos = glm::vec2(500, 500), glm::vec2 size = glm::vec2(75, 20), glm::vec4 col = glm::vec4(0.1, 0.1, 0.1, 1));
+			button(layout *par_layout, const std::string text, glm::vec2 pos, int margin, glm::vec2 size = glm::vec2(-1,-1), glm::vec4 col = glm::vec4(0.1, 0.1, 0.1, 1));
 			~button();
 			
 			void update();

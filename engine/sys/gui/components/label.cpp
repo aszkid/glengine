@@ -5,7 +5,7 @@
 using namespace engine::gui::component;
 
 label::label(layout *par_layout, const std::string text, int size, const glm::vec2 pos, const glm::vec4 col, const char* fontfile)
-	: engine::gui::base(par_layout), m_pos(pos)
+	: engine::gui::base(par_layout), m_pos(pos), m_col(col), m_str(text)
 {
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/textnew_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/textnew_vert.glsl");
@@ -15,28 +15,20 @@ label::label(layout *par_layout, const std::string text, int size, const glm::ve
 	auto fstd_t = guidat.get<sol::table>("font_std");
 	std::string fontfinal = "../../../rundir/fonts/";
 	
-	const std::wstring wchar = engine::cstr_to_wstr(text);
-	
 	// no panic
 	if(fontfile[0] == '\0')
 		fontfinal += fstd_t.get<const char*>("name");
 	else
 		fontfinal += fontfile;
+	m_fontfile = fontfinal;
+	
 	if(size == -1)
 		size = fstd_t["size"];
 	
 	m_atlas = texture_atlas_new(512, 512, 1);
 	m_font = texture_font_new_from_file(m_atlas, size, fontfinal.c_str());
-	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
-	
-	vec2 pen = {{pos.x, pos.y}};
-	vec4 _col = {{col.r, col.g, col.b, col.a}};
-	
-	texture_font_load_glyphs(m_font, wchar.c_str());
-	
-	m_size = add_text(m_buffer, m_font, wchar.c_str(), &_col, &pen);
-	
-	texture_font_delete(m_font);
+
+	update();
 	
 	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
 	m_uni_tex = m_prog.get_uni_loc("_tex");
@@ -59,8 +51,16 @@ void label::draw()
 
 void label::update()
 {
-	if(!m_dirty)
-		return;
+	const std::wstring wchar = engine::cstr_to_wstr(m_str);
 	
-	// update text if changed
+	m_buffer = vertex_buffer_new("vertex:3f,_tex_coord:2f,_color:4f");
+	
+	vec2 pen = {{m_pos.x, m_pos.y}};
+	vec4 col = {{m_col.r, m_col.g, m_col.b, m_col.a}};
+	
+	texture_font_load_glyphs(m_font, wchar.c_str());
+	
+	m_size = add_text(m_buffer, m_font, wchar.c_str(), &col, &pen);
+	
+	texture_font_delete(m_font);
 }

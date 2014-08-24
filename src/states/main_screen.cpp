@@ -21,16 +21,16 @@ main_screen::main_screen(gui::layout *layout)
 	const float ioff = 20.f;
 	const float h = 35.f;
 	auto hello_btn = m_layout->new_component<engine::gui::component::button>(
-		"PLAY ПРИВИЕТ", glm::vec2(ioff, ioff)
+		"PLAY ПРИВИЕТ", glm::vec2(ioff, ioff), 10
 	);
 	auto opts_btn = m_layout->new_component<engine::gui::component::button>(
-		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing))
+		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing)), 10
 	);
 	auto exit_btn = m_layout->new_component<engine::gui::component::button>(
-		"EXIT", glm::vec2(ioff, ioff + (h + spacing)*2)
+		"EXIT", glm::vec2(ioff, ioff + (h + spacing)*2), 10
 	);
 	auto play_btn = m_layout->new_component<engine::gui::component::button>(
-		"ABOUT", glm::vec2(ioff, ioff + (h + spacing)*3)
+		"ABOUT", glm::vec2(ioff, ioff + (h + spacing)*3), 10
 	);
 	
 }

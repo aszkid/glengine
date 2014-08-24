@@ -5,7 +5,7 @@
 using namespace engine::gui;
 
 base::base(layout *par_layout)
-	: m_layout(par_layout), m_dirty(false)
+	: m_layout(par_layout)
 {}
 base::~base()
 {}
