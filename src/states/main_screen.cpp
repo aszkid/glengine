@@ -21,16 +21,29 @@ main_screen::main_screen(gui::layout *layout)
 		"EXIT", glm::vec2(topmar, (btns[1]->m_size.y + btns[1]->m_pos.y) + spacing), 10, glm::vec2(300, -1)
 	);
 	
+
+	auto vers = m_layout->new_component<engine::gui::component::label>(
+		"DEV", 35
+	);
+	vers->set_font("bebas-neue/BebasNeue.otf");
+	glm::vec2 vbbox = vers->m_bbox;
+	vers->set_pos(glm::vec2(
+		m_layout->m_viewport->x - vbbox.x - 10,
+		m_layout->m_viewport->y - vbbox.y - 10
+	));
+	vers->set_col(glm::vec4(.1, .1, .1, .7));
+	
 	auto title = m_layout->new_component<engine::gui::component::label>(
 		"OPENMILSIM", 100
 	);
 	title->set_font("bebas-neue/BebasNeue.otf");
 	glm::vec2 tbbox = title->m_bbox;
 	title->set_pos(glm::vec2(
-		m_layout->m_viewport->x - tbbox.x - 10,
-		m_layout->m_viewport->y - tbbox.y - 10
+		vers->m_pos.x - tbbox.x - 10,
+		m_layout->m_viewport->y - tbbox.y - 9
 	));
 	title->set_col(glm::vec4(.1, .1, .1, .7));
+	
 	
 }
 main_screen::~main_screen()
