@@ -12,6 +12,8 @@ namespace game {
 	class main_screen : public gstate::state {
 	private:
 		sol::state* m_cfg;
+		
+		void goto_play();
 	public:
 		main_screen(gui::layout *layout);
 		~main_screen();

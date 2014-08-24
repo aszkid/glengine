@@ -17,12 +17,15 @@ namespace engine {
 		class layout;
 		
 		// base gui component
-		class base {
+		class base {		
 		protected:
+			typedef std::function<void(void)> cback_fun_t;
+			
 			GLuint m_uni_mat;
 			layout *m_layout;
 			std::vector<std::unique_ptr<base>> m_children;
 			base *m_parent;
+			std::map<std::string, cback_fun_t> m_cbacks;
 		public:
 			base(layout *par_layout);
 			virtual ~base();
@@ -30,6 +33,8 @@ namespace engine {
 			virtual void update() = 0;
 			virtual void draw() = 0;
 			virtual void handle_event() = 0;
+			
+			void add_callback_fun(const std::string name, const cback_fun_t fun);
 			
 			base* add_child(base *child);
 		#if !defined(BOOST_NO_VARIADIC_TEMPLATES)

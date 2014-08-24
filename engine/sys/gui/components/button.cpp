@@ -104,6 +104,12 @@ void button::handle_event()
 }
 void button::handle_click()
 {
+	static const std::string name = "lclick";
+
+	if(m_cbacks.find(name) == m_cbacks.end())
+		return;
+	
+	m_cbacks["lclick"]();
 }
 
 void button::upload()

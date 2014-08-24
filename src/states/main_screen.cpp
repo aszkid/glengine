@@ -21,6 +21,8 @@ main_screen::main_screen(gui::layout *layout)
 		"EXIT", glm::vec2(topmar, (btns[1]->m_size.y + btns[1]->m_pos.y) + spacing), 10, glm::vec2(300, -1)
 	);
 	
+	// bind function callbacks
+	btns[0]->add_callback_fun("lclick", std::bind(&main_screen::goto_play, this));
 
 	auto vers = m_layout->new_component<engine::gui::component::label>(
 		"DEV", 35
@@ -63,4 +65,8 @@ gstate::state* main_screen::is_over()
 void main_screen::handle_event(event_t *event)
 {
 	m_layout->handle_event(event);
+}
+void main_screen::goto_play()
+{
+	LOG("state", log::INFO) << "Going to PLAY!";
 }
