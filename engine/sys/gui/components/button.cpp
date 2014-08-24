@@ -5,23 +5,36 @@
 using namespace engine::gui::component;
 
 button::button(layout *par_layout, const std::string text, glm::vec2 pos, int margin, glm::vec2 size, glm::vec4 col)
-	: engine::gui::base(par_layout)
+	: engine::gui::base(par_layout), m_size(size), m_pos(pos)
 {
-	glm::vec2 lpos;
+	static const char* deffont = "fira-sans/FiraSans-ExtraLight.otf";
+	static const int fsize = 30;
 
-	if(size.x == -1 && size.y == -1) {
-		lpos = pos + glm::vec2(margin);
+	m_label = add_child<label>(text, fsize, m_pos + glm::vec2(margin), glm::vec4(1), deffont);
+
+	if(m_size.x != -1) {
+		m_label->set_pos(glm::vec2(
+			(m_size.x - m_label->m_size.x)/2.0 + m_pos.x,
+			m_label->m_pos.y
+		));
 	} else {
-		//lpos = glm::vec2((size.x - ), pos.y + margin);
+		m_size.x = m_label->m_size.x + margin*2;
 	}
-
-	m_label = add_child<label>(text, 30, lpos, glm::vec4(1), "fira-sans/FiraSans-ExtraLight.otf");
+	
+	if(m_size.y != -1) {
+		m_label->set_pos(glm::vec2(
+			m_label->m_pos.x,
+			(m_size.y - m_label->m_size.y)/2.0 + m_pos.y
+		));
+	} else {
+		m_size.y = m_label->m_size.y + margin*2;
+	}
 
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
 	m_prog.link();
 	
-	const float w = m_label->m_size.x + margin*2, h = m_label->m_size.y + margin*2;
+	const float w = m_size.x, h = m_size.y;
 	std::array<vertex, 4> m_vbodat;
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);
 	m_vbodat[0].col = col;
@@ -33,7 +46,7 @@ button::button(layout *par_layout, const std::string text, glm::vec2 pos, int ma
 	m_vbodat[3].col = col;
 	
 	for(vertex& v : m_vbodat) {
-		v.vert += pos;
+		v.vert += m_pos;
 	}
 	
 	glGenVertexArrays(1, &vao);

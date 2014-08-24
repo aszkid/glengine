@@ -18,19 +18,22 @@ main_screen::main_screen(gui::layout *layout)
 	);*/
 	
 	const float spacing = 25.f;
-	const float ioff = 20.f;
+	const float ioff = 50.f;
 	const float h = 35.f;
 	auto hello_btn = m_layout->new_component<engine::gui::component::button>(
-		"PLAY ПРИВИЕТ", glm::vec2(ioff, ioff), 10
+		"PLAY", glm::vec2(ioff, ioff), 10, glm::vec2(300, -1)
 	);
 	auto opts_btn = m_layout->new_component<engine::gui::component::button>(
-		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing)), 10
+		"OPTIONS", glm::vec2(ioff, ioff + (h + spacing)), 10, glm::vec2(300, -1)
 	);
 	auto exit_btn = m_layout->new_component<engine::gui::component::button>(
-		"EXIT", glm::vec2(ioff, ioff + (h + spacing)*2), 10
+		"EXIT", glm::vec2(ioff, ioff + (h + spacing)*2), 10, glm::vec2(300, -1)
 	);
 	auto play_btn = m_layout->new_component<engine::gui::component::button>(
-		"ABOUT", glm::vec2(ioff, ioff + (h + spacing)*3), 10
+		"ABOUT", glm::vec2(ioff, ioff + (h + spacing)*3), 10, glm::vec2(300, -1)
+	);
+	m_layout->new_component<engine::gui::component::button>(
+		"SERVERS", glm::vec2(ioff, ioff + (h + spacing)*4), 10, glm::vec2(300, -1)
 	);
 	
 }

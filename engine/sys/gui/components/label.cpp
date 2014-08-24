@@ -35,6 +35,7 @@ label::label(layout *par_layout, const std::string text, int size, const glm::ve
 }
 label::~label()
 {
+	texture_font_delete(m_font);
 	texture_atlas_delete(m_atlas);
 	vertex_buffer_delete(m_buffer);
 }
@@ -61,6 +62,12 @@ void label::update()
 	texture_font_load_glyphs(m_font, wchar.c_str());
 	
 	m_size = add_text(m_buffer, m_font, wchar.c_str(), &col, &pen);
-	
-	texture_font_delete(m_font);
+}
+
+// setters
+void label::set_pos(const glm::vec2 pos)
+{
+	LOG("sys_gui", log::INFO) << "Heyo setting position.";
+	m_pos = pos;
+	update();
 }
