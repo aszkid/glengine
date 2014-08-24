@@ -22,6 +22,7 @@ SET(SRCS
 	sys/gui/components/button.cpp
 	sys/gui/components/window.cpp
 	sys/gui/components/label.cpp
+	sys/gui/components/image.cpp
 )
 
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -37,5 +38,6 @@ TARGET_LINK_LIBRARIES(engine GLEW ${GLEW_LIBRARIES})
 TARGET_LINK_LIBRARIES(engine lua${LUA_VERSION} ${LUA_LIBRARIES})
 TARGET_LINK_LIBRARIES(engine ${FREETYPE_LIBRARIES})
 TARGET_LINK_LIBRARIES(engine freetype-gl)
+TARGET_LINK_LIBRARIES(engine soil)
 TARGET_LINK_LIBRARIES(engine ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_LOCALE_LIBRARY})
 ## --------------------------
