@@ -9,6 +9,7 @@
 #include <glm/glm.hpp>
 
 #include "helpers.hpp"
+#include "engine/event.hpp"
 
 namespace engine {
 
@@ -20,12 +21,15 @@ namespace engine {
 		class layout {
 			std::vector<component_ptr> m_components;
 		public:
-			layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, mouse_state *mouse);
+			layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 *mouse);
 			~layout();
 			
 			glm::ivec2 *m_viewport;
 			glm::mat4 *m_viewprojmat;
-			mouse_state *m_mouse;
+			glm::vec2 *m_mouse;
+			event_t *m_event;
+			
+			void handle_event(event_t *ev);
 			
 			base* new_component(base *component);
 			void draw();

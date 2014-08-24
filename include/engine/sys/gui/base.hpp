@@ -2,11 +2,12 @@
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <GLFW/glfw3.h>
 
 #include <boost/config.hpp>
 
 #include "engine/globals.hpp"
-
+#include "engine/event.hpp"
 #include "engine/config_manager.hpp"
 
 namespace engine {
@@ -26,8 +27,9 @@ namespace engine {
 			base(layout *par_layout);
 			virtual ~base();
 			
-			virtual void update();
-			virtual void draw();
+			virtual void update() = 0;
+			virtual void draw() = 0;
+			virtual void handle_event() = 0;
 			
 			base* add_child(base *child);
 		#if !defined(BOOST_NO_VARIADIC_TEMPLATES)

@@ -4,8 +4,8 @@
 
 using namespace engine::gui;
 
-layout::layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, mouse_state *mouse)
-	: m_viewport(viewport), m_viewprojmat(viewprojmat), m_mouse(mouse)
+layout::layout(glm::ivec2 *viewport, glm::mat4 *viewprojmat, glm::vec2 *mouse)
+	: m_viewport(viewport), m_viewprojmat(viewprojmat), m_mouse(mouse), m_event(nullptr)
 {
 }
 layout::~layout()
@@ -26,5 +26,12 @@ void layout::update()
 {
 	for(auto& comp : m_components) {
 		comp->update();
+	}
+}
+void layout::handle_event(event_t *ev)
+{
+	m_event = ev;
+	for(auto& comp : m_components) {
+		comp->handle_event();
 	}
 }

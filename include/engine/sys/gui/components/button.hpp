@@ -37,6 +37,11 @@ namespace engine { namespace gui {
 			GLuint vao, vbo;
 			
 			btn_state m_state;
+			
+			void handle_click();
+			void handle_event();
+			bool mouse_in();
+			
 		public:
 			glm::vec2 m_pos;
 			glm::vec2 m_size;

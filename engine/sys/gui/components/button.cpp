@@ -56,18 +56,23 @@ void button::draw()
 		c->draw();
 	}
 }
+bool button::mouse_in()
+{
+	return (m_layout->m_mouse->x > m_pos.x && m_layout->m_mouse->x < (m_pos.x + m_size.x) && m_layout->m_mouse->y > m_pos.y && m_layout->m_mouse->y < (m_pos.y + m_size.y));
+}
 void button::update()
 {
-	glm::vec2 mpos = m_layout->m_mouse->m_pos;
-	
+	bool _mouse_in = mouse_in();
+
 	// check mouse hovering
-	if(mpos.x > m_pos.x && mpos.x < (m_pos.x + m_size.x) && mpos.y > m_pos.y && mpos.y < (m_pos.y + m_size.y)) {
+	if(_mouse_in) {
 		// hover-in
 		if(m_state != btn_state::HOVER) {
 			m_state = btn_state::HOVER;
 			set_col(glm::vec4(.2, .2, .2, m_col.a));
 			upload();
-		}		
+		}
+		
 	} else {
 		// hover-out
 		if(m_state == btn_state::HOVER) {
@@ -78,7 +83,28 @@ void button::update()
 	}
 	
 }
+void button::handle_event()
+{
+	bool _mouse_in = mouse_in();
+	
+	event_t *_ev = m_layout->m_event;
 
+	switch(_ev->m_channel) {
+	case ev_channel::INPUT_MOUSE_BTN:
+		auto ev = static_cast<events::input_mouse_btn*>(_ev);
+		switch(ev->m_button) {
+		case GLFW_MOUSE_BUTTON_1:
+			if(ev->m_action == GLFW_PRESS)
+				if(_mouse_in)
+					handle_click();
+			break;
+		}
+		break;
+	}
+}
+void button::handle_click()
+{
+}
 
 void button::upload()
 {

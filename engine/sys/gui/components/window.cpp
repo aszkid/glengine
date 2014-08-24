@@ -124,8 +124,11 @@ void window::draw()
 
 void window::update()
 {
-	glm::vec2& pos = m_layout->m_mouse->m_pos;
-	if((pos.x > m_vbodat[0].vert.x) && (pos.x < m_vbodat[12].vert.x) && (pos.y > m_vbodat[0].vert.y) && (pos.y < m_vbodat[1].vert.y)) {
+	if((m_layout->m_mouse->x > m_vbodat[0].vert.x) && (m_layout->m_mouse->x < m_vbodat[12].vert.x) && (m_layout->m_mouse->y > m_vbodat[0].vert.y) && (m_layout->m_mouse->y < m_vbodat[1].vert.y)) {
 		
 	}
+}
+void window::handle_event()
+{
+	
 }

@@ -32,7 +32,7 @@ namespace engine {
 		glm::ivec2 m_viewport;
 		glm::mat4 m_viewprojmat;
 		
-		gui::mouse_state m_mouse;
+		glm::vec2 m_mouse;
 		
 		void update_view();
 		

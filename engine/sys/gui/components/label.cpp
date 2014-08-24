@@ -67,6 +67,10 @@ void label::upload()
 	
 	m_bbox = add_text(m_buffer, m_font, wchar.c_str(), &col, &pen);
 }
+void label::handle_event()
+{
+	
+}
 
 // setters
 label* label::set_pos(const glm::vec2 pos)

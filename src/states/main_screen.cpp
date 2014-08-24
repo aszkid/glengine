@@ -40,7 +40,6 @@ main_screen::main_screen(gui::layout *layout)
 		m_layout->m_viewport->y - tbbox.y - 9
 	));
 	
-	
 }
 main_screen::~main_screen()
 {}
@@ -62,4 +61,6 @@ gstate::state* main_screen::is_over()
 	return nullptr;
 }
 void main_screen::handle_event(event_t *event)
-{}
+{
+	m_layout->handle_event(event);
+}

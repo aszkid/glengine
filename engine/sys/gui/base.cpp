@@ -10,9 +10,6 @@ base::base(layout *par_layout)
 base::~base()
 {}
 
-void base::draw() {}
-void base::update() {}
-
 base* base::add_child(base *child)
 {
 	m_children.push_back(std::unique_ptr<base>(child));
