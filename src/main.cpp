@@ -189,7 +189,7 @@ void run()
 		core->add_sys(engine::SYSid::gstate, new engine::sys_gstate);
 		SYS_SUBSCRIBE(engine::SYSid::gstate,
 			engine::ev_channel::INPUT_MOUSE_BTN | engine::ev_channel::INPUT_CHAR | engine::ev_channel::INPUT_WIN_SIZE
-			| engine::ev_channel::INPUT_CURSOR_POS | engine::ev_channel::EXIT | engine::ev_channel::INPUT_KEY
+			| engine::ev_channel::INPUT_CURSOR_POS | engine::ev_channel::EXIT | engine::ev_channel::INPUT_KEY | engine::ev_channel::STATE_CHANGE
 		);
 		gstate = core->get_sys<engine::sys_gstate>(engine::SYSid::gstate);
 		
@@ -205,7 +205,7 @@ void run()
 	core->bootstrap();
 	
 	// Create game states
-	auto main_screen = gstate->add_state(new game::main_screen(gui->new_layout()));
+	auto main_screen = gstate->add_state("main_screen", new game::main_screen(gui->new_layout()));
 	gstate->set_active_state(main_screen);
 	
 	boost::filesystem::path p(p_core);

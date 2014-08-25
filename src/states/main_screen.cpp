@@ -74,6 +74,7 @@ void main_screen::handle_event(event_t *event)
 void main_screen::goto_play()
 {
 	LOG("state", log::INFO) << "Going to PLAY!";
+	engine::ev_mngr->broadcast(new engine::events::state_change(engine::ev_channel::STATE_CHANGE, "play"));
 }
 void main_screen::goto_exit()
 {

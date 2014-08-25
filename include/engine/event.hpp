@@ -19,10 +19,18 @@ namespace engine {
 		INPUT_MOUSE_BTN = 1 << 2,
 		INPUT_WIN_SIZE = 1 << 3,
 		INPUT_CURSOR_POS = 1 << 4,
-		EXIT = 1 << 5
+		EXIT = 1 << 5,
+		STATE_CHANGE = 1 << 6
 	};
 	
 	namespace events {
+	
+		struct state_change : public event_t {
+			std::string m_to;
+			
+			state_change(uint channel, std::string to)
+				: event_t(channel), m_to(to) {}
+		};
 	
 		struct exit : public event_t {
 			int m_code;
