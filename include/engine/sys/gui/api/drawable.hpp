@@ -7,7 +7,6 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include "engine/profiler.hpp"
 #include "engine/shader_manager.hpp"
 
 namespace engine { namespace gui { namespace api {

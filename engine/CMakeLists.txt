@@ -8,7 +8,6 @@ SET(SRCS
 	config_manager.cpp
 	log_manager.cpp
 	shader_manager.cpp
-	profiler.cpp
 	
 	tools/shader.cpp
 	
