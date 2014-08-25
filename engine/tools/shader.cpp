@@ -60,10 +60,10 @@ GLint shader_program::get_uni_loc(const char *name)
 {
 	return glGetUniformLocation(m_id, name);
 }
-void shader_program::set_attrib_ptr(const char *attrib_name, GLint size, 
-	GLenum type, GLboolean norm, GLsizei stride, const GLvoid *ptr)
+void shader_program::set_attrib_ptr(const char *attrib_name, const GLint size, 
+	const GLenum type, const GLboolean norm, const GLsizei stride, const GLvoid *ptr)
 {
-	GLint attrib = get_attrib_loc(attrib_name);
+	const GLint attrib = get_attrib_loc(attrib_name);
 	glEnableVertexAttribArray(attrib);
 	glVertexAttribPointer(attrib, size, type, norm, stride, ptr);
 }

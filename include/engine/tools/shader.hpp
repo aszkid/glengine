@@ -29,8 +29,8 @@ namespace engine {
 			GLint get_attrib_loc(const char *name);
 			GLint get_uni_loc(const char *name);
 			
-			void set_attrib_ptr(const char *attrib_name, GLint size, 
-				GLenum type, GLboolean norm, GLsizei stride, const GLvoid *ptr);
+			void set_attrib_ptr(const char *attrib_name, const GLint size, 
+				const GLenum type, const GLboolean norm, const GLsizei stride, const GLvoid *ptr);
 		};
 	
 	}

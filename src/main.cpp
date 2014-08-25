@@ -229,9 +229,7 @@ void run()
 		// --- render
 		glClearColor(r, g, b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		
 		gstate->draw();
-		
 		glfwSwapBuffers(win);
 		
 		// --- handle events
@@ -239,8 +237,6 @@ void run()
 		
 		// --- update
 		core->update_all(0.5f);
-		
-		gstate->update(0.5f);
 		
 		// --- end of loop
 		ntime = nftime = glfwGetTime();
