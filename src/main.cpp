@@ -219,6 +219,8 @@ void run()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
+	glEnable(GL_TEXTURE_2D);
+	
 	// ---- CONTROL THE MAIN LOOP RIGHT HERE (somehow)
 	ftime = nftime = time = ntime = glfwGetTime();
 	while(!core->m_should_close) {

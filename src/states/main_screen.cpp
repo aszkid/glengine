@@ -11,6 +11,10 @@ main_screen::main_screen(gui::layout *layout)
 	const float topmar = 30.f;
 	std::array<engine::gui::component::button*, 3> btns;
 	
+	auto img = m_layout->new_component<engine::gui::component::image>(
+		"real.jpg", glm::vec2(0), glm::vec2(1280, 720)
+	);
+	
 	btns[0] = m_layout->new_component<engine::gui::component::button>(
 		"PLAY", glm::vec2(topmar, topmar), 10, glm::vec2(300, -1)
 	);
@@ -26,7 +30,7 @@ main_screen::main_screen(gui::layout *layout)
 
 	auto vers = m_layout->new_component<engine::gui::component::label>(
 		"DEV", 35
-	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.1, .1, .1, .7));
+	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.9, .9, .9, .5));
 	glm::vec2 vbbox = vers->m_bbox;
 	vers->set_pos(glm::vec2(
 		m_layout->m_viewport->x - vbbox.x - 10,
@@ -35,7 +39,7 @@ main_screen::main_screen(gui::layout *layout)
 	
 	auto title = m_layout->new_component<engine::gui::component::label>(
 		"OPENMILSIM", 100
-	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.1, .1, .1, .7));
+	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.9, .9, .9, .5));
 	glm::vec2 tbbox = title->m_bbox;
 	title->set_pos(glm::vec2(
 		vers->m_pos.x - tbbox.x - 10,
