@@ -14,6 +14,7 @@ namespace game {
 		sol::state* m_cfg;
 		
 		void goto_play();
+		void goto_exit();
 	public:
 		main_screen(gui::layout *layout);
 		~main_screen();

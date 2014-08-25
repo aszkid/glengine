@@ -150,7 +150,7 @@ void run()
 	hints[GLFW_CONTEXT_VERSION_MINOR] = gl_vt["minor"];
 	hints[GLFW_OPENGL_PROFILE] = GLFW_OPENGL_CORE_PROFILE;
 	hints[GLFW_OPENGL_FORWARD_COMPAT] = GL_TRUE;
-	//hints[GLFW_RESIZABLE] = GL_FALSE;
+	hints[GLFW_RESIZABLE] = GL_FALSE;
 	glfw_set_win_hints(hints);
 	
 	// Create window and set it to be the active context

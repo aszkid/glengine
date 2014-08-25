@@ -27,6 +27,7 @@ main_screen::main_screen(gui::layout *layout)
 	
 	// bind function callbacks
 	btns[0]->add_callback_fun("lclick", std::bind(&main_screen::goto_play, this));
+	btns[2]->add_callback_fun("lclick", std::bind(&main_screen::goto_exit, this));
 
 	auto vers = m_layout->new_component<engine::gui::component::label>(
 		"DEV", 35
@@ -45,6 +46,11 @@ main_screen::main_screen(gui::layout *layout)
 		vers->m_pos.x - tbbox.x - 10,
 		m_layout->m_viewport->y - tbbox.y - 9
 	));
+	
+	
+	m_layout->new_component<engine::gui::component::label>(
+		"Hello World pv1.0q àáéö", 32
+	);
 	
 }
 main_screen::~main_screen()
@@ -73,4 +79,8 @@ void main_screen::handle_event(event_t *event)
 void main_screen::goto_play()
 {
 	LOG("state", log::INFO) << "Going to PLAY!";
+}
+void main_screen::goto_exit()
+{
+	engine::ev_mngr->broadcast(new engine::events::exit(engine::ev_channel::EXIT, 0));
 }
