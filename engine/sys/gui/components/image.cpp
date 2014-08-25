@@ -60,6 +60,7 @@ image::image(layout *par_layout, const std::string file, glm::vec2 pos, glm::vec
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	
 	glBindVertexArray(0);
 	
@@ -69,8 +70,6 @@ image::image(layout *par_layout, const std::string file, glm::vec2 pos, glm::vec
 	
 	m_uni_tex =  m_prog.get_uni_loc("tex");
 	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
-	
-	LOG("sys_gui", log::INFO) << "SAMPLER: " << m_uni_tex << " | VPMAT: " << m_uni_mat;
 }
 image::~image()
 {}
@@ -86,13 +85,15 @@ void image::draw()
 	
 		m_prog.use();
 		
-		glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
-		glUniform1i(m_uni_tex, m_texid);
-		
-		glActiveTexture(GL_TEXTURE0 + m_texid);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_texid);
+		
+		glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
+		glUniform1i(m_uni_tex, 0);
 	
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		
+		glBindTexture(GL_TEXTURE_2D, 0);
 		
 	glBindVertexArray(0);
 }

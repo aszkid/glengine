@@ -43,11 +43,15 @@ label::~label()
 void label::draw()
 {	
 	m_prog.use();
-	glActiveTexture(GL_TEXTURE0 + m_atlas->id);
+	
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_atlas->id);
-	glUniform1i(m_uni_tex, m_atlas->id);
+	
+	glUniform1i(m_uni_tex, 0);
 	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
+	
 	vertex_buffer_render(m_buffer, GL_TRIANGLES);
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
