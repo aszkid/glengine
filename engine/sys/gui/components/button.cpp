@@ -9,13 +9,11 @@ button::button(layout *par_layout, const std::string text, glm::vec2 pos, int ma
 {
 	m_label = add_child<label>(text, 30, glm::vec2(0), glm::vec4(1), "fira-sans/FiraSans-ExtraLight.otf");
 
-	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
-	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
-	m_prog.link();
+	m_prog = shdr_mngr->get_program("btn_shader");
 
 	upload();
 
-	m_uni_mat = m_prog.get_uni_loc("viewProjMatrix");
+	m_uni_mat = m_prog->get_uni_loc("viewProjMatrix");
 }
 button::~button()
 {}
@@ -24,7 +22,7 @@ void button::draw()
 {
 	glBindVertexArray(m_vao);
 	
-		m_prog.use();
+		m_prog->use();
 		glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		
@@ -132,8 +130,8 @@ void button::upload()
 	
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 		glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vertex), &m_vbodat[0], GL_STATIC_DRAW);
-		m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vertex), 0);
-		m_prog.set_attrib_ptr("bg_color", 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)(sizeof(glm::vec2)));
+		m_prog->set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vertex), 0);
+		m_prog->set_attrib_ptr("bg_color", 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)(sizeof(glm::vec2)));
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_STATIC_DRAW);

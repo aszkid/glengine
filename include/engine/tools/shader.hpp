@@ -1,7 +1,5 @@
 #pragma once
 
-#include <GL/glew.h>
-
 #include <vector>
 #include <string>
 #include <fstream>
@@ -19,10 +17,13 @@ namespace engine {
 		};
 		
 		struct shader_program {
+			shader_program();
+			~shader_program();
+		
 			GLuint m_id;
 			std::vector<shader> m_shaders;
 			
-			void add_shader(const GLuint type, const std::string filename);
+			shader_program* add_shader(const GLuint type, const std::string filename);
 			void link();
 			void use();
 			

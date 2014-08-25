@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "../base.hpp"
-#include "engine/tools/shader.hpp"
+#include "engine/shader_manager.hpp"
 #include "engine/sys/gui/helpers.hpp"
 
 namespace engine { namespace gui {
@@ -12,7 +12,7 @@ namespace engine { namespace gui {
 	
 		class image : public base {
 		private:
-			tools::shader_program m_prog;
+			tools::shader_program *m_prog;
 			GLuint m_vao, m_vbo, m_texid, m_ebo;
 			
 			GLuint m_uni_tex;

@@ -7,6 +7,7 @@ SET(SRCS
 	event_manager.cpp
 	config_manager.cpp
 	log_manager.cpp
+	shader_manager.cpp
 	
 	tools/shader.cpp
 	
@@ -23,6 +24,8 @@ SET(SRCS
 	sys/gui/components/window.cpp
 	sys/gui/components/label.cpp
 	sys/gui/components/image.cpp
+	
+	sys/gui/api/triangle.cpp
 )
 
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

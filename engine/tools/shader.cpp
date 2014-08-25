@@ -2,7 +2,11 @@
 
 using namespace engine::tools;
 
-void shader_program::add_shader(const GLuint type, const std::string filename)
+shader_program::shader_program()
+{}
+shader_program::~shader_program()
+{}
+shader_program* shader_program::add_shader(const GLuint type, const std::string filename)
 {
 	std::ifstream in(filename, std::ios::in);
 	if(!in.is_open()) {
@@ -41,6 +45,8 @@ void shader_program::add_shader(const GLuint type, const std::string filename)
 	}
 	
 	m_shaders.push_back(s);
+	
+	return this;
 }
 void shader_program::link()
 {

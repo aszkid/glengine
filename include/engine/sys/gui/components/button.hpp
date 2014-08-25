@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../base.hpp"
-#include "engine/tools/shader.hpp"
+#include "engine/shader_manager.hpp"
 
 #include "label.hpp"
 
@@ -30,7 +30,7 @@ namespace engine { namespace gui {
 	
 		class button : public base {
 		private:
-			tools::shader_program m_prog;
+			tools::shader_program *m_prog;
 			
 			label *m_label;
 			std::array<vertex, 4> m_vbodat;

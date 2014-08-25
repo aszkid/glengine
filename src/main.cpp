@@ -1,5 +1,3 @@
-#include <GL/glew.h>
-
 // std includes
 #include <map>
 #include <string>
@@ -17,8 +15,7 @@
 // engine includes
 #include <engine/globals.hpp>
 #include <engine/event_manager.hpp>
-#include <engine/config_manager.hpp>
-#include <engine/log_manager.hpp>
+#include <engine/shader_manager.hpp>
 #include <engine/core.hpp>
 
 #include <engine/sys/input.hpp>
@@ -59,6 +56,7 @@ void glfw_err_callback(const int errcode, const char* msg)
 EV_DECL();
 CFG_DECL();
 LOG_DECL();
+SHDR_DECL();
 
 // Core object: vital
 std::unique_ptr<engine::core> core;
@@ -108,6 +106,7 @@ void run()
 	engine::log_mngr = engine::log_manager_ptr(new engine::log_manager());
 	engine::cfg_mngr = engine::config_manager_ptr(new engine::config_manager());
 	engine::ev_mngr = engine::event_manager_ptr(new engine::event_manager(core.get()));
+	engine::shdr_mngr = engine::shader_manager_ptr(new engine::shader_manager());
 	
 	// Construct all the loggers
 	engine::log_mngr->make<engine::void_logger>("void"); // this is needed for conditional logging
@@ -115,12 +114,16 @@ void run()
 	engine::log_mngr->make("ev_mngr");
 	engine::log_mngr->make("cfg_mngr");
 	engine::log_mngr->make("log_mngr");
+	engine::log_mngr->make("shdr_mngr");
 	engine::log_mngr->make("sys_gui");
 	engine::log_mngr->make("sys_gstate");
 	engine::log_mngr->make("core");
 	engine::log_mngr->make("t_shader");
 
 	// Preload our config files
+	engine::cfg_mngr->get("../../../rundir/cfg/gui.lua");
+	engine::cfg_mngr->get("../../../rundir/cfg/states/main_screen.lua");
+	
 	const char* p_core  = "../../../rundir/cfg/core.lua";
 	auto& base_cfg = engine::cfg_mngr->get(p_core);
 	auto gl_vt = base_cfg.get<sol::table>("gl_v");
@@ -174,6 +177,24 @@ void run()
 	LOG("main", loglev::INFO) << std::thread::hardware_concurrency() << " concurrent threads supported.";
 	LOG("main", loglev::INFO) << "OpenGL Version: " << glGetString(GL_VERSION);
 	LOG("main", loglev::INFO) << "GLEW Version:   " << glewGetString(GLEW_VERSION);
+	
+		
+	// Compile shaders
+	engine::shdr_mngr->get_program("btn_shader")->
+		add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl")->
+		add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl")->
+		link();
+		
+	engine::shdr_mngr->get_program("img_shader")->
+		add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/tex_frag.glsl")->
+		add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/tex_vert.glsl")->
+		link();
+	
+	engine::shdr_mngr->get_program("text_shader")->
+		add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/textnew_frag.glsl")->
+		add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/textnew_vert.glsl")->
+		link();
+	
 	
 	// ---- Create all systems, and add them to the core vector
 	try {

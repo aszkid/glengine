@@ -7,9 +7,7 @@ using namespace engine::gui::component;
 label::label(layout *par_layout, const std::string text, int size, const glm::vec2 pos, const glm::vec4 col, const char* fontfile)
 	: engine::gui::base(par_layout), m_pos(pos), m_col(col), m_str(text), m_size(size)
 {
-	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/textnew_frag.glsl");
-	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/textnew_vert.glsl");
-	m_prog.link();
+	m_prog = shdr_mngr->get_program("text_shader");
 	
 	auto& guidat = cfg_mngr->get("../../../rundir/cfg/gui.lua");
 	auto fstd_t = guidat.get<sol::table>("font_std");
@@ -30,8 +28,8 @@ label::label(layout *par_layout, const std::string text, int size, const glm::ve
 
 	upload();
 	
-	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
-	m_uni_tex = m_prog.get_uni_loc("_tex");
+	m_uni_mat = m_prog->get_uni_loc("viewProjMat");
+	m_uni_tex = m_prog->get_uni_loc("_tex");
 }
 label::~label()
 {
@@ -42,7 +40,7 @@ label::~label()
 
 void label::draw()
 {	
-	m_prog.use();
+	m_prog->use();
 	
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_atlas->id);

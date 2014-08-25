@@ -9,9 +9,7 @@ using namespace engine::gui::component;
 image::image(layout *par_layout, const std::string file, glm::vec2 pos, glm::vec2 size)
 	: engine::gui::base(par_layout), m_file(file), m_pos(pos), m_size(size)
 {
-	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/tex_frag.glsl");
-	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/tex_vert.glsl");
-	m_prog.link();
+	m_prog = shdr_mngr->get_program("img_shader");
 
 	m_verts[0].m_pos =    glm::vec2(0, 0);
 	m_verts[0].m_tcoord = glm::vec2(0, 0);
@@ -48,8 +46,8 @@ image::image(layout *par_layout, const std::string file, glm::vec2 pos, glm::vec
 	
 		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 		glBufferData(GL_ARRAY_BUFFER, m_verts.size() * sizeof(vert_t), &m_verts[0], GL_STATIC_DRAW);
-		m_prog.set_attrib_ptr("pos", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), 0);
-		m_prog.set_attrib_ptr("_texCoord", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), (void*)(sizeof(glm::vec2)));
+		m_prog->set_attrib_ptr("pos", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), 0);
+		m_prog->set_attrib_ptr("_texCoord", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), (void*)(sizeof(glm::vec2)));
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, elems.size() * sizeof(GLuint), &elems[0], GL_STATIC_DRAW);
@@ -68,8 +66,8 @@ image::image(layout *par_layout, const std::string file, glm::vec2 pos, glm::vec
 	
 	// -------
 	
-	m_uni_tex =  m_prog.get_uni_loc("tex");
-	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
+	m_uni_tex =  m_prog->get_uni_loc("tex");
+	m_uni_mat = m_prog->get_uni_loc("viewProjMat");
 }
 image::~image()
 {}
@@ -83,7 +81,7 @@ void image::draw()
 {
 	glBindVertexArray(m_vao);
 	
-		m_prog.use();
+		m_prog->use();
 		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_texid);

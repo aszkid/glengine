@@ -13,7 +13,7 @@ window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	
 	// -----
 	
-	m_margin = 7.f;
+	/*m_margin = 7.f;
 	m_top_margin = m_margin * 3.25f;
 	
 	m_pos.x = 50.f;
@@ -100,33 +100,22 @@ window::window(layout *par_layout, glm::vec2 pos, glm::vec2 size)
 	m_uni_mat = m_prog.get_uni_loc("viewProjMatrix");
 	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	glBindVertexArray(0);*/
+	
+	
+	
 }
 window::~window()
 {}
 
 void window::draw()
 {
-	m_prog.use();
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ele_buffer);
-	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
-	m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vbo_data), 0);
-	m_prog.set_attrib_ptr("surfType", 1, GL_INT, GL_FALSE, sizeof(vbo_data), (void*)sizeof(glm::vec2));
-	
-	glDrawElements(
-		GL_TRIANGLES,
-		m_indices.size(),
-		GL_UNSIGNED_INT,
-		(void*)0
-	);
+
 }
 
 void window::update()
 {
-	if((m_layout->m_mouse->x > m_vbodat[0].vert.x) && (m_layout->m_mouse->x < m_vbodat[12].vert.x) && (m_layout->m_mouse->y > m_vbodat[0].vert.y) && (m_layout->m_mouse->y < m_vbodat[1].vert.y)) {
-		
-	}
+	
 }
 void window::handle_event()
 {

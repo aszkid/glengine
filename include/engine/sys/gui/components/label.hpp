@@ -7,7 +7,7 @@
 #include <vertex-buffer.h>
 
 #include "../base.hpp"
-#include "engine/tools/shader.hpp"
+#include "engine/shader_manager.hpp"
 #include "engine/sys/gui/helpers.hpp"
 
 namespace engine { namespace gui {
@@ -16,7 +16,7 @@ namespace engine { namespace gui {
 	
 		class label : public base {
 		private:
-			tools::shader_program m_prog;
+			tools::shader_program *m_prog;
 			vertex_buffer_t *m_buffer;
 			texture_font_t *m_font;
 			texture_atlas_t *m_atlas;
