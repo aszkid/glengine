@@ -15,7 +15,7 @@ namespace engine { namespace gui {
 			tools::shader_program m_prog;
 			GLuint m_vao, m_vbo, m_texid, m_ebo;
 			
-			GLuint m_uni_mat, m_uni_tex;
+			GLuint m_uni_tex;
 			
 			std::string m_file;
 			

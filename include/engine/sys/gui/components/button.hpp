@@ -34,7 +34,7 @@ namespace engine { namespace gui {
 			
 			label *m_label;
 			std::array<vertex, 4> m_vbodat;
-			GLuint vao, vbo;
+			GLuint m_vao, m_vbo, m_ebo;
 			
 			btn_state m_state;
 			
