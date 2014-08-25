@@ -5,35 +5,14 @@
 using namespace engine::gui::component;
 
 button::button(layout *par_layout, const std::string text, glm::vec2 pos, int margin, glm::vec2 size, glm::vec4 col)
-	: engine::gui::base(par_layout), m_state(btn_state::NONE), m_pos(pos), m_size(size), m_col(col)
+	: engine::gui::base(par_layout), m_state(btn_state::NONE), m_pos(pos), m_size(size), m_col(col), m_margin(margin)
 {
-	static const char* deffont = "fira-sans/FiraSans-ExtraLight.otf";
-	static const int fsize = 30;
-
-	m_label = add_child<label>(text, fsize, m_pos + glm::vec2(margin), glm::vec4(1), deffont);
-
-	if(m_size.x != -1) {
-		m_label->set_pos(glm::vec2(
-			(m_size.x - m_label->m_bbox.x)/2.0 + m_pos.x,
-			m_label->m_pos.y
-		));
-	} else {
-		m_size.x = m_label->m_bbox.x + margin*2;
-	}
-	
-	if(m_size.y != -1) {
-		m_label->set_pos(glm::vec2(
-			m_label->m_pos.x,
-			(m_size.y - m_label->m_bbox.y)/2.0 + m_pos.y
-		));
-	} else {
-		m_size.y = m_label->m_bbox.y + margin*2;
-	}
+	m_label = add_child<label>(text, 30, glm::vec2(0), glm::vec4(1), "fira-sans/FiraSans-ExtraLight.otf");
 
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/test_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/test_vert.glsl");
 	m_prog.link();
-	
+
 	upload();
 
 	m_uni_mat = m_prog.get_uni_loc("viewProjMatrix");
@@ -94,7 +73,7 @@ void button::handle_event()
 		auto ev = static_cast<events::input_mouse_btn*>(_ev);
 		switch(ev->m_button) {
 		case GLFW_MOUSE_BUTTON_1:
-			if(ev->m_action == GLFW_PRESS)
+			if(ev->m_action == GLFW_RELEASE)
 				if(_mouse_in)
 					handle_click();
 			break;
@@ -114,6 +93,18 @@ void button::handle_click()
 
 void button::upload()
 {
+	if(m_size.x == -1) {
+		m_size.x = m_label->m_bbox.x + m_margin*2;
+	}
+	if(m_size.y == -1) {
+		m_size.y = m_label->m_bbox.y + m_margin*2;
+	}
+	
+	m_label->set_pos(glm::vec2(
+		(m_size.x - m_label->m_bbox.x)/2.0 + m_pos.x,
+		(m_size.y - m_label->m_bbox.y)/2.0 + m_pos.y
+	));
+
 	const float w = m_size.x, h = m_size.y;
 	m_vbodat[0].vert = glm::vec2(0.f, 0.f);  // top left
 	m_vbodat[0].col = m_col;
@@ -152,6 +143,25 @@ void button::upload()
 button* button::set_col(const glm::vec4 col)
 {
 	m_col = col;
+	upload();
+	return this;
+}
+button* button::set_font(const std::string file)
+{
+	m_label->set_font(file);
+	upload();
+	return this;
+}
+button* button::set_pos(const glm::vec2 pos)
+{
+	m_pos = pos;
+	upload();
+	return this;
+}
+button* button::set_size(const glm::vec2 size)
+{
+	m_size = size;
+	m_label->set_pos(m_pos + glm::vec2(m_margin));
 	upload();
 	return this;
 }

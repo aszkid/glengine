@@ -4,8 +4,8 @@ using namespace engine;
 
 glm::vec2 gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const wchar_t * text, vec4 * color, vec2 * pen)
 {
-	float maxh, minh, maxdiff, width;
-	maxh = minh = maxdiff = width = 0;
+	float maxh, minh, maxoffy, maxdiff, width;
+	maxh = minh = maxdiff = maxoffy = width = 0;
 
 	const vec2 ipos = *pen;
 	const size_t tlen = wcslen(text);
@@ -20,6 +20,9 @@ glm::vec2 gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const w
 		
 		if(glyph->height > maxh)
 			maxh = glyph->height + (glyph->height - glyph->offset_y);
+		
+		if(glyph->offset_y > maxoffy)
+			maxoffy = glyph->offset_y;
 		
 		float diff = glyph->height - glyph->offset_y;
 		if(diff > maxdiff)
@@ -45,7 +48,7 @@ glm::vec2 gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const w
 		float x0 = (int)(pen->x + offx);
 		float x1 = (int)(x0 + glyph->width);
 		
-		float y0 = (int)(pen->y - glyph->offset_y + maxh - maxdiff);
+		float y0 = (int)(pen->y - glyph->offset_y + maxoffy);
 		float y1 = (int)(y0 + glyph->height);
 
 		float s0 = glyph->s0;
@@ -68,6 +71,6 @@ glm::vec2 gui::add_text(vertex_buffer_t * buffer, texture_font_t * font, const w
 			width += glyph->width + offx;
 	}
 	
-	return glm::vec2(floor(width + (pen->x - ipos.x)), maxh);
+	return glm::vec2(width + (pen->x - ipos.x), maxh + maxdiff);
 }
 

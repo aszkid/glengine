@@ -8,11 +8,11 @@ main_screen::main_screen(gui::layout *layout)
 	m_cfg = &cfg_mngr->get("../../../rundir/cfg/states/main_screen.lua");
 	
 	const float spacing = 20.f;
-	const float topmar = 30.f;
+	const float topmar = 50.f;
 	std::array<engine::gui::component::button*, 3> btns;
 	
 	auto img = m_layout->new_component<engine::gui::component::image>(
-		"real.jpg", glm::vec2(0), glm::vec2(1280, 720)
+		"real.jpg", glm::vec2(0), *m_layout->m_viewport
 	);
 	
 	btns[0] = m_layout->new_component<engine::gui::component::button>(
@@ -28,30 +28,25 @@ main_screen::main_screen(gui::layout *layout)
 	// bind function callbacks
 	btns[0]->add_callback_fun("lclick", std::bind(&main_screen::goto_play, this));
 	btns[2]->add_callback_fun("lclick", std::bind(&main_screen::goto_exit, this));
-
+	
 	auto vers = m_layout->new_component<engine::gui::component::label>(
 		"DEV", 35
 	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.9, .9, .9, .5));
 	glm::vec2 vbbox = vers->m_bbox;
-	vers->set_pos(glm::vec2(
-		m_layout->m_viewport->x - vbbox.x - 10,
-		m_layout->m_viewport->y - vbbox.y - 10
-	));
 	
 	auto title = m_layout->new_component<engine::gui::component::label>(
-		"OPENMILSIM", 100
+		"OPENMILSIM", 50
 	)->set_font("bebas-neue/BebasNeue.otf")->set_col(glm::vec4(.9, .9, .9, .5));
 	glm::vec2 tbbox = title->m_bbox;
 	title->set_pos(glm::vec2(
-		vers->m_pos.x - tbbox.x - 10,
-		m_layout->m_viewport->y - tbbox.y - 9
+		m_layout->m_viewport->x - tbbox.x - 15 - vbbox.x,
+		m_layout->m_viewport->y - tbbox.y - 10
 	));
 	
-	
-	m_layout->new_component<engine::gui::component::label>(
-		"Hello World pv1.0q àáéö", 32
-	);
-	
+	vers->set_pos(glm::vec2(
+		m_layout->m_viewport->x - vbbox.x - 10,
+		title->m_pos.y + tbbox.y - vbbox.y
+	));
 }
 main_screen::~main_screen()
 {}
