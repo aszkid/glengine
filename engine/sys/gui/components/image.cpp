@@ -12,9 +12,7 @@ image::image(layout *par_layout, const std::string file, glm::vec2 pos, glm::vec
 	m_prog.add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/tex_frag.glsl");
 	m_prog.add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/tex_vert.glsl");
 	m_prog.link();
-	
-	// -------
-	
+
 	m_verts[0].m_pos =    glm::vec2(0, 0);
 	m_verts[0].m_tcoord = glm::vec2(0, 0);
 	m_verts[1].m_pos =    glm::vec2(m_size.x, 0);
@@ -23,48 +21,56 @@ image::image(layout *par_layout, const std::string file, glm::vec2 pos, glm::vec
 	m_verts[2].m_tcoord = glm::vec2(1, 1);
 	m_verts[3].m_pos =    glm::vec2(0, m_size.y);
 	m_verts[3].m_tcoord = glm::vec2(0, 1);
-	
+
 	for(auto& v : m_verts) {
 		v.m_pos += m_pos;
 	}
-	
-	glGenVertexArrays(1, &m_vao);
-	glBindVertexArray(m_vao);
-	
-	glGenBuffers(1, &m_vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	
-	glBufferData(GL_ARRAY_BUFFER, m_verts.size() * sizeof(vert_t), &m_verts[0], GL_STATIC_DRAW);
-	
-	glGenBuffers(1, &m_ebo);
-
-	GLuint elems[] = {
+		
+	std::array<GLuint, 6> elems = {{
 		0, 1, 2,
 		2, 3, 0
-	};
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elems), elems, GL_STATIC_DRAW);
+	}};
+		
+	// -------
+	
+	glGenVertexArrays(1, &m_vao);
+	glGenBuffers(1, &m_vbo);
+	glGenBuffers(1, &m_ebo);
+	glGenTextures(1, &m_texid);
 	
 	int w, h;
 	unsigned char *img = SOIL_load_image(
 		MKSTR("../../../rundir/img/" << m_file).c_str(),
 		&w, &h, 0, SOIL_LOAD_RGB
 	);
-	glGenTextures(1, &m_texid);
-	glBindTexture(GL_TEXTURE_2D, m_texid);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
-	SOIL_free_image_data(img);
 	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glBindVertexArray(m_vao);
+	
+		glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+		glBufferData(GL_ARRAY_BUFFER, m_verts.size() * sizeof(vert_t), &m_verts[0], GL_STATIC_DRAW);
+		m_prog.set_attrib_ptr("pos", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), 0);
+		m_prog.set_attrib_ptr("_texCoord", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), (void*)(sizeof(glm::vec2)));
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, elems.size() * sizeof(GLuint), &elems[0], GL_STATIC_DRAW);
+		
+		glBindTexture(GL_TEXTURE_2D, m_texid);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
+	glBindVertexArray(0);
+	
+	SOIL_free_image_data(img);
 	
 	// -------
 	
-	m_uni_mat = glGetUniformLocation(m_prog.m_id, "viewProjMat");
-	m_uni_tex = glGetUniformLocation(m_prog.m_id, "_tex");
+	m_uni_tex =  m_prog.get_uni_loc("tex");
+	m_uni_mat = m_prog.get_uni_loc("viewProjMat");
+	
+	LOG("sys_gui", log::INFO) << "SAMPLER: " << m_uni_tex << " | VPMAT: " << m_uni_mat;
 }
 image::~image()
 {}
@@ -78,13 +84,13 @@ void image::draw()
 {
 	m_prog.use();
 	glBindVertexArray(m_vao);
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
-	glBindTexture(GL_TEXTURE_2D, m_texid);
 	
-	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
-	m_prog.set_attrib_ptr("pos", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), 0);
-	m_prog.set_attrib_ptr("_texCoord", 2, GL_FLOAT, GL_FALSE, sizeof(vert_t), (void*)(sizeof(glm::vec2)));
+		glBindTexture(GL_TEXTURE_2D, m_texid);
+		
+		glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
+		glUniform1i(m_uni_tex, m_texid);
 	
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		
+	glBindVertexArray(0);
 }

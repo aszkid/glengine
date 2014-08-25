@@ -43,18 +43,18 @@ button::~button()
 
 void button::draw()
 {
-	m_prog.use();
 	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
-	m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vertex), 0);
-	m_prog.set_attrib_ptr("bg_color", 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)(sizeof(glm::vec2)));
 	
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		m_prog.use();
+		glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		
+	glBindVertexArray(0);
 	
 	for(auto& c : m_children) {
 		c->draw();
 	}
+	
 }
 bool button::mouse_in()
 {
@@ -129,12 +129,16 @@ void button::upload()
 	}
 	
 	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	
 	glBindVertexArray(vao);
 	
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vertex), &m_vbodat[0], GL_STATIC_DRAW);
+		m_prog.set_attrib_ptr("position", 2, GL_FLOAT, GL_FALSE, sizeof(vertex), 0);
+		m_prog.set_attrib_ptr("bg_color", 4, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*)(sizeof(glm::vec2)));
 	
-	glBufferData(GL_ARRAY_BUFFER, m_vbodat.size() * sizeof(vertex), &m_vbodat[0], GL_STATIC_DRAW);
+	glBindVertexArray(0);
 }
 button* button::set_col(const glm::vec4 col)
 {
