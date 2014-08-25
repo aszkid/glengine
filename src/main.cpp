@@ -195,6 +195,11 @@ void run()
 		add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/textnew_vert.glsl")->
 		link();
 	
+	engine::shdr_mngr->get_program("primitive")->
+		add_shader(GL_FRAGMENT_SHADER, "../../../rundir/shaders/primitive_frag.glsl")->
+		add_shader(GL_VERTEX_SHADER, "../../../rundir/shaders/primitive_vert.glsl")->
+		link();
+	
 	
 	// ---- Create all systems, and add them to the core vector
 	try {

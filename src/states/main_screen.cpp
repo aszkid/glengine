@@ -3,9 +3,12 @@
 using namespace game;
 
 main_screen::main_screen(gui::layout *layout)
-	: gstate::state(layout)
+	: gstate::state(layout), rect(layout->m_viewprojmat, glm::vec2(100), glm::vec2(20), glm::vec4(1, 0, 0, 1))
 {
 	m_cfg = &cfg_mngr->get("../../../rundir/cfg/states/main_screen.lua");
+	
+	
+	
 	
 	const float spacing = 20.f;
 	const float topmar = 50.f;
@@ -27,6 +30,7 @@ main_screen::main_screen(gui::layout *layout)
 	
 	// bind function callbacks
 	btns[0]->add_callback_fun("lclick", std::bind(&main_screen::goto_play, this));
+	btns[1]->add_callback_fun("lclick", std::bind(&main_screen::goto_opts, this));
 	btns[2]->add_callback_fun("lclick", std::bind(&main_screen::goto_exit, this));
 	
 	auto vers = m_layout->new_component<engine::gui::component::label>(
@@ -60,7 +64,9 @@ void main_screen::update(float dt)
 void main_screen::draw()
 {
 	
+	
 	m_layout->draw();
+	rect.draw();
 
 }
 gstate::state* main_screen::is_over()
@@ -75,8 +81,13 @@ void main_screen::goto_play()
 {
 	LOG("state", log::INFO) << "Going to PLAY!";
 	engine::ev_mngr->broadcast(new engine::events::state_change(engine::ev_channel::STATE_CHANGE, "play"));
+	rect.set_position(rect.m_pos + glm::vec2(2));
 }
 void main_screen::goto_exit()
 {
 	engine::ev_mngr->broadcast(new engine::events::exit(engine::ev_channel::EXIT, 0));
+}
+void main_screen::goto_opts()
+{
+	rect.set_color(rect.m_color + glm::vec4(0, 0, 0, -0.075));
 }

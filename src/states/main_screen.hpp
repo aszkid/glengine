@@ -5,6 +5,8 @@
 #include <engine/sys/gstate/state.hpp>
 #include <engine/sys/gui/components/all.hpp>
 
+#include <engine/sys/gui/api/rectangle.hpp>
+
 namespace game {
 
 	using namespace engine;
@@ -15,6 +17,9 @@ namespace game {
 		
 		void goto_play();
 		void goto_exit();
+		void goto_opts();
+		
+		gui::api::rectangle rect;
 	public:
 		main_screen(gui::layout *layout);
 		~main_screen();

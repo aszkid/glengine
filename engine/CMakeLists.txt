@@ -25,7 +25,7 @@ SET(SRCS
 	sys/gui/components/label.cpp
 	sys/gui/components/image.cpp
 	
-	sys/gui/api/triangle.cpp
+	sys/gui/api/rectangle.cpp
 )
 
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
