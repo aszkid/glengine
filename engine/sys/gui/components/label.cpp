@@ -58,7 +58,7 @@ void label::draw()
 void label::update()
 {}
 
-void label::upload()
+void label::upload(bool gen_glyphs)
 {
 	const std::wstring wchar = engine::cstr_to_wstr(m_str);
 	
@@ -68,7 +68,8 @@ void label::upload()
 	vec2 pen = {{m_pos.x, m_pos.y}};
 	vec4 col = {{m_col.r, m_col.g, m_col.b, m_col.a}};
 	
-	texture_font_load_glyphs(m_font, wchar.c_str());
+	if(gen_glyphs)
+		texture_font_load_glyphs(m_font, wchar.c_str());
 	
 	m_bbox = add_text(m_buffer, m_font, wchar.c_str(), &col, &pen);
 }
@@ -87,7 +88,7 @@ label* label::set_pos(const glm::vec2 pos)
 label* label::set_font(const std::string file)
 {
 	m_font = texture_font_new_from_file(m_atlas, m_size, MKSTR("../../../rundir/fonts/" << file).c_str());
-	upload();
+	upload(true);
 	return this;
 }
 label* label::set_col(const glm::vec4 col)

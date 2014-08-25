@@ -38,7 +38,7 @@ namespace engine { namespace gui {
 			
 			void handle_event();
 			
-			void upload();
+			void upload(bool gen_glyphs = false);
 			void update();
 			void draw();
 		};
