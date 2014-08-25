@@ -34,6 +34,8 @@ std::array<rectangle::vert_t, 4>* rectangle::gen_vert_data()
 }
 void rectangle::upload()
 {
+	PROFILE("vbo_buffersubdata");
+
 	// populate vertex data
 	std::array<vert_t, 4> *vert_dat = gen_vert_data();
 	

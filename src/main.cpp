@@ -1,3 +1,5 @@
+#define ENGINE_NO_PROFILING
+
 // std includes
 #include <map>
 #include <string>
@@ -110,6 +112,13 @@ void run()
 	
 	// Construct all the loggers
 	engine::log_mngr->make<engine::void_logger>("void"); // this is needed for conditional logging
+	
+	#if defined(ENGINE_NO_PROFILING)
+		engine::log_mngr->make<engine::void_logger>("profiler");
+	#else
+		engine::log_mngr->make("profiler");
+	#endif
+	
 	engine::log_mngr->make("main");
 	engine::log_mngr->make("ev_mngr");
 	engine::log_mngr->make("cfg_mngr");
