@@ -63,7 +63,7 @@ GLint shader_program::get_uni_loc(const char *name)
 void shader_program::set_attrib_ptr(const char *attrib_name, GLint size, 
 	GLenum type, GLboolean norm, GLsizei stride, const GLvoid *ptr)
 {
-	GLint attrib = glGetAttribLocation(m_id, attrib_name);
+	GLint attrib = get_attrib_loc(attrib_name);
 	glEnableVertexAttribArray(attrib);
 	glVertexAttribPointer(attrib, size, type, norm, stride, ptr);
 }

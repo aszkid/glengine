@@ -5,7 +5,7 @@ in vec2 _texCoord;
 
 out vec2 texCoord;
 
-layout(location = 1) uniform mat4 viewProjMat;
+uniform mat4 viewProjMat;
 
 void main() {
 	texCoord = _texCoord;
