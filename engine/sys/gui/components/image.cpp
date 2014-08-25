@@ -89,7 +89,7 @@ void image::draw()
 		glUniformMatrix4fv(m_uni_mat, 1, GL_FALSE, glm::value_ptr(*m_layout->m_viewprojmat));
 		glUniform1i(m_uni_tex, m_texid);
 		
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0 + m_texid);
 		glBindTexture(GL_TEXTURE_2D, m_texid);
 	
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
